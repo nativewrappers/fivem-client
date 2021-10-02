@@ -1,6 +1,6 @@
 import { Audio } from '../Audio';
 import { HudColor, NotificationType } from '../enums';
-import { Color, PointF, Size, stringToArray, Vector3 } from '../utils';
+import { Color, Size, String, Vector3 } from '../utils';
 import { Notification } from './';
 
 export abstract class Screen {
@@ -31,7 +31,7 @@ export abstract class Screen {
   }
 
   public static showSubtitle(message: string, duration = 2500): void {
-    const strings: string[] = stringToArray(message);
+    const strings: string[] = String.stringToArray(message);
 
     BeginTextCommandPrint('CELL_EMAIL_BCON');
 
@@ -43,7 +43,7 @@ export abstract class Screen {
   }
 
   public static displayHelpTextThisFrame(message: string): void {
-    const strings: string[] = stringToArray(message);
+    const strings: string[] = String.stringToArray(message);
 
     BeginTextCommandDisplayHelp('CELL_EMAIL_BCON');
 
@@ -55,7 +55,7 @@ export abstract class Screen {
   }
 
   public static showNotification(message: string, blinking = false): Notification {
-    const strings: string[] = stringToArray(message);
+    const strings: string[] = String.stringToArray(message);
 
     SetNotificationTextEntry('CELL_EMAIL_BCON');
 
@@ -79,7 +79,7 @@ export abstract class Screen {
     showInBrief = true,
     sound = true,
   ): Notification {
-    const strings: string[] = stringToArray(message);
+    const strings: string[] = String.stringToArray(message);
 
     SetNotificationTextEntry('CELL_EMAIL_BCON');
 
@@ -103,12 +103,11 @@ export abstract class Screen {
     return new Notification(DrawNotification(blinking, showInBrief));
   }
 
-  public static worldToScreen(position: Vector3, scaleWidth = false): PointF {
+  public static worldToScreen(position: Vector3, scaleWidth = false): Size {
     const coords = GetScreenCoordFromWorldCoord(position.x, position.y, position.z);
-    return new PointF(
-      coords[0] * (scaleWidth ? this.ScaledWidth : this.Width),
-      coords[1] * this.Height,
-      coords[2],
+    return new Size(
+      coords[1] * (scaleWidth ? this.ScaledWidth : this.Width),
+      coords[2] * this.Height,
     );
   }
 }

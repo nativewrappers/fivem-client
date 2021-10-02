@@ -229,8 +229,7 @@ export abstract class Game {
    */
   public static get RadioStation(): RadioStation {
     const stationName: string = GetPlayerRadioStationName();
-    const keys = Object.keys(RadioStation).filter(x => RadioStation[x] === stationName);
-    return keys.length > 0 ? RadioStation[keys[0]] : RadioStation.RadioOff;
+    return (RadioStation as never)[stationName];
   }
 
   /**
@@ -239,8 +238,7 @@ export abstract class Game {
    * @param station A radio station.
    */
   public static set RadioStation(station: RadioStation) {
-    const stationName = RadioStation[station];
-    SetRadioToStationName(stationName);
+    SetRadioToStationName(station);
   }
 
   /**
@@ -386,7 +384,7 @@ export abstract class Game {
    * @param handle Handle of entity
    * @returns A Ped, Vehicle or Prop object. `undefined` if entity handle doesn't exist.
    */
-  public static entityFromHandle(handle: number): Ped | Vehicle | Prop | undefined {
+  public static entityFromHandle(handle: number): Ped | Vehicle | Prop | null {
     switch (GetEntityType(handle)) {
       case 1:
         return new Ped(handle);
@@ -424,6 +422,31 @@ export abstract class Game {
    */
   public static stopMusic(musicFile?: string): void {
     Audio.stopMusic(musicFile);
+  }
+
+  /**
+   * Determines the game language files contain a entry for the specified GXT key
+   *
+   * @param entry - The GXT key.
+   * @returns true if GXT entry exists; otherwise, false
+   * @constructor
+   */
+  public static doesGXTEntryExist(entry: number | string): boolean {
+    if (typeof entry === 'number') {
+      return !!DoesTextLabelExist(entry.toString());
+    } else {
+      return !!DoesTextLabelExist(entry);
+    }
+  }
+
+  /**
+   * Returns a localised string from the games language files with a specified GXT key
+   *
+   * @param entry - The GXT key.
+   * @returns The localised string if the key exists; otherwise, empty string
+   */
+  public static getGXTEntry(entry: number | string): string {
+    return Game.doesGXTEntryExist(entry) ? GetLabelText(entry.toString()) : '';
   }
 
   protected static cachedPlayer: Player;

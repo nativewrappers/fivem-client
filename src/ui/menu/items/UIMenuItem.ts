@@ -1,7 +1,7 @@
 import { AbstractUIMenuPanel, Menu } from '../';
 import { Rectangle, Sprite, Text } from '../../';
 import { Alignment, BadgeStyle, Font } from '../../../enums';
-import { Color, LiteEvent, measureString, Point, Size, uuidv4 } from '../../../utils';
+import { Color, Crypto, LiteEvent, Point, Size, String } from '../../../utils';
 
 export class UIMenuItem {
   public static badgeToTextureDict(badge: BadgeStyle): string {
@@ -349,14 +349,14 @@ export class UIMenuItem {
   public static defaultHoveredForeColor = UIMenuItem.defaultForeColor;
   public static defaultHighlightedForeColor = Color.black;
 
-  public readonly id: string = uuidv4();
+  public readonly id: string = Crypto.uuidv4();
 
   public enabled = true;
-  public selected: boolean;
-  public hovered: boolean;
+  public selected = false;
+  public hovered = false;
 
-  public offset: Point;
-  public parent: Menu;
+  public offset: Point = new Point(0, 0);
+  public parent: Menu | undefined;
 
   public readonly activated = new LiteEvent();
   public readonly panelActivated = new LiteEvent();
@@ -376,8 +376,8 @@ export class UIMenuItem {
 
   protected readonly labelText: Text;
 
-  private _description: string;
-  private _formattedDescription: string;
+  private _description = '';
+  private _formattedDescription = '';
 
   private _backColor = UIMenuItem.defaultBackColor;
   private _highlightedBackColor = UIMenuItem.defaultHighlightedBackColor;
@@ -388,7 +388,7 @@ export class UIMenuItem {
   private _leftBadge = BadgeStyle.None;
   private _rightBadge = BadgeStyle.None;
 
-  private _event: { event: string; args: unknown[] };
+  private _event: { event: string; args: unknown[] } = { event: '', args: [] };
   private _panels: AbstractUIMenuPanel[] = [];
 
   constructor(text: string, description?: string) {
@@ -406,7 +406,7 @@ export class UIMenuItem {
     this.badgeRight = new Sprite('', '');
     this.labelText = new Text('', new Point(), 0.35, this._foreColor, 0, Alignment.Right);
     this.Text = text;
-    this.Description = description;
+    this.Description = description ?? '';
   }
 
   public get Text(): string {
@@ -419,7 +419,7 @@ export class UIMenuItem {
 
   public get Description(): string {
     if (!this.supportsDescription) {
-      return null;
+      return '';
     }
     return this._description;
   }
@@ -476,7 +476,7 @@ export class UIMenuItem {
 
   public get LeftBadge(): BadgeStyle {
     if (!this.supportsLeftBadge) {
-      return null;
+      return BadgeStyle.None;
     }
     return this._leftBadge;
   }
@@ -493,7 +493,7 @@ export class UIMenuItem {
 
   public get RightBadge(): BadgeStyle {
     if (!this.supportsRightBadge) {
-      return null;
+      return BadgeStyle.None;
     }
     return this._rightBadge;
   }
@@ -510,7 +510,7 @@ export class UIMenuItem {
 
   public get RightLabel(): string {
     if (!this.supportsRightLabel) {
-      return null;
+      return '';
     }
     return this.labelText.caption;
   }
@@ -523,12 +523,14 @@ export class UIMenuItem {
   }
 
   public get IsMouseInBounds(): boolean {
-    return this.parent.isMouseInBounds(this.rectangle.pos, this.rectangle.size);
+    return this.parent
+      ? this.parent.isMouseInBounds(this.rectangle.pos, this.rectangle.size)
+      : false;
   }
 
   public get Panels(): AbstractUIMenuPanel[] {
     if (!this.supportsPanels) {
-      return null;
+      return [];
     }
     return this._panels;
   }
@@ -556,7 +558,7 @@ export class UIMenuItem {
       throw new Error('This item does not support panels');
     }
     const index = this._panels.findIndex(p => p.id === panel.id);
-    return index !== -1 ? index : null;
+    return index !== -1 ? index : 0;
   }
 
   public removePanel(panelOrIndex: AbstractUIMenuPanel | number): void {
@@ -593,10 +595,10 @@ export class UIMenuItem {
     let aggregatePixels = 0;
     let output = '';
     const words = input.split(' ');
-    const spaceWidth = measureString(' ', Font.ChaletLondon, 0.33, Menu.screenWidth);
+    const spaceWidth = String.measureString(' ', Font.ChaletLondon, 0.33, Menu.screenWidth);
 
     for (const word of words) {
-      const offset = measureString(word, Font.ChaletLondon, 0.33, Menu.screenWidth);
+      const offset = String.measureString(word, Font.ChaletLondon, 0.33, Menu.screenWidth);
       aggregatePixels += offset;
 
       if (aggregatePixels > maxPixelsPerLine) {
@@ -970,7 +972,7 @@ export class UIMenuItem {
       case BadgeStyle.Info:
         return 'info_icon_32';
       default:
-        break;
+        return '';
     }
   }
 
@@ -1106,11 +1108,11 @@ export class UIMenuItem {
 
   public draw(): void {
     if (this.selected) {
-      this.selectedSprite.size.width = 431 + this.parent.WidthOffset;
+      this.selectedSprite.size.width = 431 + (this.parent ? this.parent.WidthOffset : 0);
       this.selectedSprite.pos.X = this.offset.X;
       this.selectedSprite.draw(Menu.screenResolution);
     } else {
-      this.rectangle.size.width = 431 + this.parent.WidthOffset;
+      this.rectangle.size.width = 431 + (this.parent ? this.parent.WidthOffset : 0);
       this.rectangle.pos.X = this.offset.X;
       this.rectangle.color = this.hovered ? UIMenuItem.defaultHoveredBackColor : this._backColor;
       this.rectangle.draw(undefined, Menu.screenResolution);
@@ -1138,7 +1140,7 @@ export class UIMenuItem {
     if (this.supportsRightBadge && this._rightBadge !== BadgeStyle.None) {
       this.labelText.pos.X = -40;
       const widthOffset = UIMenuItem.getBadgeSpriteWidthOffset(this.badgeRight);
-      this.badgeRight.pos.X = 431 + this.offset.X + this.parent.WidthOffset;
+      this.badgeRight.pos.X = 431 + this.offset.X + (this.parent ? this.parent.WidthOffset : 0);
       this.badgeRight.pos.X -= this.badgeRight.size.width + widthOffset;
       this.badgeRight.textureName = this.badgeToTextureName(this._rightBadge);
       this.badgeRight.color = this.badgeToColor(this._rightBadge);
@@ -1148,7 +1150,7 @@ export class UIMenuItem {
     }
 
     if (this.supportsRightLabel && this.labelText.caption !== '') {
-      this.labelText.pos.X += 431 + this.offset.X + this.parent.WidthOffset;
+      this.labelText.pos.X += 431 + this.offset.X + (this.parent ? this.parent.WidthOffset : 0);
       this.labelText.color = this.text.color;
       this.labelText.draw(undefined, Menu.screenResolution);
     }

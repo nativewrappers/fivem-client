@@ -2,7 +2,7 @@ import { Color, Point, Size } from '../../../../utils';
 import { AbstractUIMenuPanel } from './';
 import { Menu, Rectangle, Sprite, Text } from '../../../';
 import { Alignment, Control, Font } from '../../../../enums';
-import { Game } from '../../../../';
+import { Game, Wait } from '../../../../';
 
 export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
   protected readonly background: Sprite;
@@ -17,7 +17,7 @@ export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
   private readonly _activeBar: Rectangle;
   private readonly _backgroundBar: Rectangle;
 
-  constructor(title?: string, percentage = 0, minText?: string, maxText?: string) {
+  constructor(title = '', percentage = 0, minText?: string, maxText?: string) {
     super();
     this.background = new Sprite('commonmenu', 'gradient_bgd', new Point(), new Size(431, 76));
     const barSize = new Size(413, 10);
@@ -51,6 +51,7 @@ export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
     this.MinText = minText || '0%';
     this.MaxText = maxText || '100%';
     this.Percentage = percentage;
+    this._lastPercentage = percentage;
   }
 
   public get Title(): string {
@@ -93,8 +94,10 @@ export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
     const current = this.Percentage;
     if (last !== current) {
       this._lastPercentage = current;
-      this.ParentMenu.panelActivated.emit(this.parentItem, this, current);
-      this.parentItem.panelActivated.emit(this, current);
+      if (this.ParentMenu && this.parentItem) {
+        this.ParentMenu.panelActivated.emit(this.parentItem, this, current);
+        this.parentItem.panelActivated.emit(this, current);
+      }
     }
   }
 
@@ -112,7 +115,7 @@ export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
     if (this.enabled) {
       super.draw();
 
-      const x = this.parentItem.offset.X + this.ParentMenu.WidthOffset / 2;
+      const x = this.parentItem?.offset.X ?? 0 + (this.ParentMenu?.WidthOffset ?? 0) / 2;
       this._activeBar.pos.X = x + 9;
       this._backgroundBar.pos.X = x + 9;
       this._minText.pos.X = x + 25;
@@ -134,7 +137,7 @@ export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
     if (
       !this._pressed &&
       Game.isDisabledControlJustPressed(0, Control.Attack) &&
-      this.ParentMenu.isMouseInBounds(
+      this.ParentMenu?.isMouseInBounds(
         new Point(this._backgroundBar.pos.X, this._backgroundBar.pos.Y - 4),
         new Size(this._backgroundBar.size.width, this._backgroundBar.size.height + 8),
       )
@@ -142,7 +145,7 @@ export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
       this._pressed = true;
       (async () => {
         while (Game.isDisabledControlPressed(0, Control.Attack)) {
-          await new Promise(resolve => setTimeout(resolve, 0));
+          await Wait(0);
           this._activeBar.size.width = this._getProgress();
         }
         this.updateParentItem();
@@ -159,7 +162,7 @@ export class UIMenuPercentagePanel extends AbstractUIMenuPanel {
   }
 
   private _getProgress(): number {
-    const drawOffset = this.ParentMenu.DrawOffset;
+    const drawOffset = this.ParentMenu?.DrawOffset ?? new Point(0, 0);
     const progress =
       (GetControlNormal(0, 239) - drawOffset.X) * Menu.screenWidth - this._activeBar.pos.X;
     return progress < 0 ? 0 : progress > 413 ? 413 : progress;

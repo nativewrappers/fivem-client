@@ -2,10 +2,12 @@ import { Entity, Model, Prop } from './';
 import { Blip } from './Blip';
 import { Camera } from './Camera';
 import { CloudHat, IntersectOptions, MarkerType, Weather } from './enums';
+import { PickupType } from './enums/PickupType';
 import { VehicleHash } from './hashes';
 import { Ped, Vehicle } from './models';
+import { Pickup } from './Pickup';
 import { RaycastResult } from './Raycast';
-import { clamp, Color, getRandomInt, Vector3 } from './utils';
+import { Color, Maths, Vector3 } from './utils';
 
 /**
  * Class with common world manipulations.
@@ -104,12 +106,7 @@ export abstract class World {
       return;
     }
 
-    SetCloudHatTransition(
-      this.cloudHatDict.has(this.currentCloudHat)
-        ? this.cloudHatDict.get(this.currentCloudHat)
-        : '',
-      3,
-    );
+    SetCloudHatTransition(this.cloudHatDict.get(this.currentCloudHat) ?? '', 3);
   }
 
   /**
@@ -127,7 +124,7 @@ export abstract class World {
    * @param value Opacity between 0.0 and 1.0
    */
   public static set CloudHatOpacity(value: number) {
-    SetCloudHatOpacity(clamp(value, 0, 1));
+    SetCloudHatOpacity(Maths.clamp(value, 0, 1));
   }
 
   /**
@@ -335,14 +332,20 @@ export abstract class World {
    * @param model Ped model to be spawned.
    * @param position World position (coordinates) of Ped spawn.
    * @param heading Heading of Ped when spawning.
+   * @param isNetwork
    * @returns Ped object.
    */
-  public static async createPed(model: Model, position: Vector3, heading = 0): Promise<Ped> {
+  public static async createPed(
+    model: Model,
+    position: Vector3,
+    heading = 0,
+    isNetwork = true,
+  ): Promise<Ped | null> {
     if (!model.IsPed || !(await model.request(1000))) {
       return null;
     }
     return new Ped(
-      CreatePed(26, model.Hash, position.x, position.y, position.z, heading, true, false),
+      CreatePed(26, model.Hash, position.x, position.y, position.z, heading, isNetwork, false),
     );
   }
 
@@ -373,18 +376,20 @@ export abstract class World {
    * @param model Vehicle model to be spawned.
    * @param position World position (coordinates) of Vehicle spawn.
    * @param heading Heading of Vehicle when spawning.
+   * @param isNetwork
    * @returns Vehicle object.
    */
   public static async createVehicle(
     model: Model,
     position: Vector3,
     heading = 0,
-  ): Promise<Vehicle> {
+    isNetwork = true,
+  ): Promise<Vehicle | null> {
     if (!model.IsVehicle || !(await model.request(1000))) {
       return null;
     }
     return new Vehicle(
-      CreateVehicle(model.Hash, position.x, position.y, position.z, heading, true, false),
+      CreateVehicle(model.Hash, position.x, position.y, position.z, heading, isNetwork, false),
     );
   }
 
@@ -398,11 +403,16 @@ export abstract class World {
    *
    * @param position World position (coordinates) of Vehicle spawn.
    * @param heading Heading of Vehicle when spawning.
+   * @param isNetwork
    * @returns Vehicle object.
    */
-  public static async createRandomVehicle(position: Vector3, heading = 0): Promise<Vehicle> {
+  public static async createRandomVehicle(
+    position: Vector3,
+    heading = 0,
+    isNetwork = true,
+  ): Promise<Vehicle | null> {
     const vehicleCount: number = Object.keys(VehicleHash).length / 2; // check
-    const randomIndex: number = getRandomInt(0, vehicleCount);
+    const randomIndex: number = Maths.getRandomInt(0, vehicleCount);
     const randomVehicleName: string = VehicleHash[randomIndex];
     const modelHash: number = GetHashKey(randomVehicleName);
     const model = new Model(modelHash);
@@ -411,7 +421,7 @@ export abstract class World {
       return null;
     }
     return new Vehicle(
-      CreateVehicle(model.Hash, position.x, position.y, position.z, heading, true, false),
+      CreateVehicle(model.Hash, position.x, position.y, position.z, heading, isNetwork, false),
     );
   }
 
@@ -428,19 +438,22 @@ export abstract class World {
    * @param position Location of Prop
    * @param dynamic If set to true, the Prop will have physics otherwise it's static.
    * @param placeOnGround If set to true, sets the Prop on the ground nearest to position.
+   * @param isNetwork
+   * @returns Prop object.
    */
   public static async createProp(
     model: Model,
     position: Vector3,
     dynamic: boolean,
     placeOnGround: boolean,
-  ): Promise<Prop> {
+    isNetwork = true,
+  ): Promise<Prop | null> {
     if (!model.IsProp || !(await model.request(1000))) {
       return null;
     }
 
     const prop = new Prop(
-      CreateObject(model.Hash, position.x, position.y, position.z, true, true, dynamic),
+      CreateObject(model.Hash, position.x, position.y, position.z, isNetwork, true, dynamic),
     );
 
     if (placeOnGround) {
@@ -448,6 +461,92 @@ export abstract class World {
     }
 
     return prop;
+  }
+
+  /**
+   * Create a pickup in a specific position in the world with a specified type and value.
+   *
+   * @param type The [[`PickupType`]] of pickup.
+   * @param position The position in the world it should be spawned.
+   * @param model The model of the spawned pickup.
+   * @param value Give a value for the pickup when picked up.
+   * @param rotation If set, create a rotating pickup with this rotation.
+   * @returns Pickup object.
+   */
+  public static async CreatePickup(
+    type: PickupType,
+    position: Vector3,
+    model: Model,
+    value: number,
+    rotation?: Vector3,
+  ): Promise<Pickup | null> {
+    if (!(await model.request(1000))) {
+      return null;
+    }
+
+    let handle = 0;
+
+    if (rotation !== undefined)
+      handle = CreatePickupRotate(
+        type,
+        position.x,
+        position.y,
+        position.z,
+        rotation.x,
+        rotation.y,
+        rotation.z,
+        0,
+        value,
+        2,
+        true,
+        model.Hash,
+      );
+    else
+      handle = CreatePickup(type, position.x, position.y, position.z, 0, value, true, model.Hash);
+
+    if (handle === 0) {
+      return null;
+    }
+
+    return new Pickup(handle);
+  }
+
+  /**
+   * Creates an ambient pickup.
+   *
+   * @param type The [[`PickupType`]] of the pickup.
+   * @param position The position where it should be spawned.
+   * @param model The model.
+   * @param value The value tied to the pickup.
+   * @returns The pickup in form of a Prop.
+   */
+  public static async CreateAmbientPickup(
+    type: PickupType,
+    position: Vector3,
+    model: Model,
+    value: number,
+  ): Promise<Prop | null> {
+    if (!(await model.request(1000))) {
+      return null;
+    }
+
+    const handle = CreateAmbientPickup(
+      type,
+      position.x,
+      position.y,
+      position.z,
+      0,
+      value,
+      model.Hash,
+      false,
+      true,
+    );
+
+    if (handle === 0) {
+      return null;
+    }
+
+    return new Prop(handle);
   }
 
   /**
@@ -485,8 +584,8 @@ export abstract class World {
     bobUpAndDown = false,
     faceCamera = false,
     rotateY = false,
-    textureDict: string = null,
-    textureName: string = null,
+    textureDict = '',
+    textureName = '',
     drawOnEntity = false,
   ): void {
     DrawMarker(
@@ -689,22 +788,24 @@ export abstract class World {
   /**
    * Get all [[`Prop`]] entities in your own scope.
    *
+   * We recommend using [[getAllPropsInGamePool]] instead.
+   *
    * @returns Array of Props.
    */
   public static getAllProps(): Prop[] {
     const props: Prop[] = [];
 
-    const [handle, entityHandle] = (FindFirstObject(null) as unknown) as [number, number];
+    const [handle, entityHandle] = FindFirstObject(0) as unknown as [number, number];
     let prop: Prop = Entity.fromHandle(entityHandle) as Prop;
 
     if (prop !== undefined && prop !== null && prop.exists()) {
       props.push(prop);
     }
 
-    let findResult: [number | boolean, number] = [false, null];
+    let findResult: [number | boolean, number] = [false, 0];
 
     do {
-      findResult = (FindNextObject(handle, null) as unknown) as [number | boolean, number];
+      findResult = FindNextObject(handle, 0) as unknown as [number | boolean, number];
       if (findResult[0]) {
         prop = Entity.fromHandle(findResult[1]) as Prop;
         if (prop !== undefined && prop !== null && prop.exists()) {
@@ -719,24 +820,39 @@ export abstract class World {
   }
 
   /**
+   * Get all [[`Prop`]] entities using the GetGamePool.
+   * @returns Array of Props.
+   */
+  public static getAllPropsInGamePool(): Prop[] {
+    const handles: number[] = GetGamePool('CObject');
+    const props: Prop[] = [];
+
+    handles.forEach(handle => props.push(new Prop(handle)));
+
+    return props;
+  }
+
+  /**
    * Get all [[`Ped`]] entities in your own scope.
+   *
+   * We recommend using [[getAllPedsInGamePool]] instead.
    *
    * @returns Array of Peds.
    */
   public static getAllPeds(): Ped[] {
     const peds: Ped[] = [];
 
-    const [handle, entityHandle] = (FindFirstPed(null) as unknown) as [number, number];
+    const [handle, entityHandle] = FindFirstPed(0) as unknown as [number, number];
     let ped: Ped = Entity.fromHandle(entityHandle) as Ped;
 
     if (ped !== undefined && ped !== null && ped.exists()) {
       peds.push(ped);
     }
 
-    let findResult: [number | boolean, number] = [false, null];
+    let findResult: [number | boolean, number] = [false, 0];
 
     do {
-      findResult = (FindNextPed(handle, null) as unknown) as [number | boolean, number];
+      findResult = FindNextPed(handle, 0) as unknown as [number | boolean, number];
       if (findResult[0]) {
         ped = Entity.fromHandle(findResult[1]) as Ped;
         if (ped !== undefined && ped !== null && ped.exists()) {
@@ -751,24 +867,39 @@ export abstract class World {
   }
 
   /**
+   * Get all [[`Ped`]] entities using the GetGamePool.
+   * @returns Array of Peds.
+   */
+  public static getAllPedsInGamePool(): Ped[] {
+    const handles: number[] = GetGamePool('CPed');
+    const peds: Ped[] = [];
+
+    handles.forEach(handle => peds.push(new Ped(handle)));
+
+    return peds;
+  }
+
+  /**
    * Get all [[`Vehicle`]] entities in your own scope.
+   *
+   * We recommend using [[getAllVehiclesInGamePool]] instead.
    *
    * @returns Array of Vehicles.
    */
   public static getAllVehicles(): Vehicle[] {
     const vehicles: Vehicle[] = [];
 
-    const [handle, entityHandle] = (FindFirstVehicle(null) as unknown) as [number, number];
+    const [handle, entityHandle] = FindFirstVehicle(0) as unknown as [number, number];
     let vehicle: Vehicle = Entity.fromHandle(entityHandle) as Vehicle;
 
     if (vehicle !== undefined && vehicle !== null && vehicle.exists()) {
       vehicles.push(vehicle);
     }
 
-    let findResult: [number | boolean, number] = [false, null];
+    let findResult: [number | boolean, number] = [false, 0];
 
     do {
-      findResult = (FindNextVehicle(handle, null) as unknown) as [number | boolean, number];
+      findResult = FindNextVehicle(handle, 0) as unknown as [number | boolean, number];
       if (findResult[0]) {
         vehicle = Entity.fromHandle(findResult[1]) as Vehicle;
         if (vehicle !== undefined && vehicle !== null && vehicle.exists()) {
@@ -780,6 +911,66 @@ export abstract class World {
     EndFindVehicle(handle);
 
     return vehicles;
+  }
+
+  /**
+   * Get all [[`Vehicle`]] entities using the GetGamePool.
+   * @returns Array of Vehicles.
+   */
+  public static getAllVehiclesInGamePool(): Vehicle[] {
+    const handles: number[] = GetGamePool('CVehicle');
+    const vehicles: Vehicle[] = [];
+
+    handles.forEach(handle => vehicles.push(new Vehicle(handle)));
+
+    return vehicles;
+  }
+
+  /**
+   * Get all [[`Pickup`]] entities in your own scope.
+   *
+   * We recommend using [[getAllPickupsInGamePool]] instead.
+   *
+   * @returns Array of Pickups.
+   */
+  public static getAllPickups(): Pickup[] {
+    const pickups: Pickup[] = [];
+
+    const [handle, entityHandle] = FindFirstPickup(0) as unknown as [number, number];
+    let pickup: Pickup = new Pickup(entityHandle);
+
+    if (pickup !== undefined && pickup !== null && pickup.exists()) {
+      pickups.push(pickup);
+    }
+
+    let findResult: [number | boolean, number] = [false, 0];
+
+    do {
+      findResult = FindNextPickup(handle, 0) as unknown as [number | boolean, number];
+      if (findResult[0]) {
+        pickup = new Pickup(findResult[1]);
+        if (pickup !== undefined && pickup !== null && pickup.exists()) {
+          pickups.push(pickup);
+        }
+      }
+    } while (findResult[0]);
+
+    EndFindPickup(handle);
+
+    return pickups;
+  }
+
+  /**
+   * Get all [[`Pickup`]] entities using the GetGamePool.
+   * @returns Array of Pickups.
+   */
+  public static getAllPickupsInGamePool(): Pickup[] {
+    const handles: number[] = GetGamePool('CPickup');
+    const pickups: Pickup[] = [];
+
+    handles.forEach(handle => pickups.push(new Pickup(handle)));
+
+    return pickups;
   }
 
   private static currentCloudHat: CloudHat = CloudHat.Clear;

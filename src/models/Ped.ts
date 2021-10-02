@@ -1,14 +1,25 @@
 import { Vector3 } from '../';
-import { DrivingStyle, HelmetType, RagdollType, SpeechModifier, VehicleSeat } from '../enums';
+import {
+  DrivingStyle,
+  FiringPattern,
+  Gender,
+  HelmetType,
+  RagdollType,
+  SpeechModifier,
+  VehicleSeat,
+} from '../enums';
 import { WeaponHash } from '../hashes';
+import { Tasks } from '../Tasks';
 import { Entity, PedBoneCollection, Vehicle } from './';
+import { WeaponCollection } from '../weapon/WeaponCollection';
 
 export class Ped extends Entity {
   public static exists(ped: Ped): boolean {
     return typeof ped !== 'undefined' && ped.exists();
   }
 
-  private pedBones: PedBoneCollection;
+  private pedBones: PedBoneCollection | undefined;
+  private weapons: WeaponCollection | undefined;
 
   private readonly speechModifierNames: string[] = [
     'SPEECH_PARAMS_STANDARD',
@@ -50,8 +61,40 @@ export class Ped extends Entity {
     'SPEECH_PARAMS_SHOUTED_CRITICAL',
   ];
 
+  private tasks: Tasks | undefined;
+
   constructor(handle: number) {
     super(handle);
+  }
+
+  public get Money(): number {
+    return GetPedMoney(this.handle);
+  }
+
+  public set Money(amount: number) {
+    SetPedMoney(this.handle, amount);
+  }
+
+  public get Gender(): Gender {
+    return IsPedMale(this.handle) ? Gender.Male : Gender.Female;
+  }
+
+  public get Armor(): number {
+    return GetPedArmour(this.handle);
+  }
+
+  public set Armor(amount: number) {
+    if (amount > 100) amount = 100;
+    SetPedArmour(this.handle, amount);
+  }
+
+  public get Accuracy(): number {
+    return GetPedAccuracy(this.handle);
+  }
+
+  public set Accuracy(accuracy: number) {
+    if (accuracy > 100) accuracy = 100;
+    SetPedAccuracy(this.handle, accuracy);
   }
 
   public get Health(): number {
@@ -70,17 +113,59 @@ export class Ped extends Entity {
     super.MaxHealth = amount + 100;
   }
 
-  public get CurrentVehicle(): Vehicle {
+  public set Sweat(value: number) {
+    SetPedSweat(this.handle, value);
+  }
+
+  public set WetnessHeight(value: number) {
+    if (value === 0) {
+      ClearPedWetness(this.Handle);
+    } else {
+      SetPedWetnessHeight(this.handle, value);
+    }
+  }
+
+  public set Voice(value: string) {
+    SetAmbientVoiceName(this.handle, value);
+  }
+
+  public set ShootRate(value: number) {
+    if (value > 1000) value = 1000;
+    SetPedShootRate(this.handle, value);
+  }
+
+  public get WasKilledByStealth(): boolean {
+    return !!WasPedKilledByStealth(this.handle);
+  }
+
+  public get WasKilledByTakedown(): boolean {
+    return !!WasPedKilledByTakedown(this.handle);
+  }
+
+  public get SeatIndex(): VehicleSeat {
+    if (!this.CurrentVehicle) return VehicleSeat.None;
+
+    const numberOfSeats = GetVehicleModelNumberOfSeats(this.CurrentVehicle.Model.Hash);
+    for (let seat = -1; seat < numberOfSeats; seat++) {
+      if (this.CurrentVehicle.getPedOnSeat(seat).Handle == this.handle) {
+        return seat;
+      }
+    }
+
+    return VehicleSeat.None;
+  }
+
+  public get CurrentVehicle(): Vehicle | null {
     const veh = new Vehicle(GetVehiclePedIsIn(this.handle, false));
     return veh.exists() ? veh : null;
   }
 
-  public get LastVehicle(): Vehicle {
+  public get LastVehicle(): Vehicle | null {
     const veh = new Vehicle(GetVehiclePedIsIn(this.handle, true));
     return veh.exists() ? veh : null;
   }
 
-  public get VehicleTryingToEnter(): Vehicle {
+  public get VehicleTryingToEnter(): Vehicle | null {
     const veh = new Vehicle(GetVehiclePedIsTryingToEnter(this.handle));
     return veh.exists() ? veh : null;
   }
@@ -307,6 +392,10 @@ export class Ped extends Entity {
     return !!IsPedShooting(this.handle);
   }
 
+  public get IsAiming(): boolean {
+    return this.getConfigFlag(78);
+  }
+
   public get IsReloading(): boolean {
     return !!IsPedReloading(this.handle);
   }
@@ -343,7 +432,7 @@ export class Ped extends Entity {
     return !!IsPedInCoverFacingLeft(this.handle);
   }
 
-  public set FiringPattern(value: number) {
+  public set FiringPattern(value: FiringPattern) {
     SetPedFiringPattern(this.handle, value);
   }
 
@@ -357,6 +446,22 @@ export class Ped extends Entity {
 
   public set DrivingStyle(style: DrivingStyle) {
     SetDriveTaskDrivingStyle(this.handle, Number(style));
+  }
+
+  public get Task(): Tasks | undefined {
+    if (this.tasks === null) {
+      this.tasks = new Tasks(this);
+    }
+
+    return this.tasks;
+  }
+
+  public get TaskSequenceProgress(): number {
+    return GetSequenceProgress(this.handle);
+  }
+
+  public set BlockPermanentEvents(block: boolean) {
+    SetBlockingOfNonTemporaryEvents(this.handle, block);
   }
 
   public isInAnyVehicle(): boolean {
@@ -399,7 +504,7 @@ export class Ped extends Entity {
     return new Ped(GetMeleeTargetForPed(this.handle));
   }
 
-  public getKiller(): Entity {
+  public getKiller(): Entity | null {
     return Entity.fromHandle(GetPedSourceOfDeath(this.handle));
   }
 
@@ -421,6 +526,7 @@ export class Ped extends Entity {
   public resetVisibleDamage(): void {
     ResetPedVisibleDamage(this.handle);
   }
+
   public clearBloodDamage(): void {
     ClearPedBloodDamage(this.handle);
   }
@@ -481,12 +587,25 @@ export class Ped extends Entity {
     ClearPedLastWeaponDamage(this.handle);
   }
 
-  public get Bones(): PedBoneCollection {
+  public get Bones(): PedBoneCollection | undefined {
     if (this.pedBones === null) {
       this.pedBones = new PedBoneCollection(this);
     }
 
     return this.pedBones;
+  }
+
+  /**
+   * Ped Weapons
+   *
+   * @constructor
+   */
+  public get Weapons(): WeaponCollection {
+    if (!this.weapons) {
+      this.weapons = new WeaponCollection(this);
+    }
+
+    return this.weapons;
   }
 
   public giveWeapon(weapon: WeaponHash, ammoCount = 999, isHidden = false, equipNow = true): void {
@@ -502,9 +621,9 @@ export class Ped extends Entity {
   }
 
   public getLastWeaponImpactPosition(): Vector3 {
-    const position = GetPedLastWeaponImpactCoord(this.handle);
+    const position = GetPedLastWeaponImpactCoord(this.handle)[1];
 
-    return new Vector3(position[0], position[1][0], position[1][1]); // Does this work?
+    return new Vector3(position[0], position[1], position[2]); // Does this work?
   }
 
   public get CanRagdoll(): boolean {
@@ -556,11 +675,11 @@ export class Ped extends Entity {
     return new Ped(ClonePed(this.handle, heading, false, false));
   }
 
-  public exists(ped: Ped = null): boolean {
+  public exists(ped?: Ped): boolean {
     if (ped === null) {
       return super.exists() && GetEntityType(this.handle) === 1;
     }
 
-    return ped.exists();
+    return ped?.exists() ?? false;
   }
 }

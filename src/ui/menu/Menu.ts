@@ -9,9 +9,9 @@ import {
   Text,
   UIMenuSeparatorItem,
 } from '../';
-import { Audio, CursorSprite, Game, GameplayCamera, InputMode } from '../../';
-import { Alignment, Control, Font } from '../../enums';
-import { Color, LiteEvent, Point, Size, uuidv4 } from '../../utils';
+import { Audio, CursorSprite, Game, GameplayCamera, InputMode, Wait } from '../../';
+import { Alignment, Control, Font, MenuAlignment } from '../../enums';
+import { Color, Crypto, LiteEvent, Point, Size } from '../../utils';
 import { UIMenuCheckboxItem, UIMenuItem, UIMenuListItem, UIMenuSliderItem } from './items';
 
 export class Menu {
@@ -20,12 +20,12 @@ export class Menu {
   public static screenWidth = Menu.screenHeight * Menu.screenAspectRatio;
   public static screenResolution = new Size(Menu.screenWidth, Menu.screenHeight);
 
-  public readonly id: string = uuidv4();
+  public readonly id: string = Crypto.uuidv4();
 
   public visible = false;
 
-  public parentMenu: Menu;
-  public parentItem: UIMenuItem;
+  public parentMenu: Menu | undefined;
+  public parentItem: UIMenuItem | undefined;
   public items: UIMenuItem[] = [];
   public children: Map<string, Menu> = new Map();
 
@@ -45,7 +45,8 @@ export class Menu {
   public readonly panelActivated = new LiteEvent();
 
   private _counterPretext = '';
-  private _counterOverride: string;
+  private _counterOverride = '';
+  private _alignment = MenuAlignment.Left;
   private _offset: Point;
   private _navigationDelay = 140;
   private _lastUpDownNavigation = 0;
@@ -185,12 +186,28 @@ export class Menu {
     return this._title.caption;
   }
 
+  public get TitleFont(): Font {
+    return this._title.font;
+  }
+
+  public set TitleFont(font: Font) {
+    this._title.font = font;
+  }
+
   public set Subtitle(text: string) {
     this._subtitle.caption = text;
   }
 
   public get Subtitle(): string {
     return this._subtitle.caption;
+  }
+
+  public set SubtitleFont(font: Font) {
+    this._subtitle.font = font;
+  }
+
+  public get SubtitleFont(): Font {
+    return this._subtitle.font;
   }
 
   public set SubtitleForeColor(color: Color) {
@@ -237,6 +254,14 @@ export class Menu {
     }
   }
 
+  public get Alignment(): MenuAlignment {
+    return this._alignment;
+  }
+
+  public set Alignment(alignment: MenuAlignment) {
+    this._alignment = alignment;
+  }
+
   public get WidthOffset(): number {
     return this._widthOffset;
   }
@@ -273,7 +298,7 @@ export class Menu {
   }
 
   public get DrawOffset(): Point {
-    return this.Settings.scaleWithSafezone ? this._drawOffset : new Point();
+    return this._drawOffset;
   }
 
   public get Controls(): MenuControls {
@@ -285,7 +310,7 @@ export class Menu {
   }
 
   public addNewSubMenu(text: string, description?: string, inherit = true): Menu {
-    let menu;
+    let menu: Menu;
     if (inherit) {
       menu = new Menu(
         this._title.caption,
@@ -294,8 +319,11 @@ export class Menu {
         this._logo.TextureDict,
         this._logo.textureName,
       );
+      menu.Alignment = this.Alignment;
       menu.WidthOffset = this.WidthOffset;
       menu._settings = this._settings;
+      menu.TitleFont = this.TitleFont;
+      menu.SubtitleFont = this.SubtitleFont;
     } else {
       menu = new Menu(this._title.caption, text);
     }
@@ -307,8 +335,11 @@ export class Menu {
 
   public addSubMenu(subMenuToAdd: Menu, text: string, description?: string, inherit = true): Menu {
     if (inherit) {
+      subMenuToAdd.Alignment = this.Alignment;
       subMenuToAdd.WidthOffset = this.WidthOffset;
       subMenuToAdd._settings = this._settings;
+      subMenuToAdd.TitleFont = this.TitleFont;
+      subMenuToAdd.SubtitleFont = this.SubtitleFont;
     }
     const item = new UIMenuItem(text, description);
     this.addItem(item);
@@ -351,9 +382,11 @@ export class Menu {
     if (!this.children.has(releaseFrom.id)) {
       return false;
     }
-    const menu: Menu = this.children.get(releaseFrom.id);
-    menu.parentItem = null;
-    menu.parentMenu = null;
+    const menu: Menu | undefined = this.children.get(releaseFrom.id);
+    if (menu instanceof Menu) {
+      menu.parentItem = undefined;
+      menu.parentMenu = undefined;
+    }
     this.children.delete(releaseFrom.id);
     return true;
   }
@@ -468,9 +501,11 @@ export class Menu {
       if (this.children.has(item.id)) {
         const subMenu = this.children.get(item.id);
         this.visible = false;
-        subMenu.visible = true;
-        subMenu._justOpened = true;
-        subMenu.menuOpen.emit();
+        if (subMenu instanceof Menu) {
+          subMenu.visible = true;
+          subMenu._justOpened = true;
+          subMenu.menuOpen.emit();
+        }
         this.menuChange.emit(subMenu, true);
       }
     }
@@ -647,10 +682,10 @@ export class Menu {
           }
         } else {
           this._playSoundAndReleaseId(this.Settings.audio.error, this.Settings.audio.library);
-          this.CurrentSelection = hoveredItemIndex;
+          this.CurrentSelection = hoveredItemIndex ?? 0;
           this.indexChange.emit(this.CurrentSelection);
         }
-        await new Promise(resolve => setTimeout(resolve, this._navigationDelay));
+        await Wait(this._navigationDelay);
         while (Game.isDisabledControlPressed(0, Control.Attack) && hoveredItem.IsMouseInBounds) {
           if (hoveredItem.selected) {
             if (hoveredItem.enabled) {
@@ -669,10 +704,10 @@ export class Menu {
             }
           } else {
             this._playSoundAndReleaseId(this.Settings.audio.error, this.Settings.audio.library);
-            this.CurrentSelection = hoveredItemIndex;
+            this.CurrentSelection = hoveredItemIndex ?? 0;
             this.indexChange.emit(this.CurrentSelection);
           }
-          await new Promise(resolve => setTimeout(resolve, 125));
+          await Wait(125);
         }
         this._mousePressed = false;
       })();
@@ -688,10 +723,10 @@ export class Menu {
         (async () => {
           this._mousePressed = true;
           this.goUp();
-          await new Promise(resolve => setTimeout(resolve, this._navigationDelay));
+          await Wait(this._navigationDelay);
           while (Game.isDisabledControlPressed(0, Control.Attack)) {
             this.goUp();
-            await new Promise(resolve => setTimeout(resolve, 125));
+            await Wait(125);
           }
           this._mousePressed = false;
         })();
@@ -710,10 +745,10 @@ export class Menu {
         (async () => {
           this._mousePressed = true;
           this.goDown();
-          await new Promise(resolve => setTimeout(resolve, this._navigationDelay));
+          await Wait(this._navigationDelay);
           while (Game.isDisabledControlPressed(0, Control.Attack)) {
             this.goDown();
-            await new Promise(resolve => setTimeout(resolve, 125));
+            await Wait(125);
           }
           this._mousePressed = false;
         })();
@@ -861,12 +896,28 @@ export class Menu {
       }
     }
 
+    SetScriptGfxAlign(this._alignment, 84);
+
+    const menuWidth = (431 + this._widthOffset) / Menu.screenWidth;
+
     if (this.Settings.scaleWithSafezone) {
-      ScreenDrawPositionBegin(76, 84);
-      ScreenDrawPositionRatio(0, 0, 0, 0);
+      SetScriptGfxAlignParams(0, 0, menuWidth, 0);
       const pos = GetScriptGfxPosition(0, 0);
       this._drawOffset.X = pos[0];
       this._drawOffset.Y = pos[1];
+    } else {
+      const sSize = (1 - GetSafeZoneSize()) / 2;
+      if (this._alignment === MenuAlignment.Right) {
+        SetScriptGfxAlignParams(sSize, -sSize, menuWidth, 0);
+        const pos = GetScriptGfxPosition(0, 0);
+        this._drawOffset.X = pos[0];
+        this._drawOffset.Y = pos[1];
+      } else {
+        SetScriptGfxAlignParams(-sSize, -sSize, menuWidth, 0);
+        const pos = GetScriptGfxPosition(0, 0);
+        this._drawOffset.X = pos[0];
+        this._drawOffset.Y = pos[1];
+      }
     }
 
     this._mainMenu.draw(undefined, Menu.screenResolution);
@@ -884,7 +935,11 @@ export class Menu {
     this._background.draw(Menu.screenResolution);
 
     if (this.items.length > 0) {
-      const hasDescription = this.CurrentItem.Description && this.CurrentItem.Description !== '';
+      let hasDescription = false;
+
+      if (this.CurrentItem.Description && this.CurrentItem.Description !== '')
+        hasDescription = true;
+
       this.CurrentItem.selected = true;
 
       if (hasDescription) {
@@ -948,8 +1003,6 @@ export class Menu {
 
     this._logo.draw(Menu.screenResolution);
 
-    if (this.Settings.scaleWithSafezone) {
-      ScreenDrawPositionEnd();
-    }
+    ResetScriptGfxAlign();
   }
 }
