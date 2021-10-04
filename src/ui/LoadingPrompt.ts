@@ -6,7 +6,7 @@ import { LoadingSpinnerType } from '../enums';
  * Example:
  *
  * ```typescript
- * import { LoadingPrompt } from 'fivem-js/ui';
+ * import { LoadingPrompt } from '@nativewrappers/client/ui';
  *
  * LoadingPrompt.show("Hello World");
  *

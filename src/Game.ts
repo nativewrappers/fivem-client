@@ -175,11 +175,11 @@ export abstract class Game {
   }
 
   public static get IsRandomEventActive(): boolean {
-    return GetRandomEventFlag() === 1;
+    return !!GetRandomEventFlag();
   }
 
   public static set IsRandomEventActive(toggle: boolean) {
-    SetRandomEventFlag(toggle ? 1 : 0);
+    SetRandomEventFlag(toggle);
   }
 
   public static get IsCutsceneActive(): boolean {

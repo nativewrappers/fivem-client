@@ -671,8 +671,9 @@ export class Ped extends Entity {
     SetPedResetFlag(this.handle, flagId, true);
   }
 
-  public clone(heading: number): Ped {
-    return new Ped(ClonePed(this.handle, heading, false, false));
+  // TODO: Proper extension for this
+  public clone(): Ped {
+    return new Ped(ClonePed(this.handle, false, false, false));
   }
 
   public exists(ped?: Ped): boolean {

@@ -6,7 +6,7 @@ import { PointF, Vector3 } from '../utils';
  * Example:
  *
  * ```typescript
- * import { Scaleform } from 'fivem-js/ui';
+ * import { Scaleform } from '@nativewrappers/client/ui';
  *
  * const scaleform = new Cfx.Scaleform("MIDSIZED_MESSAGE");
  *
@@ -236,7 +236,7 @@ export class Scaleform {
             resolve(true);
           } else if (GetGameTimer() - start > 5000) {
             clearInterval(interval);
-            console.log(`^1[fivem-js] Could not load scaleform ${this.name}!^7`);
+            console.log(`^1[fivemjs/client] Could not load scaleform ${this.name}!^7`);
             resolve(false);
           }
         }, 0);

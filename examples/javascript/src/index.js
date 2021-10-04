@@ -1,4 +1,4 @@
-import * as Cfx from 'fivem-js';
+import * as Cfx from '@nativewrappers/client';
 
 RegisterCommand(
   'adder',

@@ -1,22 +1,5 @@
 {
-  "inputFiles": ["./src"],
-  "mode": "file",
-  "out": "docs",
-  "name": "fivem-js - Documentation",
-  "theme": "node_modules/typedoc-fivemjs-theme/bin/default",
+  "entryPoints": ["./src/index.ts"],
   "readme": "none",
-  "hideGenerator": true,
-  "ignoreCompilerErrors": "true",
-  "includeVersion": true,
-  "experimentalDecorators": "true",
-  "emitDecoratorMetadata": "true",
-  "excludePrivate": true,
-  "excludeProtected": true,
-  "target": "es6",
-  "moduleResolution": "node",
-  "stripInternal": "true",
-  "suppressExcessPropertyErrors": "false",
-  "suppressImplicitAnyIndexErrors": "false",
-  "module": "commonjs",
-  "gaID": "UA-9229957-3"
+  "out": "docs"
 }

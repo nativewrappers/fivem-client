@@ -19,7 +19,8 @@ export class TaskSequence {
   }
 
   private create(): void {
-    this.handle = OpenSequenceTask(0)[0];
+    // Docs generate this as 'void' even though it returns a number
+    this.handle = OpenSequenceTask(0) as unknown as number;
   }
 
   public dispose(): void {

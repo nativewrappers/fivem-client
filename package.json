@@ -1,6 +1,6 @@
 {
-  "name": "fivem-js",
-  "version": "1.5.2",
+  "name": "@nativewrappers/client",
+  "version": "1.5.8",
   "description": "Javascript/Typescript wrapper for the FiveM natives",
   "sideEffects": false,
   "main": "lib/index.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/d0p3t/fivem-js.git"
+    "url": "git+https://github.com/avarianknight/native-wrappers-client.git"
   },
   "keywords": [
     "fivem",
@@ -35,9 +35,9 @@
   "author": "Remco Troost <d0p3t>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/d0p3t/fivem-js/issues"
+    "url": "https://github.com/AvarianKnight/native-wrappers-client/issues"
   },
-  "homepage": "https://d0p3t.nl",
+  "homepage": "https://fivemjs.avarian.dev/",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
@@ -45,11 +45,16 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.0",
-    "typedoc": "^0.19.2",
+    "typedoc": "^0.22.5",
     "typedoc-fivemjs-theme": "^0.2.7",
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "@citizenfx/client": "^2.0.3970-1"
+    "@citizenfx/client": "^2.0.4704-1"
+  },
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "lib": "lib"
   }
 }
