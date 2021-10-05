@@ -65,7 +65,6 @@ export class Scaleform {
    */
   public get IsLoaded(): boolean {
     if (!this.loaded) {
-      this.loaded = !!HasScaleformMovieLoaded(this.handle);
       this.loaded = HasScaleformMovieLoaded(this.handle);
     }
 
@@ -105,11 +104,68 @@ export class Scaleform {
           throw new Error(
             `Unknown argument type [${typeof arg}] passed to scaleform with handle [${
               this.handle
-            }]`,
+            }], had value of ${arg}`,
           );
       }
     });
     EndScaleformMovieMethod();
+  }
+
+  /**
+   * Calls a void method on the scaleform.
+   *
+   * @param name Name of the function
+   */
+  public callVoidMethod(name: string): void {
+    CallScaleformMovieMethod(this.handle, name);
+  }
+
+  /**
+   * Calls a string method on the scaleform.
+   *
+   * @param name Name of the function
+   * @param param1
+   * @param param2
+   * @param param3
+   * @param param4
+   * @param param5
+   */
+  public callStringMethod(name: string, param1 = "", param2 = "", param3 = "", param4 = "", param5 = ""): void {
+    CallScaleformMovieMethodWithString(this.handle, name, param1, param2, param3, param4, param5)
+  }
+
+  /**
+   * Calls a number method on the scaleform.
+   *
+   * @param name Name of the function
+   * @param param1
+   * @param param2
+   * @param param3
+   * @param param4
+   * @param param5
+   */
+  public callNumberMethod(name: string, param1 = -1.0, param2 = -1.0, param3 = -1.0, param4 = -1.0, param5 = -1.0): void {
+    CallScaleformMovieMethodWithNumber(this.handle, name, param1, param2, param3, param4, param5)
+  }
+
+  /**
+   * Calls a number & string method on the scaleform.
+   *
+   * @param name Name of the function
+   * @param fParam1
+   * @param fParam2
+   * @param fParam3
+   * @param fParam4
+   * @param fParam5
+   * @param sParam1
+   * @param sParam2
+   * @param sParam3
+   * @param sParam4
+   * @param sParam5
+   */
+  public callSharedMethod(name: string, fParam1 = -1.0, fParam2 = -1.0, fParam3 = -1.0, fParam4 = -1.0, fParam5 = -1.0,
+                        sParam1 = "", sParam2 = "", sParam3 = "", sParam4 = "", sParam5 = ""): void {
+    CallScaleformMovieMethodWithNumberAndString(this.handle, name, fParam1, fParam2, fParam3, fParam4, fParam5, sParam1, sParam2, sParam3, sParam4, sParam5);
   }
 
   /**
