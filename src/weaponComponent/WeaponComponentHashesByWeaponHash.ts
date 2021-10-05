@@ -804,7 +804,7 @@ function initializeOnce() {
   let isInitialized = false;
 
   return function () {
-    if (isInitialized) {
+    if (isInitialized || IsDuplicityVersion()) {
       return;
     }
 
