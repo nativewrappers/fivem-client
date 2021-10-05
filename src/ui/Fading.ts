@@ -8,7 +8,7 @@ export abstract class Fading {
    * @returns True or false
    */
   public static get IsFadedIn(): boolean {
-    return !!IsScreenFadedIn();
+    return IsScreenFadedIn();
   }
 
   /**
@@ -17,7 +17,7 @@ export abstract class Fading {
    * @returns True or false
    */
   public static get IsFadedOut(): boolean {
-    return !!IsScreenFadedOut();
+    return IsScreenFadedOut();
   }
 
   /**
@@ -26,7 +26,7 @@ export abstract class Fading {
    * @returns True or false
    */
   public static get IsFadingIn(): boolean {
-    return !!IsScreenFadingIn();
+    return IsScreenFadingIn();
   }
 
   /**
@@ -35,7 +35,7 @@ export abstract class Fading {
    * @returns True or false
    */
   public static get IsFadingOut(): boolean {
-    return !!IsScreenFadingOut();
+    return IsScreenFadingOut();
   }
 
   /**

@@ -66,7 +66,7 @@ export class Weapon {
       return true;
     }
 
-    return !!HasPedGotWeapon(this.owner.Handle, this.hash, false);
+    return HasPedGotWeapon(this.owner.Handle, this.hash, false);
   }
 
   /**
@@ -248,7 +248,7 @@ export class Weapon {
    * @constructor
    */
   public get CanUseOnParachute(): boolean {
-    return !!CanUseWeaponOnParachute(this.hash);
+    return CanUseWeaponOnParachute(this.hash);
   }
 
   /**

@@ -142,7 +142,7 @@ export abstract class Game {
    * Get if nightvision is active.
    */
   public static get Nightvision(): boolean {
-    return !!IsNightvisionActive();
+    return IsNightvisionActive();
   }
 
   /**
@@ -156,7 +156,7 @@ export abstract class Game {
    * Get if thermal (heat) vision is active.
    */
   public static get ThermalVision(): boolean {
-    return !!IsSeethroughActive();
+    return IsSeethroughActive();
   }
 
   /**
@@ -167,7 +167,7 @@ export abstract class Game {
   }
 
   public static get IsMissionActive(): boolean {
-    return !!GetMissionFlag();
+    return GetMissionFlag();
   }
 
   public static set IsMissionActive(toggle: boolean) {
@@ -175,7 +175,7 @@ export abstract class Game {
   }
 
   public static get IsRandomEventActive(): boolean {
-    return !!GetRandomEventFlag();
+    return GetRandomEventFlag();
   }
 
   public static set IsRandomEventActive(toggle: boolean) {
@@ -183,21 +183,21 @@ export abstract class Game {
   }
 
   public static get IsCutsceneActive(): boolean {
-    return !!IsCutsceneActive();
+    return IsCutsceneActive();
   }
 
   /**
    * Is a waypoint set on the map.
    */
   public static get IsWaypointActive(): boolean {
-    return !!IsWaypointActive();
+    return IsWaypointActive();
   }
 
   /**
    * Is the player in the pause menu (ESC).
    */
   public static get IsPaused(): boolean {
-    return !!IsPauseMenuActive();
+    return IsPauseMenuActive();
   }
 
   /**
@@ -211,7 +211,7 @@ export abstract class Game {
    * Get if a loading screen is active.
    */
   public static get IsLoading(): boolean {
-    return !!GetIsLoadingScreenActive();
+    return GetIsLoadingScreenActive();
   }
 
   /**
@@ -249,7 +249,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlPressed(inputMode, Number(control));
+    return IsControlPressed(inputMode, Number(control));
   }
 
   /**
@@ -260,7 +260,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlPressed(inputMode, Number(control));
+    return IsDisabledControlPressed(inputMode, Number(control));
   }
 
   /**
@@ -271,7 +271,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlJustPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlJustPressed(inputMode, Number(control));
+    return IsControlJustPressed(inputMode, Number(control));
   }
 
   /**
@@ -282,7 +282,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlJustPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlJustPressed(inputMode, Number(control));
+    return IsDisabledControlJustPressed(inputMode, Number(control));
   }
 
   /**
@@ -293,7 +293,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlReleased(inputMode, Number(control));
+    return IsControlReleased(inputMode, Number(control));
   }
 
   /**
@@ -304,7 +304,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlReleased(inputMode, Number(control));
+    return IsDisabledControlReleased(inputMode, Number(control));
   }
 
   /**
@@ -315,7 +315,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlJustReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlJustReleased(inputMode, Number(control));
+    return IsControlJustReleased(inputMode, Number(control));
   }
 
   /**
@@ -326,7 +326,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlJustReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlJustReleased(inputMode, Number(control));
+    return IsDisabledControlJustReleased(inputMode, Number(control));
   }
 
   /**
@@ -337,7 +337,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlEnabled(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlEnabled(inputMode, Number(control));
+    return IsControlEnabled(inputMode, Number(control));
   }
 
   /**
@@ -433,9 +433,9 @@ export abstract class Game {
    */
   public static doesGXTEntryExist(entry: number | string): boolean {
     if (typeof entry === 'number') {
-      return !!DoesTextLabelExist(entry.toString());
+      return DoesTextLabelExist(entry.toString());
     } else {
-      return !!DoesTextLabelExist(entry);
+      return DoesTextLabelExist(entry);
     }
   }
 

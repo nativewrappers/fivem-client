@@ -27,7 +27,7 @@ export class VehicleMod {
   }
 
   public get Variation(): boolean {
-    return !!GetVehicleModVariation(this._owner.Handle, this.ModType);
+    return GetVehicleModVariation(this._owner.Handle, this.ModType);
   }
 
   public set Variation(value: boolean) {

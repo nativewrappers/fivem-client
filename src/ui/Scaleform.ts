@@ -66,6 +66,7 @@ export class Scaleform {
   public get IsLoaded(): boolean {
     if (!this.loaded) {
       this.loaded = !!HasScaleformMovieLoaded(this.handle);
+      this.loaded = HasScaleformMovieLoaded(this.handle);
     }
 
     return this.loaded;

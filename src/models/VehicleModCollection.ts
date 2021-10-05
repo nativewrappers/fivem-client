@@ -184,7 +184,7 @@ export class VehicleModCollection {
   }
 
   public isNeonLightsOn(light: VehicleNeonLight): boolean {
-    return !!IsVehicleNeonLightEnabled(this._owner.Handle, light);
+    return IsVehicleNeonLightEnabled(this._owner.Handle, light);
   }
 
   public setNeonLightsOn(light: VehicleNeonLight, on: boolean): void {
@@ -258,11 +258,11 @@ export class VehicleModCollection {
   }
 
   public get IsPrimaryColorCustom(): boolean {
-    return !!GetIsVehiclePrimaryColourCustom(this._owner.Handle);
+    return GetIsVehiclePrimaryColourCustom(this._owner.Handle);
   }
 
   public get IsSecondaryColorCustom(): boolean {
-    return !!GetIsVehicleSecondaryColourCustom(this._owner.Handle);
+    return GetIsVehicleSecondaryColourCustom(this._owner.Handle);
   }
 
   public clearCustomPrimaryColor(): void {

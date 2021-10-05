@@ -19,7 +19,7 @@ export class VehicleWindow {
   }
 
   public get IsIntact(): boolean {
-    return !!IsVehicleWindowIntact(this._owner.Handle, this.Index);
+    return IsVehicleWindowIntact(this._owner.Handle, this.Index);
   }
 
   public get Vehicle(): Vehicle {

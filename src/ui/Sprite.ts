@@ -49,7 +49,7 @@ export class Sprite {
   }
 
   public get IsTextureDictionaryLoaded(): boolean {
-    return !!HasStreamedTextureDictLoaded(this._textureDict);
+    return HasStreamedTextureDictLoaded(this._textureDict);
   }
 
   public draw(resolution?: Size): void;

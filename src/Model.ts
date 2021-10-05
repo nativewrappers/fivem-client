@@ -1,3 +1,4 @@
+import { Prop } from '.';
 import { Game } from './Game';
 import { VehicleHash } from './hashes';
 import { Vector3 } from './utils';
@@ -39,7 +40,7 @@ export class Model {
    * @returns Whether this model is valid.
    */
   public get IsValid(): boolean {
-    return !!IsModelValid(this.hash);
+    return IsModelValid(this.hash);
   }
 
   /**
@@ -48,7 +49,7 @@ export class Model {
    * @returns Whether this model is in cd image.
    */
   public get IsInCdImage(): boolean {
-    return !!IsModelInCdimage(this.hash);
+    return IsModelInCdimage(this.hash);
   }
 
   /**
@@ -57,7 +58,7 @@ export class Model {
    * @returns Whether this model is loaded.
    */
   public get IsLoaded(): boolean {
-    return !!HasModelLoaded(this.hash);
+    return HasModelLoaded(this.hash);
   }
 
   /**
@@ -66,7 +67,7 @@ export class Model {
    * @returns Whether this model collision is loaded.
    */
   public get IsCollisionLoaded(): boolean {
-    return !!HasCollisionForModelLoaded(this.hash);
+    return HasCollisionForModelLoaded(this.hash);
   }
 
   /**
@@ -75,7 +76,7 @@ export class Model {
    * @returns Whether this model is a bicycle.
    */
   public get IsBicycle(): boolean {
-    return !!IsThisModelABicycle(this.hash);
+    return IsThisModelABicycle(this.hash);
   }
 
   /**
@@ -84,7 +85,7 @@ export class Model {
    * @returns Whether this model is a motorbike.
    */
   public get IsBike(): boolean {
-    return !!IsThisModelABike(this.hash);
+    return IsThisModelABike(this.hash);
   }
 
   /**
@@ -93,7 +94,7 @@ export class Model {
    * @returns Whether this model is a boat.
    */
   public get IsBoat(): boolean {
-    return !!IsThisModelABoat(this.hash);
+    return IsThisModelABoat(this.hash);
   }
 
   /**
@@ -102,7 +103,7 @@ export class Model {
    * @returns Whether this model is a car.
    */
   public get IsCar(): boolean {
-    return !!IsThisModelACar(this.hash);
+    return IsThisModelACar(this.hash);
   }
 
   /**
@@ -125,7 +126,7 @@ export class Model {
    * @returns Whether this model is a helicopter.
    */
   public get IsHelicopter(): boolean {
-    return !!IsThisModelAHeli(this.hash);
+    return IsThisModelAHeli(this.hash);
   }
 
   /**
@@ -134,7 +135,7 @@ export class Model {
    * @returns Whether this model is a Ped.
    */
   public get IsPed(): boolean {
-    return !!IsModelAPed(this.hash);
+    return IsModelAPed(this.hash);
   }
 
   /**
@@ -143,7 +144,7 @@ export class Model {
    * @returns Whether this model is a plane.
    */
   public get IsPlane(): boolean {
-    return !!IsThisModelAPlane(this.hash);
+    return IsThisModelAPlane(this.hash);
   }
 
   /**
@@ -161,7 +162,7 @@ export class Model {
    * @returns Whether this model is a quadbike.
    */
   public get IsQuadbike(): boolean {
-    return !!IsThisModelAQuadbike(this.hash);
+    return IsThisModelAQuadbike(this.hash);
   }
 
   /**
@@ -170,7 +171,7 @@ export class Model {
    * @returns Whether this model is a train.
    */
   public get IsTrain(): boolean {
-    return !!IsThisModelATrain(this.hash);
+    return IsThisModelATrain(this.hash);
   }
 
   /**
@@ -179,7 +180,7 @@ export class Model {
    * @returns Whether this model is a Vehicle.
    */
   public get IsVehicle(): boolean {
-    return !!IsModelAVehicle(this.hash);
+    return IsModelAVehicle(this.hash);
   }
 
   /**

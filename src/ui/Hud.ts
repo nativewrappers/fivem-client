@@ -3,7 +3,7 @@ import { Point } from '../utils';
 
 export abstract class Hud {
   public static isComponentActive(component: HudComponent): boolean {
-    return !!IsHudComponentActive(Number(component));
+    return IsHudComponentActive(Number(component));
   }
 
   public static showComponentThisFrame(component: HudComponent): void {

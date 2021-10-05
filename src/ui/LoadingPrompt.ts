@@ -47,6 +47,6 @@ export abstract class LoadingPrompt {
   }
 
   public static get IsActive(): boolean {
-    return !!IsLoadingPromptBeingDisplayed();
+    return IsLoadingPromptBeingDisplayed();
   }
 }

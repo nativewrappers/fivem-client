@@ -105,7 +105,7 @@ export class Blip {
   }
 
   public get IsFlashing(): boolean {
-    return !!IsBlipFlashing(this.handle);
+    return IsBlipFlashing(this.handle);
   }
 
   public set IsFlashing(flashing: boolean) {
@@ -113,11 +113,11 @@ export class Blip {
   }
 
   public get IsOnMinimap(): boolean {
-    return !!IsBlipOnMinimap(this.handle);
+    return IsBlipOnMinimap(this.handle);
   }
 
   public get IsShortRange(): boolean {
-    return !!IsBlipShortRange(this.handle);
+    return IsBlipShortRange(this.handle);
   }
 
   public set IsShortRange(shortRange: boolean) {
@@ -135,6 +135,6 @@ export class Blip {
   }
 
   public exists(): boolean {
-    return !!DoesBlipExist(this.handle);
+    return DoesBlipExist(this.handle);
   }
 }

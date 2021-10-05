@@ -27,7 +27,7 @@ export abstract class Audio {
   }
 
   public static hasSoundFinished(soundId: number): boolean {
-    return !!HasSoundFinished(soundId);
+    return HasSoundFinished(soundId);
   }
 
   public static setAudioFlag(flag: string | AudioFlag, toggle: boolean): void {

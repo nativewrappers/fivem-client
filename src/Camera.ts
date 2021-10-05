@@ -24,7 +24,7 @@ export class Camera {
   }
 
   public get IsActive(): boolean {
-    return !!IsCamActive(this.handle);
+    return IsCamActive(this.handle);
   }
 
   public set IsActive(active: boolean) {
@@ -152,7 +152,7 @@ export class Camera {
   }
 
   public get IsShaking(): boolean {
-    return !!IsCamShaking(this.handle);
+    return IsCamShaking(this.handle);
   }
 
   public set ShakeAmplitude(amplitude: number) {
@@ -197,7 +197,7 @@ export class Camera {
   }
 
   public get IsInterpolating(): boolean {
-    return !!IsCamInterpolating(this.handle);
+    return IsCamInterpolating(this.handle);
   }
 
   public attachTo(object: Entity | PedBone, offset: Vector3): void {
@@ -225,6 +225,6 @@ export class Camera {
   }
 
   public exists(): boolean {
-    return !!DoesCamExist(this.handle);
+    return DoesCamExist(this.handle);
   }
 }

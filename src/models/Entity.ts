@@ -57,7 +57,7 @@ export class Entity {
   }
 
   public isDead(): boolean {
-    return IsEntityDead(this.handle) ? true : false;
+    return IsEntityDead(this.handle);
   }
 
   public isAlive(): boolean {
@@ -150,7 +150,7 @@ export class Entity {
   }
 
   public get IsVisible(): boolean {
-    return !!IsEntityVisible(this.handle);
+    return IsEntityVisible(this.handle);
   }
 
   public set IsVisible(value: boolean) {
@@ -158,31 +158,31 @@ export class Entity {
   }
 
   public get IsOccluded(): boolean {
-    return !!IsEntityOccluded(this.handle);
+    return IsEntityOccluded(this.handle);
   }
 
   public get IsOnScreen(): boolean {
-    return !!IsEntityOnScreen(this.handle);
+    return IsEntityOnScreen(this.handle);
   }
 
   public get IsUpright(): boolean {
-    return !!IsEntityUpright(this.handle, 0);
+    return IsEntityUpright(this.handle, 0);
   }
 
   public get IsUpsideDown(): boolean {
-    return !!IsEntityUpsidedown(this.handle);
+    return IsEntityUpsidedown(this.handle);
   }
 
   public get IsInAir(): boolean {
-    return !!IsEntityInAir(this.handle);
+    return IsEntityInAir(this.handle);
   }
 
   public get IsInWater(): boolean {
-    return !!IsEntityInWater(this.handle);
+    return IsEntityInWater(this.handle);
   }
 
   public get IsPersistent(): boolean {
-    return !!IsEntityAMissionEntity(this.handle);
+    return IsEntityAMissionEntity(this.handle);
   }
 
   public set IsPersistent(value: boolean) {
@@ -194,7 +194,7 @@ export class Entity {
   }
 
   public get IsOnFire(): boolean {
-    return !!IsEntityOnFire(this.handle);
+    return IsEntityOnFire(this.handle);
   }
 
   public set IsInvincible(value: boolean) {
@@ -218,7 +218,7 @@ export class Entity {
   }
 
   public get HasCollided(): boolean {
-    return !!HasEntityCollidedWithAnything(this.handle);
+    return HasEntityCollidedWithAnything(this.handle);
   }
 
   public get MaterialCollidingWith(): MaterialHash {
@@ -263,27 +263,27 @@ export class Entity {
   }
 
   public hasClearLosToEntity(entity: Entity, traceType = 17): boolean {
-    return !!HasEntityClearLosToEntity(this.handle, entity.Handle, traceType);
+    return HasEntityClearLosToEntity(this.handle, entity.Handle, traceType);
   }
 
   public hasClearLosToEntityInFront(entity: Entity): boolean {
-    return !!HasEntityClearLosToEntityInFront(this.handle, entity.Handle);
+    return HasEntityClearLosToEntityInFront(this.handle, entity.Handle);
   }
 
   public hasBeenDamagedBy(entity: Entity): boolean {
-    return !!HasEntityBeenDamagedByEntity(this.handle, entity.Handle, true);
+    return HasEntityBeenDamagedByEntity(this.handle, entity.Handle, true);
   }
 
   public hasBeenDamagedByWeapon(weapon: WeaponHash): boolean {
-    return !!HasEntityBeenDamagedByWeapon(this.handle, Number(weapon), 0);
+    return HasEntityBeenDamagedByWeapon(this.handle, Number(weapon), 0);
   }
 
   public hasBeenDamagedByAnyWeapon(): boolean {
-    return !!HasEntityBeenDamagedByWeapon(this.handle, 0, 2);
+    return HasEntityBeenDamagedByWeapon(this.handle, 0, 2);
   }
 
   public hasBeenDamagedByAnyMeleeWeapon(): boolean {
-    return !!HasEntityBeenDamagedByWeapon(this.handle, 0, 1);
+    return HasEntityBeenDamagedByWeapon(this.handle, 0, 1);
   }
 
   public clearLastWeaponDamage(): void {
@@ -291,7 +291,7 @@ export class Entity {
   }
 
   public isInArea(minBounds: Vector3, maxBounds: Vector3): boolean {
-    return !!IsEntityInArea(
+    return IsEntityInArea(
       this.handle,
       minBounds.x,
       minBounds.y,
@@ -306,7 +306,7 @@ export class Entity {
   }
 
   public isInAngledArea(origin: Vector3, edge: Vector3, angle: number): boolean {
-    return !!IsEntityInAngledArea(
+    return IsEntityInAngledArea(
       this.handle,
       origin.x,
       origin.y,
@@ -328,7 +328,7 @@ export class Entity {
   }
 
   public isNearEntity(entity: Entity, bounds: Vector3): boolean {
-    return !!IsEntityAtEntity(
+    return IsEntityAtEntity(
       this.handle,
       entity.Handle,
       bounds.x,
@@ -341,11 +341,11 @@ export class Entity {
   }
 
   public isTouching(entity: Entity): boolean {
-    return !!IsEntityTouchingEntity(this.handle, entity.Handle);
+    return IsEntityTouchingEntity(this.handle, entity.Handle);
   }
 
   public isTouchingModel(model: Model): boolean {
-    return !!IsEntityTouchingModel(this.handle, model.Hash);
+    return IsEntityTouchingModel(this.handle, model.Hash);
   }
 
   public getOffsetPosition(offset: Vector3): Vector3 {
@@ -415,11 +415,11 @@ export class Entity {
   }
 
   public isAttached(): boolean {
-    return !!IsEntityAttached(this.handle);
+    return IsEntityAttached(this.handle);
   }
 
   public isAttachedTo(entity: Entity): boolean {
-    return !!IsEntityAttachedToEntity(this.handle, entity.Handle);
+    return IsEntityAttachedToEntity(this.handle, entity.Handle);
   }
 
   public getEntityAttachedTo(): Ped | Vehicle | Prop | null {

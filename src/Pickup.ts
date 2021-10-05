@@ -13,7 +13,7 @@ export class Pickup {
   }
 
   public get IsCollected(): boolean {
-    return !!HasPickupBeenCollected(this.handle);
+    return HasPickupBeenCollected(this.handle);
   }
 
   public delete(): void {
@@ -21,6 +21,6 @@ export class Pickup {
   }
 
   public exists(): boolean {
-    return !!DoesPickupExist(this.handle);
+    return DoesPickupExist(this.handle);
   }
 }

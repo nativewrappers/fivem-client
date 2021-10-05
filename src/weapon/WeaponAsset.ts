@@ -29,7 +29,7 @@ export class WeaponAsset {
    * @constructor
    */
   public get IsValid(): boolean {
-    return !!IsWeaponValid(this.hash);
+    return IsWeaponValid(this.hash);
   }
 
   /**
@@ -38,7 +38,7 @@ export class WeaponAsset {
    * @constructor
    */
   public get IsLoaded(): boolean {
-    return !!HasWeaponAssetLoaded(this.hash);
+    return HasWeaponAssetLoaded(this.hash);
   }
 
   /**

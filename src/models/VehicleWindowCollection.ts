@@ -34,7 +34,7 @@ export class VehicleWindowCollection {
   }
 
   public get AreAllWindowsIntact(): boolean {
-    return !!AreAllVehicleWindowsIntact(this._owner.Handle);
+    return AreAllVehicleWindowsIntact(this._owner.Handle);
   }
 
   public rollDownAllWindows(): void {

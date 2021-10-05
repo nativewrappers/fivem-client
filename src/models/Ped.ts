@@ -135,11 +135,11 @@ export class Ped extends Entity {
   }
 
   public get WasKilledByStealth(): boolean {
-    return !!WasPedKilledByStealth(this.handle);
+    return WasPedKilledByStealth(this.handle);
   }
 
   public get WasKilledByTakedown(): boolean {
-    return !!WasPedKilledByTakedown(this.handle);
+    return WasPedKilledByTakedown(this.handle);
   }
 
   public get SeatIndex(): VehicleSeat {
@@ -171,7 +171,7 @@ export class Ped extends Entity {
   }
 
   public get IsJumpingOutOfVehicle(): boolean {
-    return !!IsPedJumpingOutOfVehicle(this.handle);
+    return IsPedJumpingOutOfVehicle(this.handle);
   }
 
   public set StaysInVehicleWhenJacked(value: boolean) {
@@ -183,7 +183,7 @@ export class Ped extends Entity {
   }
 
   public get IsHuman(): boolean {
-    return !!IsPedHuman(this.handle);
+    return IsPedHuman(this.handle);
   }
 
   public set IsEnemy(value: boolean) {
@@ -195,19 +195,19 @@ export class Ped extends Entity {
   }
 
   public get IsPlayer(): boolean {
-    return !!IsPedAPlayer(this.handle);
+    return IsPedAPlayer(this.handle);
   }
 
   public get IsCuffed(): boolean {
-    return !!IsPedCuffed(this.handle);
+    return IsPedCuffed(this.handle);
   }
 
   public get IsWearingHelmet(): boolean {
-    return !!IsPedWearingHelmet(this.handle);
+    return IsPedWearingHelmet(this.handle);
   }
 
   public get IsRagdoll(): boolean {
-    return !!IsPedRagdoll(this.handle);
+    return IsPedRagdoll(this.handle);
   }
 
   public get IsIdle(): boolean {
@@ -225,7 +225,7 @@ export class Ped extends Entity {
   }
 
   public get IsProne(): boolean {
-    return !!IsPedProne(this.handle);
+    return IsPedProne(this.handle);
   }
 
   public set IsDucking(value: boolean) {
@@ -233,147 +233,147 @@ export class Ped extends Entity {
   }
 
   public get IsDucking(): boolean {
-    return !!IsPedDucking(this.handle);
+    return IsPedDucking(this.handle);
   }
 
   public get IsGettingUp(): boolean {
-    return !!IsPedGettingUp(this.handle);
+    return IsPedGettingUp(this.handle);
   }
 
   public get IsClimbing(): boolean {
-    return !!IsPedClimbing(this.handle);
+    return IsPedClimbing(this.handle);
   }
 
   public get IsJumping(): boolean {
-    return !!IsPedJumping(this.handle);
+    return IsPedJumping(this.handle);
   }
 
   public get IsFalling(): boolean {
-    return !!IsPedFalling(this.handle);
+    return IsPedFalling(this.handle);
   }
 
   public get IsStopped(): boolean {
-    return !!IsPedStopped(this.handle);
+    return IsPedStopped(this.handle);
   }
 
   public get IsWalking(): boolean {
-    return !!IsPedWalking(this.handle);
+    return IsPedWalking(this.handle);
   }
 
   public get IsRunning(): boolean {
-    return !!IsPedRunning(this.handle);
+    return IsPedRunning(this.handle);
   }
 
   public get IsSprinting(): boolean {
-    return !!IsPedSprinting(this.handle);
+    return IsPedSprinting(this.handle);
   }
 
   public get IsDiving(): boolean {
-    return !!IsPedDiving(this.handle);
+    return IsPedDiving(this.handle);
   }
 
   public get IsInParachuteFreeFall(): boolean {
-    return !!IsPedInParachuteFreeFall(this.handle);
+    return IsPedInParachuteFreeFall(this.handle);
   }
 
   public get IsSwimming(): boolean {
-    return !!IsPedSwimming(this.handle);
+    return IsPedSwimming(this.handle);
   }
 
   public get IsSwimmingUnderWater(): boolean {
-    return !!IsPedSwimmingUnderWater(this.handle);
+    return IsPedSwimmingUnderWater(this.handle);
   }
 
   public get IsVaulting(): boolean {
-    return !!IsPedVaulting(this.handle);
+    return IsPedVaulting(this.handle);
   }
 
   public get IsOnBike(): boolean {
-    return !!IsPedOnAnyBike(this.handle);
+    return IsPedOnAnyBike(this.handle);
   }
 
   public get IsOnFoot(): boolean {
-    return !!IsPedOnFoot(this.handle);
+    return IsPedOnFoot(this.handle);
   }
 
   public get IsInSub(): boolean {
-    return !!IsPedInAnySub(this.handle);
+    return IsPedInAnySub(this.handle);
   }
 
   public get IsInTaxi(): boolean {
-    return !!IsPedInAnyTaxi(this.handle);
+    return IsPedInAnyTaxi(this.handle);
   }
 
   public get IsInTrain(): boolean {
-    return !!IsPedInAnyTrain(this.handle);
+    return IsPedInAnyTrain(this.handle);
   }
 
   public get IsInHeli(): boolean {
-    return !!IsPedInAnyHeli(this.handle);
+    return IsPedInAnyHeli(this.handle);
   }
 
   public get IsInPlane(): boolean {
-    return !!IsPedInAnyPlane(this.handle);
+    return IsPedInAnyPlane(this.handle);
   }
 
   public get IsInFlyingVehicle(): boolean {
-    return !!IsPedInFlyingVehicle(this.handle);
+    return IsPedInFlyingVehicle(this.handle);
   }
 
   public get IsInBoat(): boolean {
-    return !!IsPedInAnyBoat(this.handle);
+    return IsPedInAnyBoat(this.handle);
   }
 
   public get IsInPoliceVehicle(): boolean {
-    return !!IsPedInAnyPoliceVehicle(this.handle);
+    return IsPedInAnyPoliceVehicle(this.handle);
   }
 
   public get IsJacking(): boolean {
-    return !!IsPedJacking(this.handle);
+    return IsPedJacking(this.handle);
   }
 
   public get IsBeingJacked(): boolean {
-    return !!IsPedBeingJacked(this.handle);
+    return IsPedBeingJacked(this.handle);
   }
 
   public get IsGettingIntoAVehicle(): boolean {
-    return !!IsPedGettingIntoAVehicle(this.handle);
+    return IsPedGettingIntoAVehicle(this.handle);
   }
 
   public get IsTryingToEnterALockedVehicle(): boolean {
-    return !!IsPedTryingToEnterALockedVehicle(this.handle);
+    return IsPedTryingToEnterALockedVehicle(this.handle);
   }
 
   public get IsInjured(): boolean {
-    return !!IsPedInjured(this.handle);
+    return IsPedInjured(this.handle);
   }
 
   public get IsFleeing(): boolean {
-    return !!IsPedFleeing(this.handle);
+    return IsPedFleeing(this.handle);
   }
 
   public get IsInCombat(): boolean {
-    return !!IsPedInCombat(this.handle, PlayerPedId());
+    return IsPedInCombat(this.handle, PlayerPedId());
   }
 
   public get IsInMeleeCombat(): boolean {
-    return !!IsPedInMeleeCombat(this.handle);
+    return IsPedInMeleeCombat(this.handle);
   }
 
   public get IsInStealthMode(): boolean {
-    return !!GetPedStealthMovement(this.handle);
+    return GetPedStealthMovement(this.handle);
   }
 
   public get IsAmbientSpeechPlaying(): boolean {
-    return !!IsAmbientSpeechPlaying(this.handle);
+    return IsAmbientSpeechPlaying(this.handle);
   }
 
   public get IsScriptedSpeechPlaying(): boolean {
-    return !!IsScriptedSpeechPlaying(this.handle);
+    return IsScriptedSpeechPlaying(this.handle);
   }
 
   public get IsAnySpeechPlaying(): boolean {
-    return !!IsAnySpeechPlaying(this.handle);
+    return IsAnySpeechPlaying(this.handle);
   }
 
   public get IsAmbientSpeechEnabled(): boolean {
@@ -385,11 +385,11 @@ export class Ped extends Entity {
   }
 
   public get IsPlantingBomb(): boolean {
-    return !!IsPedPlantingBomb(this.handle);
+    return IsPedPlantingBomb(this.handle);
   }
 
   public get IsShooting(): boolean {
-    return !!IsPedShooting(this.handle);
+    return IsPedShooting(this.handle);
   }
 
   public get IsAiming(): boolean {
@@ -397,39 +397,39 @@ export class Ped extends Entity {
   }
 
   public get IsReloading(): boolean {
-    return !!IsPedReloading(this.handle);
+    return IsPedReloading(this.handle);
   }
 
   public get IsDoingDriveby(): boolean {
-    return !!IsPedDoingDriveby(this.handle);
+    return IsPedDoingDriveby(this.handle);
   }
 
   public get IsGoingIntoCover(): boolean {
-    return !!IsPedGoingIntoCover(this.handle);
+    return IsPedGoingIntoCover(this.handle);
   }
 
   public get IsBeingStunned(): boolean {
-    return !!IsPedBeingStunned(this.handle, 0);
+    return IsPedBeingStunned(this.handle, 0);
   }
 
   public get IsBeingStealthKilled(): boolean {
-    return !!IsPedBeingStealthKilled(this.handle);
+    return IsPedBeingStealthKilled(this.handle);
   }
 
   public get IsPerformingStealthKill(): boolean {
-    return !!IsPedPerformingStealthKill(this.handle);
+    return IsPedPerformingStealthKill(this.handle);
   }
 
   public get IsAimingFromCover(): boolean {
-    return !!IsPedAimingFromCover(this.handle);
+    return IsPedAimingFromCover(this.handle);
   }
 
   public isInCover(expectUseWeapon = false): boolean {
-    return !!IsPedInCover(this.handle, expectUseWeapon);
+    return IsPedInCover(this.handle, expectUseWeapon);
   }
 
   public get IsInCoverFacingLeft(): boolean {
-    return !!IsPedInCoverFacingLeft(this.handle);
+    return IsPedInCoverFacingLeft(this.handle);
   }
 
   public set FiringPattern(value: FiringPattern) {
@@ -465,19 +465,19 @@ export class Ped extends Entity {
   }
 
   public isInAnyVehicle(): boolean {
-    return !!IsPedInAnyVehicle(this.handle, false);
+    return IsPedInAnyVehicle(this.handle, false);
   }
 
   public isInVehicle(vehicle: Vehicle): boolean {
-    return !!IsPedInVehicle(this.handle, vehicle.Handle, false);
+    return IsPedInVehicle(this.handle, vehicle.Handle, false);
   }
 
   public isSittingInAnyVehicle(): boolean {
-    return !!IsPedSittingInAnyVehicle(this.handle);
+    return IsPedSittingInAnyVehicle(this.handle);
   }
 
   public isSittingInVehicle(vehicle: Vehicle): boolean {
-    return !!IsPedSittingInVehicle(this.handle, vehicle.Handle);
+    return IsPedSittingInVehicle(this.handle, vehicle.Handle);
   }
 
   public setIntoVehicle(vehicle: Vehicle, seat: VehicleSeat): void {
@@ -485,11 +485,11 @@ export class Ped extends Entity {
   }
 
   public isHeadtracking(entity: Entity): boolean {
-    return !!IsPedHeadtrackingEntity(this.handle, entity.Handle);
+    return IsPedHeadtrackingEntity(this.handle, entity.Handle);
   }
 
   public isInCombatAgainst(target: Ped): boolean {
-    return !!IsPedInCombat(this.handle, target.Handle);
+    return IsPedInCombat(this.handle, target.Handle);
   }
 
   public getJacker(): Ped {
@@ -534,7 +534,7 @@ export class Ped extends Entity {
   // TODO: Add RelationshipGroup
 
   public get IsInGroup(): boolean {
-    return !!IsPedInGroup(this.handle);
+    return IsPedInGroup(this.handle);
   }
 
   public set NeverLeavesGroup(value: boolean) {
@@ -572,15 +572,15 @@ export class Ped extends Entity {
   }
 
   public hasBeenDamagedByWeapon(weapon: WeaponHash): boolean {
-    return !!HasPedBeenDamagedByWeapon(this.handle, Number(weapon), 0);
+    return HasPedBeenDamagedByWeapon(this.handle, Number(weapon), 0);
   }
 
   public hasBeenDamagedByAnyWeapon(): boolean {
-    return !!HasPedBeenDamagedByWeapon(this.handle, 0, 2);
+    return HasPedBeenDamagedByWeapon(this.handle, 0, 2);
   }
 
   public hasBeenDamagedByAnyMeleeWeapon(): boolean {
-    return !!HasPedBeenDamagedByWeapon(this.handle, 0, 1);
+    return HasPedBeenDamagedByWeapon(this.handle, 0, 1);
   }
 
   public clearLastWeaponDamage(): void {
@@ -627,7 +627,7 @@ export class Ped extends Entity {
   }
 
   public get CanRagdoll(): boolean {
-    return !!CanPedRagdoll(this.handle);
+    return CanPedRagdoll(this.handle);
   }
 
   public set CanRagdoll(value: boolean) {
@@ -660,7 +660,7 @@ export class Ped extends Entity {
   }
 
   public getConfigFlag(flagId: number): boolean {
-    return !!GetPedConfigFlag(this.handle, flagId, true);
+    return GetPedConfigFlag(this.handle, flagId, true);
   }
 
   public setConfigFlag(flagId: number, value: boolean): void {

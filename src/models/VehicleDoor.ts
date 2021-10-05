@@ -35,11 +35,11 @@ export class VehicleDoor {
   }
 
   public get IsFullyOpen(): boolean {
-    return !!IsVehicleDoorFullyOpen(this._owner.Handle, this.Index);
+    return IsVehicleDoorFullyOpen(this._owner.Handle, this.Index);
   }
 
   public get IsBroken(): boolean {
-    return !!IsVehicleDoorDamaged(this._owner.Handle, this.Index);
+    return IsVehicleDoorDamaged(this._owner.Handle, this.Index);
   }
 
   public get Vehicle(): Vehicle {

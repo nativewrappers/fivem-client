@@ -117,7 +117,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsEngineRunning(): boolean {
-    return !!GetIsVehicleEngineRunning(this.handle);
+    return GetIsVehicleEngineRunning(this.handle);
   }
 
   public set IsEngineRunning(value: boolean) {
@@ -125,7 +125,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsEngineStarting(): boolean {
-    return !!IsVehicleEngineStarting(this.handle);
+    return IsVehicleEngineStarting(this.handle);
   }
 
   public set IsEngineStarting(value: boolean) {
@@ -137,7 +137,7 @@ export class Vehicle extends Entity {
 
   public get IsRadioEnabled(): boolean {
     if (Game.Player.Character.isInVehicle(this)) {
-      return !!IsPlayerVehicleRadioEnabled();
+      return IsPlayerVehicleRadioEnabled();
     }
     return false;
   }
@@ -209,7 +209,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsAlarmSet(): boolean {
-    return !!IsVehicleAlarmSet(this.handle);
+    return IsVehicleAlarmSet(this.handle);
   }
 
   public set IsAlarmSet(value: boolean) {
@@ -217,7 +217,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsAlarmSounding(): boolean {
-    return !!IsVehicleAlarmActivated(this.handle);
+    return IsVehicleAlarmActivated(this.handle);
   }
 
   public get AlarmTimeLeft(): number {
@@ -233,7 +233,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsSirenActive(): boolean {
-    return !!IsVehicleSirenOn(this.handle);
+    return IsVehicleSirenOn(this.handle);
   }
 
   public set IsSirenActive(value: boolean) {
@@ -249,7 +249,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsWanted(): boolean {
-    return !!IsVehicleWanted(this.handle);
+    return IsVehicleWanted(this.handle);
   }
 
   public set IsWanted(value: boolean) {
@@ -265,7 +265,7 @@ export class Vehicle extends Entity {
   }
 
   public get PreviouslyOwnedByPlayer(): boolean {
-    return !!IsVehiclePreviouslyOwnedByPlayer(this.handle);
+    return IsVehiclePreviouslyOwnedByPlayer(this.handle);
   }
 
   public set PreviouslyOwnedByPlayer(value: boolean) {
@@ -273,7 +273,7 @@ export class Vehicle extends Entity {
   }
 
   public get NeedsToBeHotwired(): boolean {
-    return !!IsVehicleNeedsToBeHotwired(this.handle);
+    return IsVehicleNeedsToBeHotwired(this.handle);
   }
 
   public set NeedsToBeHotwired(value: boolean) {
@@ -281,7 +281,7 @@ export class Vehicle extends Entity {
   }
 
   public get AreLightsOn(): boolean {
-    return !!GetVehicleLightsState(this.handle)[0];
+    return GetVehicleLightsState(this.handle)[0];
   }
 
   public set AreLightsOn(value: boolean) {
@@ -289,7 +289,7 @@ export class Vehicle extends Entity {
   }
 
   public get AreHighBeamsOn(): boolean {
-    return !!GetVehicleLightsState(this.handle)[1];
+    return GetVehicleLightsState(this.handle)[1];
   }
 
   public set AreHighBeamsOn(value: boolean) {
@@ -297,7 +297,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsInteriorLightOn(): boolean {
-    return !!IsVehicleInteriorLightOn(this.handle);
+    return IsVehicleInteriorLightOn(this.handle);
   }
 
   public set IsInteriorLightOn(value: boolean) {
@@ -305,7 +305,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsSearchLightOn(): boolean {
-    return !!IsVehicleSearchlightOn(this.handle);
+    return IsVehicleSearchlightOn(this.handle);
   }
 
   public set IsSearchLightOn(value: boolean) {
@@ -313,7 +313,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsTaxiLightOn(): boolean {
-    return !!IsTaxiLightOn(this.handle);
+    return IsTaxiLightOn(this.handle);
   }
 
   public set IsTaxiLightOn(value: boolean) {
@@ -338,7 +338,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsHandbrakeForcedOn(): boolean {
-    return !!GetVehicleHandbrake(this.handle);
+    return GetVehicleHandbrake(this.handle);
   }
 
   public set IsHandbrakeForcedOn(value: boolean) {
@@ -366,11 +366,11 @@ export class Vehicle extends Entity {
   }
 
   public get IsDamaged(): boolean {
-    return !!IsVehicleDamaged(this.handle);
+    return IsVehicleDamaged(this.handle);
   }
 
   public get IsDriveable(): boolean {
-    return !!IsVehicleDriveable(this.handle, false);
+    return IsVehicleDriveable(this.handle, false);
   }
 
   public set IsDriveable(value: boolean) {
@@ -378,27 +378,27 @@ export class Vehicle extends Entity {
   }
 
   public get IsEngineOnFire(): boolean {
-    return !!IsVehicleEngineOnFire(this.handle);
+    return IsVehicleEngineOnFire(this.handle);
   }
 
   public get HasRoof(): boolean {
-    return !!DoesVehicleHaveRoof(this.handle);
+    return DoesVehicleHaveRoof(this.handle);
   }
 
   public get IsLeftHeadLightBroken(): boolean {
-    return !!GetIsLeftVehicleHeadlightDamaged(this.handle);
+    return GetIsLeftVehicleHeadlightDamaged(this.handle);
   }
 
   public get IsRightHeadLightBroken(): boolean {
-    return !!GetIsRightVehicleHeadlightDamaged(this.handle);
+    return GetIsRightVehicleHeadlightDamaged(this.handle);
   }
 
   public get IsRearBumperBrokenOff(): boolean {
-    return !!IsVehicleBumperBrokenOff(this.handle, false);
+    return IsVehicleBumperBrokenOff(this.handle, false);
   }
 
   public get IsFrontBumperBrokenOff(): boolean {
-    return !!IsVehicleBumperBrokenOff(this.handle, true);
+    return IsVehicleBumperBrokenOff(this.handle, true);
   }
 
   public set IsAxlesStrong(value: boolean) {
@@ -465,19 +465,19 @@ export class Vehicle extends Entity {
   }
 
   public get IsOnAllWheels(): boolean {
-    return !!IsVehicleOnAllWheels(this.handle);
+    return IsVehicleOnAllWheels(this.handle);
   }
 
   public get IsStopped(): boolean {
-    return !!IsVehicleStopped(this.handle);
+    return IsVehicleStopped(this.handle);
   }
 
   public get IsStoppedAtTrafficLights(): boolean {
-    return !!IsVehicleStoppedAtTrafficLights(this.handle);
+    return IsVehicleStoppedAtTrafficLights(this.handle);
   }
 
   public get IsStolen(): boolean {
-    return !!IsVehicleStolen(this.handle);
+    return IsVehicleStolen(this.handle);
   }
 
   public set IsStolen(value: boolean) {
@@ -485,7 +485,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsConvertible(): boolean {
-    return !!IsVehicleAConvertible(this.handle, false);
+    return IsVehicleAConvertible(this.handle, false);
   }
 
   public set IsBurnoutForced(value: boolean) {
@@ -493,7 +493,7 @@ export class Vehicle extends Entity {
   }
 
   public get IsInBurnout(): boolean {
-    return !!IsVehicleInBurnout(this.handle);
+    return IsVehicleInBurnout(this.handle);
   }
 
   public get Driver(): Ped {
@@ -559,11 +559,11 @@ export class Vehicle extends Entity {
   }
 
   public extraExists(extra: number): boolean {
-    return !!DoesExtraExist(this.handle, extra);
+    return DoesExtraExist(this.handle, extra);
   }
 
   public isExtraOn(extra: number): boolean {
-    return this.extraExists(extra) ? !!IsVehicleExtraTurnedOn(this.handle, extra) : false;
+    return this.extraExists(extra) ? IsVehicleExtraTurnedOn(this.handle, extra) : false;
   }
 
   public toggleExtra(extra: number, toggle: boolean): void {
@@ -577,7 +577,7 @@ export class Vehicle extends Entity {
   }
 
   public isSeatFree(seat: VehicleSeat): boolean {
-    return !!IsVehicleSeatFree(this.handle, seat);
+    return IsVehicleSeatFree(this.handle, seat);
   }
 
   public wash(): void {
@@ -609,7 +609,7 @@ export class Vehicle extends Entity {
   }
 
   public get CanTiresBurst(): boolean {
-    return !!GetVehicleTyresCanBurst(this.handle);
+    return GetVehicleTyresCanBurst(this.handle);
   }
 
   public set CanTiresBurst(value: boolean) {

@@ -30,7 +30,7 @@ export class ParticleEffectAsset {
    * Get whether the particle effect has loaded into game memory.
    */
   public get IsLoaded(): boolean {
-    return !!HasNamedPtfxAssetLoaded(this.assetName);
+    return HasNamedPtfxAssetLoaded(this.assetName);
   }
 
   /**

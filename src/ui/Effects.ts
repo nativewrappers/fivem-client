@@ -14,7 +14,7 @@ export abstract class Effects {
   }
 
   public static isActive(screenEffect: ScreenEffect): boolean {
-    return !!GetScreenEffectIsActive(this.effectToString(screenEffect));
+    return GetScreenEffectIsActive(this.effectToString(screenEffect));
   }
 
   private static readonly effects: string[] = [

@@ -99,7 +99,7 @@ export class WeaponCollection implements Iterable<Weapon> {
    * @param hash
    */
   public hasWeapon(hash: WeaponHash): boolean {
-    return !!HasPedGotWeapon(this.owner.Handle, hash, false);
+    return HasPedGotWeapon(this.owner.Handle, hash, false);
   }
 
   /**
@@ -108,7 +108,7 @@ export class WeaponCollection implements Iterable<Weapon> {
    * @param hash
    */
   public isWeaponValid(hash: WeaponHash): boolean {
-    return !!IsWeaponValid(hash);
+    return IsWeaponValid(hash);
   }
 
   /**

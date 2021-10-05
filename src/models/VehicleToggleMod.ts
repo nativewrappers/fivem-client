@@ -19,7 +19,7 @@ export class VehicleToggleMod {
   }
 
   public get IsInstalled(): boolean {
-    return !!IsToggleModOn(this._owner.Handle, this.ModType);
+    return IsToggleModOn(this._owner.Handle, this.ModType);
   }
 
   public set IsInstalled(value: boolean) {

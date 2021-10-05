@@ -40,7 +40,7 @@ export abstract class ParticleEffect {
    * Get whether particle effect is currently active.
    */
   public get IsActive(): boolean {
-    return this.Handle !== -1 && !!DoesParticleFxLoopedExist(this.Handle);
+    return this.Handle !== -1 && DoesParticleFxLoopedExist(this.Handle);
   }
 
   public abstract start(): boolean;
