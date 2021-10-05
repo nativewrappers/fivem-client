@@ -112,6 +112,10 @@ export class Vector3 implements Vec3 {
     return Vector3.divide(this, v);
   }
 
+  public toArray(): [number, number, number] {
+    return [this.x, this.y, this.z];
+  }
+
   public replace(v: Vec3): void {
     this.x = v.x;
     this.y = v.y;
