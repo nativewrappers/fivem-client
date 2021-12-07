@@ -786,6 +786,19 @@ export abstract class World {
   }
 
   /**
+   * Gets the closest object of this model
+   */
+
+  public static getClosestObject(model: Model, coords: Vector3, radius = 25.0, isMission = false): Prop | null {
+    const prop = GetClosestObjectOfType(coords.x, coords.y, coords.z, radius, model.Hash, isMission, false, false);
+    if (prop !== 0) {
+      return new Prop(prop);
+    }
+    return null;
+  }
+  
+
+  /**
    * Get all [[`Prop`]] entities in your own scope.
    *
    * We recommend using [[getAllPropsInGamePool]] instead.
