@@ -365,7 +365,15 @@ export class Entity {
     return new Vector3(o[0], o[1], o[2]);
   }
 
-  public attachTo(entity: Entity, position: Vector3, rotation: Vector3, collisions = false): void {
+  public attachTo(
+    entity: Entity,
+    position: Vector3,
+    rotation: Vector3,
+    collisions = false,
+    unk9 = true,
+    useSoftPinning = true,
+    rotationOrder = 1
+  ): void {
     if(this.handle == entity.Handle) {
       throw new Error("You cannot attach an entity to the same entity this will result in a crash!")
     }
@@ -379,11 +387,11 @@ export class Entity {
       rotation.x,
       rotation.y,
       rotation.z,
-      false,
-      false,
+      unk9,
+      useSoftPinning,
       collisions,
-      false,
-      2,
+      IsEntityAPed(entity.Handle),
+      rotationOrder,
       true,
     );
   }
@@ -393,6 +401,9 @@ export class Entity {
     position: Vector3,
     rotation: Vector3,
     collisions = false,
+    unk9 = true,
+    useSoftPinning = true,
+    rotationOrder = 1
   ): void {
     if(this.handle == entityBone.Owner.Handle) {
       throw new Error("You cannot attach an entity to the same entity this will result in a crash!")
@@ -407,11 +418,11 @@ export class Entity {
       rotation.x,
       rotation.y,
       rotation.z,
-      false,
-      false,
+      unk9,
+      useSoftPinning,
       collisions,
       IsEntityAPed(entityBone.Owner.Handle),
-      2,
+      rotationOrder,
       true,
     );
   }
