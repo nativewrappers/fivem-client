@@ -366,6 +366,9 @@ export class Entity {
   }
 
   public attachTo(entity: Entity, position: Vector3, rotation: Vector3, collisions = false): void {
+    if(this.handle == entity.Handle) {
+      throw new Error("You cannot attach an entity to the same entity this will result in a crash!")
+    }
     AttachEntityToEntity(
       this.handle,
       entity.Handle,
@@ -391,10 +394,13 @@ export class Entity {
     rotation: Vector3,
     collisions = false,
   ): void {
+    if(this.handle == entityBone.Owner.Handle) {
+      throw new Error("You cannot attach an entity to the same entity this will result in a crash!")
+    }
     AttachEntityToEntity(
       this.handle,
       entityBone.Owner.Handle,
-      -1,
+      entityBone.Index,
       position.x,
       position.y,
       position.z,
@@ -404,7 +410,7 @@ export class Entity {
       false,
       false,
       collisions,
-      false,
+      IsEntityAPed(entityBone.Owner.Handle),
       2,
       true,
     );
