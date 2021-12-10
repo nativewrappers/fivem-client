@@ -449,7 +449,7 @@ export class Ped extends Entity {
   }
 
   public get Task(): Tasks | undefined {
-    if (this.tasks === null) {
+    if (!this.tasks) {
       this.tasks = new Tasks(this);
     }
 
@@ -677,7 +677,7 @@ export class Ped extends Entity {
   }
 
   public exists(ped?: Ped): boolean {
-    if (ped === null) {
+    if (!ped) {
       return super.exists() && GetEntityType(this.handle) === 1;
     }
 

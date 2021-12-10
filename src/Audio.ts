@@ -43,7 +43,7 @@ export abstract class Audio {
   }
 
   public static playMusic(musicFile: string): void {
-    if (this.cachedMusicFile !== null) {
+    if (!this.cachedMusicFile) {
       CancelMusicEvent(musicFile);
     }
     this.cachedMusicFile = musicFile;
@@ -51,8 +51,8 @@ export abstract class Audio {
   }
 
   public static stopMusic(musicFile?: string): void {
-    if (musicFile === null) {
-      if (this.cachedMusicFile !== null) {
+    if (!musicFile) {
+      if (!this.cachedMusicFile) {
         CancelMusicEvent(this.cachedMusicFile);
         this.cachedMusicFile = '';
       }

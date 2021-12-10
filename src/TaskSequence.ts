@@ -2,7 +2,7 @@ import { Ped } from './models/Ped';
 import { Tasks } from './Tasks';
 
 export class TaskSequence {
-  private static nullPed: Ped | null = null;
+  private static nullPed: Ped;
   private handle = 0;
   private isClosed: boolean;
   private count: number;
@@ -10,7 +10,7 @@ export class TaskSequence {
   constructor(handle?: number) {
     handle === undefined ? this.create() : (this.handle = handle);
 
-    if (TaskSequence.nullPed === null) {
+    if (!TaskSequence.nullPed) {
       TaskSequence.nullPed = new Ped(0);
     }
 
