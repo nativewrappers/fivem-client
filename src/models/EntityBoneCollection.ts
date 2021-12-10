@@ -14,6 +14,10 @@ export class EntityBoneCollection {
     return GetEntityBoneIndexByName(this.owner.Handle, name) !== -1;
   }
 
+  public getBone(boneIndex?: number, boneName?: string) {
+      return new EntityBone(this.owner, boneIndex ? boneIndex : GetEntityBoneIndexByName(this.owner.Handle, boneName ?? ''))
+  }
+
   public get Core(): EntityBone {
     return new EntityBone(this.owner, -1);
   }
