@@ -17,4 +17,8 @@ export class PedBoneCollection extends EntityBoneCollection {
   public clearLastDamaged(): void {
     ClearPedLastDamageBone(this.owner.Handle);
   }
+
+  public getBone(boneIndex?: number, boneName?: string): PedBone {
+    return new PedBone(this.owner as Ped, boneIndex ? boneIndex : GetEntityBoneIndexByName(this.owner.Handle, boneName ?? ''))
+  }
 }

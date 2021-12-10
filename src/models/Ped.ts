@@ -587,8 +587,8 @@ export class Ped extends Entity {
     ClearPedLastWeaponDamage(this.handle);
   }
 
-  public get Bones(): PedBoneCollection | undefined {
-    if (this.pedBones === null) {
+  public get Bones(): PedBoneCollection {
+    if (!this.pedBones) {
       this.pedBones = new PedBoneCollection(this);
     }
 

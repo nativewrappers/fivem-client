@@ -237,7 +237,7 @@ export class Entity {
     SetEntityRecordsCollisions(this.handle, value);
   }
 
-  public get Bones(): EntityBoneCollection | undefined {
+  public get Bones(): EntityBoneCollection {
     if (!this.bones) {
       this.bones = new EntityBoneCollection(this);
     }
@@ -399,11 +399,11 @@ export class Entity {
   /* 
     * Attaches an entity to another entity via a bone
     * @example
-    * ```
+    * ```typescript
     * const ply = Game.PlayerPed;
     * const bag = await World.createProp(new Model('ba_prop_battle_bag_01b'), ply.Position, true, true, true);
     * bag.attachToBone(
-    *     new EntityBone(ply, ply.Bones.getBone(64113)),
+    *     ply.Bones.getBone(64113),
     *     new Vector3(0.12, -0.25, 0.0),
     *     new Vector3(105.0, 50.0, 190.0)
     * )
