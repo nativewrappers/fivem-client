@@ -449,7 +449,11 @@ export class Ped extends Entity {
   }
 
   public set IsDrunk(isDrunk: boolean) {
-    SetPedIsDrunk(this.Handle, isDrunk);
+    SetPedIsDrunk(this.handle, isDrunk);
+  }
+
+  public set MotionBlur(value: boolean) {
+    SetPedMotionBlur(this.handle, value);
   }
 
   public get Task(): Tasks | undefined {
