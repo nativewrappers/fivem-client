@@ -448,6 +448,10 @@ export class Ped extends Entity {
     SetDriveTaskDrivingStyle(this.handle, Number(style));
   }
 
+  public set IsDrunk(isDrunk: boolean) {
+    SetPedIsDrunk(this.Handle, isDrunk);
+  }
+
   public get Task(): Tasks | undefined {
     if (!this.tasks) {
       this.tasks = new Tasks(this);
