@@ -19,6 +19,9 @@ export class PedBoneCollection extends EntityBoneCollection {
   }
 
   public getBone(boneIndex?: number, boneName?: string): PedBone {
-    return new PedBone(this.owner as Ped, boneIndex ? boneIndex : GetEntityBoneIndexByName(this.owner.Handle, boneName ?? ''))
+    return new PedBone(
+      this.owner as Ped,
+      boneIndex ? boneIndex : GetEntityBoneIndexByName(this.owner.Handle, boneName ?? ''),
+    );
   }
 }

@@ -372,10 +372,12 @@ export class Entity {
     collisions = false,
     unk9 = true,
     useSoftPinning = true,
-    rotationOrder = 1
+    rotationOrder = 1,
   ): void {
-    if(this.handle == entity.Handle) {
-      throw new Error("You cannot attach an entity to the same entity this will result in a crash!")
+    if (this.handle == entity.Handle) {
+      throw new Error(
+        'You cannot attach an entity to the same entity this will result in a crash!',
+      );
     }
     AttachEntityToEntity(
       this.handle,
@@ -396,19 +398,19 @@ export class Entity {
     );
   }
 
-  /* 
-    * Attaches an entity to another entity via a bone
-    * @example
-    * ```typescript
-    * const ply = Game.PlayerPed;
-    * const bag = await World.createProp(new Model('ba_prop_battle_bag_01b'), ply.Position, true, true, true);
-    * bag.attachToBone(
-    *     ply.Bones.getBone(64113),
-    *     new Vector3(0.12, -0.25, 0.0),
-    *     new Vector3(105.0, 50.0, 190.0)
-    * )
-    * ```
-  */
+  /*
+   * Attaches an entity to another entity via a bone
+   * @example
+   * ```typescript
+   * const ply = Game.PlayerPed;
+   * const bag = await World.createProp(new Model('ba_prop_battle_bag_01b'), ply.Position, true, true, true);
+   * bag.attachToBone(
+   *     ply.Bones.getBone(64113),
+   *     new Vector3(0.12, -0.25, 0.0),
+   *     new Vector3(105.0, 50.0, 190.0)
+   * )
+   * ```
+   */
   public attachToBone(
     entityBone: EntityBone,
     position: Vector3,
@@ -416,10 +418,12 @@ export class Entity {
     collisions = false,
     unk9 = true,
     useSoftPinning = true,
-    rotationOrder = 1
+    rotationOrder = 1,
   ): void {
-    if(this.handle == entityBone.Owner.Handle) {
-      throw new Error("You cannot attach an entity to the same entity this will result in a crash!")
+    if (this.handle == entityBone.Owner.Handle) {
+      throw new Error(
+        'You cannot attach an entity to the same entity this will result in a crash!',
+      );
     }
     AttachEntityToEntity(
       this.handle,

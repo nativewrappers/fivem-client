@@ -158,7 +158,7 @@ export class Rope {
    * @returns Whether the rope exists or not.
    */
   public exists(): boolean {
-    const [exists] = DoesRopeExist(this.handle)
+    const [exists] = DoesRopeExist(this.handle);
     return exists;
   }
 }

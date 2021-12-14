@@ -221,13 +221,21 @@ export class Model {
    */
 
   public getClosestObject(coords: Vector3, radius = 25.0, isMission = false): Prop | null {
-    const prop = GetClosestObjectOfType(coords.x, coords.y, coords.z, radius, this.Hash, isMission, false, false);
+    const prop = GetClosestObjectOfType(
+      coords.x,
+      coords.y,
+      coords.z,
+      radius,
+      this.Hash,
+      isMission,
+      false,
+      false,
+    );
     if (prop !== 0) {
       return new Prop(prop);
     }
     return null;
   }
-
 
   /**
    * Sets the model as no longer needed allowing the game engine to free memory.

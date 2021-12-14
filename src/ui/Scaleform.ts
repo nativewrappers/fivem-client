@@ -130,8 +130,15 @@ export class Scaleform {
    * @param param4
    * @param param5
    */
-  public callStringMethod(name: string, param1 = "", param2 = "", param3 = "", param4 = "", param5 = ""): void {
-    CallScaleformMovieMethodWithString(this.handle, name, param1, param2, param3, param4, param5)
+  public callStringMethod(
+    name: string,
+    param1 = '',
+    param2 = '',
+    param3 = '',
+    param4 = '',
+    param5 = '',
+  ): void {
+    CallScaleformMovieMethodWithString(this.handle, name, param1, param2, param3, param4, param5);
   }
 
   /**
@@ -144,8 +151,15 @@ export class Scaleform {
    * @param param4
    * @param param5
    */
-  public callNumberMethod(name: string, param1 = -1.0, param2 = -1.0, param3 = -1.0, param4 = -1.0, param5 = -1.0): void {
-    CallScaleformMovieMethodWithNumber(this.handle, name, param1, param2, param3, param4, param5)
+  public callNumberMethod(
+    name: string,
+    param1 = -1.0,
+    param2 = -1.0,
+    param3 = -1.0,
+    param4 = -1.0,
+    param5 = -1.0,
+  ): void {
+    CallScaleformMovieMethodWithNumber(this.handle, name, param1, param2, param3, param4, param5);
   }
 
   /**
@@ -163,9 +177,33 @@ export class Scaleform {
    * @param sParam4
    * @param sParam5
    */
-  public callSharedMethod(name: string, fParam1 = -1.0, fParam2 = -1.0, fParam3 = -1.0, fParam4 = -1.0, fParam5 = -1.0,
-                        sParam1 = "", sParam2 = "", sParam3 = "", sParam4 = "", sParam5 = ""): void {
-    CallScaleformMovieMethodWithNumberAndString(this.handle, name, fParam1, fParam2, fParam3, fParam4, fParam5, sParam1, sParam2, sParam3, sParam4, sParam5);
+  public callSharedMethod(
+    name: string,
+    fParam1 = -1.0,
+    fParam2 = -1.0,
+    fParam3 = -1.0,
+    fParam4 = -1.0,
+    fParam5 = -1.0,
+    sParam1 = '',
+    sParam2 = '',
+    sParam3 = '',
+    sParam4 = '',
+    sParam5 = '',
+  ): void {
+    CallScaleformMovieMethodWithNumberAndString(
+      this.handle,
+      name,
+      fParam1,
+      fParam2,
+      fParam3,
+      fParam4,
+      fParam5,
+      sParam1,
+      sParam2,
+      sParam3,
+      sParam4,
+      sParam5,
+    );
   }
 
   /**
