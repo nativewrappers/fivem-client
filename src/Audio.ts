@@ -3,19 +3,22 @@ import { Entity } from './models';
 import { Vector3 } from './utils';
 
 export abstract class Audio {
-  public static playSoundAt(position: Vector3, sound: string, set?: string): number {
-    PlaySoundFromCoord(-1, sound, position.x, position.y, position.z, set ?? '', false, 0, false);
-    return GetSoundId();
+  public static playSoundAt(position: Vector3, sound: string, set?: string, generateSoundId: boolean = true): number {
+    const SOUND_ID = generateSoundId ? GetSoundId() : -1;
+    PlaySoundFromCoord(SOUND_ID, sound, position.x, position.y, position.z, set ?? '', false, 0, false);
+    return SOUND_ID;
   }
 
-  public static playSoundFromEntity(entity: Entity, sound: string, set?: string): number {
-    PlaySoundFromEntity(-1, sound, entity.Handle, set ?? '', false, 0);
-    return GetSoundId();
+  public static playSoundFromEntity(entity: Entity, sound: string, set?: string, generateSoundId: boolean = true): number {
+    const SOUND_ID = generateSoundId ? GetSoundId() : -1;
+    PlaySoundFromEntity(SOUND_ID, sound, entity.Handle, set ?? '', false, 0);
+    return SOUND_ID;
   }
 
-  public static playSoundFrontEnd(sound: string, set?: string): number {
-    PlaySoundFrontend(-1, sound, set ?? '', false);
-    return GetSoundId();
+  public static playSoundFrontEnd(sound: string, set?: string, generateSoundId: boolean = true): number {
+    const SOUND_ID = generateSoundId ? GetSoundId() : -1;
+    PlaySoundFrontend(SOUND_ID, sound, set ?? '', false);
+    return SOUND_ID;
   }
 
   public static stopSound(soundId: number): void {
