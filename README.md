@@ -7,14 +7,14 @@
   <a href="https://github.com/AvarianKnight/native-wrappers-client/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat" alt="License: MIT">
   </a>
-  <a href="https://www.npmjs.com/package/native-wrappers-client">
-    <img src="https://img.shields.io/npm/v/fivem-js?style=flat" alt="npm version">
+  <a href="https://www.npmjs.com/package/@nativewrappers/client">
+    <img src="https://img.shields.io/npm/v/@nativewrappers/client?style=flat" alt="npm version">
   </a>
-  <a href="https://www.npmjs.com/package/native-wrappers-client">
-    <img src="https://img.shields.io/npm/dm/native-wrappers-client?style=flat">
+  <a href="https://www.npmjs.com/package/@nativewrappers/client">
+    <img src="https://img.shields.io/npm/dm/@nativewrappers/client?style=flat">
   </a>
-  <a href="https://circleci.com/gh/AvarianKnight/native-wrappers-client">
-    <img src="https://img.shields.io/circleci/build/github/AvarianKnight/native-wrappers-client" alt="Build Status">
+  <a href="https://circleci.com/gh/AvarianKnight/@nativewrappers/client">
+    <img src="https://img.shields.io/circleci/build/github/AvarianKnight/@nativewrappers/client" alt="Build Status">
   </a>
   <a href="https://github.com/AvarianKnight/native-wrappers-client/commits/master">
     <img src="https://img.shields.io/github/last-commit/AvarianKnight/native-wrappers-client.svg?style=flat" alt="Last commit">
