@@ -14,7 +14,7 @@
     <img src="https://img.shields.io/npm/dm/@nativewrappers/client?style=flat">
   </a>
   <a href="https://circleci.com/gh/AvarianKnight/@nativewrappers/client">
-    <img src="https://img.shields.io/circleci/build/github/AvarianKnight/@nativewrappers/client" alt="Build Status">
+    <img src="https://img.shields.io/circleci/build/github/AvarianKnight/native-wrappers-client" alt="Build Status">
   </a>
   <a href="https://github.com/AvarianKnight/native-wrappers-client/commits/master">
     <img src="https://img.shields.io/github/last-commit/AvarianKnight/native-wrappers-client.svg?style=flat" alt="Last commit">
