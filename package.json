@@ -40,15 +40,15 @@
   },
   "homepage": "https://fivemjs.avarian.dev/",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.24.0",
-    "@typescript-eslint/parser": "^4.24.0",
-    "eslint": "^7.26.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.0",
-    "typedoc": "^0.22.5",
+    "eslint-plugin-prettier": "^3.4.1",
+    "prettier": "^2.5.1",
+    "typedoc": "^0.22.10",
     "typedoc-fivemjs-theme": "^0.2.7",
-    "typescript": "^4.2.4"
+    "typescript": "^4.5.4"
   },
   "directories": {
     "doc": "docs",

@@ -13,6 +13,28 @@ export class Vector3 implements Vec3 {
     return new Vector3(v1.x, v1.y, v1.z);
   }
 
+  /**
+   * Creates a vector from an array of numbers
+   * @param primitive An array of numbers (usually returned by a native)
+   * @example ```ts
+   * const entityPos = Vector3.fromArray(GetEntityCoords(entity))
+   * ```
+   */
+  public static fromArray(primitive: [number, number, number] | number[]): Vector3 {
+    return new Vector3(primitive[0], primitive[1], primitive[2]);
+  }
+
+  /**
+   * Creates an array of vectors from an array number arrays
+   * @param primitives A multi-dimensional array of number arrays
+   * @example ```ts
+   * const [forward, right, up, position] = Vector3.fromArrays(GetEntityMatrix(entity))
+   * ```
+   */
+  public static fromArrays(primitives: [number, number, number][] | number[][]): Vector3[] {
+    return primitives.map(prim => new Vector3(prim[0], prim[1], prim[2]));
+  }
+
   public static clone(v1: Vec3): Vector3 {
     return Vector3.create(v1);
   }
