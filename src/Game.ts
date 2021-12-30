@@ -1,3 +1,4 @@
+import { Vector3 } from '.';
 import { Audio } from './Audio';
 import { Control, InputMode, Language, RadioStation } from './enums';
 import { Ped, Player, Prop, Vehicle } from './models';
@@ -83,8 +84,12 @@ export abstract class Game {
    * Get an iterable list of players currently on server.
    * @returns Iterable list of Player objects.
    */
-  public static *playerList(): IterableIterator<Player> {
+  public static *playerList(excludeLocalPlayer = false): IterableIterator<Player> {
+    const localPlayer = this.Player;
     for (const id of GetActivePlayers() as number[]) {
+      if (excludeLocalPlayer && localPlayer.Handle === id) {
+        continue;
+      }
       yield new Player(id);
     }
   }
@@ -447,6 +452,19 @@ export abstract class Game {
    */
   public static getGXTEntry(entry: number | string): string {
     return Game.doesGXTEntryExist(entry) ? GetLabelText(entry.toString()) : '';
+  }
+
+  /**
+   * Sets the max boundry the local player can go to before they get killed
+   *
+   * @param vec - the max bounds for the local player
+   */
+  public set ExtendWorldBoundry(vec: Vector3) {
+    ExtendWorldBoundaryForPlayer(vec.x, vec.y, vec.z);
+  }
+
+  public get LastVehicle(): Vehicle | null {
+    return new Vehicle(GetPlayersLastVehicle());
   }
 
   protected static cachedPlayer: Player;
