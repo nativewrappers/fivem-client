@@ -456,7 +456,7 @@ export abstract class Game {
 
   /**
    * Sets the max boundry the local player can go to before they get killed
-   * 
+   *
    * @param vec - the max bounds for the local player
    */
   public set ExtendWorldBoundry(vec: Vector3) {
