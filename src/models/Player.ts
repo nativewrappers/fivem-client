@@ -1,4 +1,4 @@
-import { Prop, Vector3, Vehicle, Entity, Model, Color } from '..';
+import { Prop, Vehicle, Entity, Model, Color } from '..';
 import { Ped } from './';
 
 export class Player {
@@ -69,7 +69,7 @@ export class Player {
   // }
 
   public get EntityPlayerIsAimingAt(): Ped | Vehicle | Prop | null {
-    const [entityHit, entity] = GetEntityPlayerIsFreeAimingAt(this.handle)
+    const [entityHit, entity] = GetEntityPlayerIsFreeAimingAt(this.handle);
     if (entityHit) {
       return Entity.fromHandle(entity);
     }
