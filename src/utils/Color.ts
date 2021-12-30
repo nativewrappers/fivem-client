@@ -13,6 +13,10 @@ export class Color {
     return new Color(255, r, g, b);
   }
 
+  public static fromArray(primitive: [number, number, number] | number[]): Color {
+    return new Color(255, primitive[0], primitive[1], primitive[2]);
+  }
+
   public a: number;
   public r: number;
   public g: number;

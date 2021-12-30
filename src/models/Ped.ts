@@ -1,4 +1,4 @@
-import { Vector3 } from '../';
+import { Player, Vector3 } from '../';
 import {
   DrivingStyle,
   FiringPattern,
@@ -65,6 +65,10 @@ export class Ped extends Entity {
 
   constructor(handle: number) {
     super(handle);
+  }
+
+  public get Player(): Player {
+    return new Player(NetworkGetPlayerIndexFromPed(this.handle));
   }
 
   public get Money(): number {
