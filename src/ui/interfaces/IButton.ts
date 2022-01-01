@@ -1,6 +1,6 @@
 import { Control } from '../../enums';
 
 export interface IButton {
-  control: Control;
+  controls: Control[];
   label: string;
 }
