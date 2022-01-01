@@ -165,4 +165,7 @@ export class Player {
   public CanPedHearPlayer(ped: Ped): boolean {
     return CanPedHearPlayer(this.handle, ped.Handle);
   }
+
+  // lint test
+     
 }
