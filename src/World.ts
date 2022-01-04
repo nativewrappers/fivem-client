@@ -819,43 +819,21 @@ export abstract class World {
    * @returns Array of Props.
    */
   public static getAllProps(): Prop[] {
-    const props: Prop[] = [];
-
-    const [handle, entityHandle] = FindFirstObject(0) as unknown as [number, number];
-    let prop: Prop = Entity.fromHandle(entityHandle) as Prop;
-
-    if (prop !== undefined && prop !== null && prop.exists()) {
-      props.push(prop);
-    }
-
-    let findResult: [number | boolean, number] = [false, 0];
-
-    do {
-      findResult = FindNextObject(handle, 0) as unknown as [number | boolean, number];
-      if (findResult[0]) {
-        prop = Entity.fromHandle(findResult[1]) as Prop;
-        if (prop !== undefined && prop !== null && prop.exists()) {
-          props.push(prop);
-        }
-      }
-    } while (findResult[0]);
-
-    EndFindObject(handle);
-
-    return props;
-  }
-
-  /**
-   * Get all [[`Prop`]] entities using the GetGamePool.
-   * @returns Array of Props.
-   */
-  public static getAllPropsInGamePool(): Prop[] {
     const handles: number[] = GetGamePool('CObject');
     const props: Prop[] = [];
 
     handles.forEach(handle => props.push(new Prop(handle)));
 
     return props;
+  }
+
+  /**
+   * Get all [[`Prop`]] entities using the GetGamePool.
+   * @deprecated Use [[getAllProps]] instead.
+   * @returns Array of Props.
+   */
+  public static getAllPropsInGamePool(): Prop[] {
+    return this.getAllProps();
   }
 
   /**
@@ -866,43 +844,21 @@ export abstract class World {
    * @returns Array of Peds.
    */
   public static getAllPeds(): Ped[] {
-    const peds: Ped[] = [];
-
-    const [handle, entityHandle] = FindFirstPed(0) as unknown as [number, number];
-    let ped: Ped = Entity.fromHandle(entityHandle) as Ped;
-
-    if (ped !== undefined && ped !== null && ped.exists()) {
-      peds.push(ped);
-    }
-
-    let findResult: [number | boolean, number] = [false, 0];
-
-    do {
-      findResult = FindNextPed(handle, 0) as unknown as [number | boolean, number];
-      if (findResult[0]) {
-        ped = Entity.fromHandle(findResult[1]) as Ped;
-        if (ped !== undefined && ped !== null && ped.exists()) {
-          peds.push(ped);
-        }
-      }
-    } while (findResult[0]);
-
-    EndFindPed(handle);
-
-    return peds;
-  }
-
-  /**
-   * Get all [[`Ped`]] entities using the GetGamePool.
-   * @returns Array of Peds.
-   */
-  public static getAllPedsInGamePool(): Ped[] {
     const handles: number[] = GetGamePool('CPed');
     const peds: Ped[] = [];
 
     handles.forEach(handle => peds.push(new Ped(handle)));
 
     return peds;
+  }
+
+  /**
+   * Get all [[`Ped`]] entities using the GetGamePool.
+   * @deprecated Use [[getAllPeds]] instead
+   * @returns Array of Peds.
+   */
+  public static getAllPedsInGamePool(): Ped[] {
+    return this.getAllPeds();
   }
 
   /**
