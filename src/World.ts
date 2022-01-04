@@ -913,43 +913,45 @@ export abstract class World {
    * @returns Array of Vehicles.
    */
   public static getAllVehicles(): Vehicle[] {
-    const vehicles: Vehicle[] = [];
-
-    const [handle, entityHandle] = FindFirstVehicle(0) as unknown as [number, number];
-    let vehicle: Vehicle = Entity.fromHandle(entityHandle) as Vehicle;
-
-    if (vehicle !== undefined && vehicle !== null && vehicle.exists()) {
-      vehicles.push(vehicle);
-    }
-
-    let findResult: [number | boolean, number] = [false, 0];
-
-    do {
-      findResult = FindNextVehicle(handle, 0) as unknown as [number | boolean, number];
-      if (findResult[0]) {
-        vehicle = Entity.fromHandle(findResult[1]) as Vehicle;
-        if (vehicle !== undefined && vehicle !== null && vehicle.exists()) {
-          vehicles.push(vehicle);
-        }
-      }
-    } while (findResult[0]);
-
-    EndFindVehicle(handle);
-
-    return vehicles;
-  }
-
-  /**
-   * Get all [[`Vehicle`]] entities using the GetGamePool.
-   * @returns Array of Vehicles.
-   */
-  public static getAllVehiclesInGamePool(): Vehicle[] {
     const handles: number[] = GetGamePool('CVehicle');
     const vehicles: Vehicle[] = [];
 
     handles.forEach(handle => vehicles.push(new Vehicle(handle)));
 
     return vehicles;
+  }
+
+  /**
+   * Get all [[`Vehicle`]] entities using the GetGamePool.
+   * @deprecated Use [[getAllVehicles]] instead
+   * @returns Array of Vehicles.
+   */
+  public static getAllVehiclesInGamePool(): Vehicle[] {
+    return this.getAllVehicles();
+  }
+
+  /**
+   * Gets the cloest [[`Vehicle`]] to the current coords, or null if none are found
+   * @returns the closest vehicle or null
+   */
+  public static getClosestVehicle(coords: Vector3): Vehicle | null {
+    const vehicles = this.getAllVehicles();
+    let currentVeh: Vehicle | null = null;
+    let lastDistance = 9999.0;
+    for (const vehicle of vehicles) {
+      if (!currentVeh) {
+        currentVeh = vehicle;
+        lastDistance = coords.distance(vehicle.Position);
+        continue;
+      }
+      const distance = coords.distance(vehicle.Position);
+      if (distance < lastDistance) {
+        currentVeh = vehicle;
+        lastDistance = distance;
+      }
+    }
+
+    return currentVeh;
   }
 
   /**
