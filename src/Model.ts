@@ -1,4 +1,3 @@
-import { Prop } from '.';
 import { Game } from './Game';
 import { VehicleHash } from './hashes';
 import { Vector3 } from './utils';
