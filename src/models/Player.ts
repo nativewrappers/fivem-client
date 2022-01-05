@@ -45,6 +45,10 @@ export class Player {
     return this.ped;
   }
 
+  public get ServerId(): number {
+    return GetPlayerServerId(this.handle);
+  }
+
   public get Name(): string {
     return GetPlayerName(this.handle);
   }

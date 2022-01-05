@@ -13,7 +13,6 @@ export class RelationshipGroup {
    * Create a relationship group. Optionally pass a group hash.
    *
    * @param name Name of the relationship group.
-   * @param groupHash Optional custom group hash (default: 0).
    */
   constructor(name: string) {
     const [, groupHash] = AddRelationshipGroup(name);
