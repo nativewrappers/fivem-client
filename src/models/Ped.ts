@@ -695,4 +695,235 @@ export class Ped extends Entity {
 
     return ped?.exists() ?? false;
   }
+
+  public setComponentVariation(
+    componentId: number,
+    drawableId: number,
+    textureId: number,
+    paletteId = 0,
+  ): void {
+    SetPedComponentVariation(this.handle, componentId, drawableId, textureId, paletteId);
+  }
+
+  public setRandomComponentVariation(): void {
+    SetPedRandomComponentVariation(this.handle, 0);
+  }
+
+  public setDefaultComponentVariation(): void {
+    SetPedDefaultComponentVariation(this.handle);
+  }
+
+  public getDrawableVariation(componentId: number): number {
+    return GetPedDrawableVariation(this.handle, componentId);
+  }
+
+  public getNumberOfDrawableVariations(componentId: number): number {
+    return GetNumberOfPedDrawableVariations(this.handle, componentId);
+  }
+
+  public getTextureVariation(componentId: number): number {
+    return GetPedTextureVariation(this.handle, componentId);
+  }
+
+  public getNumberTextureVariations(
+    componentId: number,
+    drawableId = this.getDrawableVariation(componentId),
+  ): number {
+    return GetNumberOfPedTextureVariations(this.handle, componentId, drawableId);
+  }
+
+  public setRandomProps(): void {
+    SetPedRandomProps(this.handle);
+  }
+
+  public setPropIndex(propId: number, drawableId: number, textureId: number, attach = true): void {
+    SetPedPropIndex(this.handle, propId, drawableId, textureId, attach);
+  }
+
+  public clearProp(propId: number): void {
+    ClearPedProp(this.handle, propId);
+  }
+
+  public clearAllProps(): void {
+    ClearAllPedProps(this.handle);
+  }
+
+  public knockPropOff(p1: boolean, p2: boolean, p3: boolean, p4: boolean): void {
+    KnockOffPedProp(this.handle, p1, p2, p3, p4);
+  }
+
+  public isPropValid(propId: number, drawableId: number, textureId: number): boolean {
+    return SetPedPreloadPropData(this.handle, propId, drawableId, textureId);
+  }
+
+  public getPropIndex(propId: number): number {
+    return GetPedPropIndex(this.handle, propId);
+  }
+
+  public getNumberOfPropDrawableVariations(propId: number): number {
+    return GetNumberOfPedPropDrawableVariations(this.handle, propId);
+  }
+
+  public getNumberOfPropTextureVariations(
+    propId: number,
+    drawableId = this.getPropIndex(propId),
+  ): number {
+    return GetNumberOfPedPropTextureVariations(this.handle, propId, drawableId);
+  }
+
+  public getPropTextureIndex(propId: number): number {
+    return GetPedPropTextureIndex(this.handle, propId);
+  }
+
+  public setHelmetPropIndex(propIndex: number): void {
+    SetPedHelmetPropIndex(this.handle, propIndex);
+  }
+
+  public setEyeColor(color: number): void {
+    SetPedEyeColor(this.handle, color);
+  }
+
+  public getEyeColor(): number {
+    return GetPedEyeColor(this.handle);
+  }
+
+  public setHairColors(primary: number, highlight: number): void {
+    SetPedHairColor(this.handle, primary, highlight);
+  }
+
+  public setHairColor(color: number): void {
+    this.setHairColors(color, this.getHairHighlightColor());
+  }
+
+  public getHairColor(): number {
+    return GetPedHairColor(this.handle);
+  }
+
+  public setHairHighlightColor(color: number): void {
+    this.setHairColors(this.getHairColor(), color);
+  }
+
+  public getHairHighlightColor(): number {
+    return GetPedHairHighlightColor(this.handle);
+  }
+
+  public getHeadOverlayNum(overlayId: number): number {
+    return GetPedHeadOverlayNum(overlayId);
+  }
+
+  public getHeadOverlayValue(overlayId: number): number {
+    return GetPedHeadOverlayValue(this.handle, overlayId);
+  }
+
+  public setHeadOverlayValue(overlayId: number, value: number): void {
+    const opacity = GetPedHeadOverlayData(this.handle, overlayId)[5];
+    this.setHeadOverlay(overlayId, value, opacity);
+  }
+
+  public getHeadOverlay(overlayId: number): [number, number, number, number, number] | void {
+    const [ret, overlayValue, colourType, firstColour, secondColour, overlayOpacity] =
+      GetPedHeadOverlayData(this.handle, overlayId);
+    if (!ret) {
+      return undefined;
+    }
+    return [overlayValue, colourType, firstColour, secondColour, overlayOpacity];
+  }
+
+  public setHeadOverlay(overlayId: number, index: number, opacity: number): void {
+    SetPedHeadOverlay(this.handle, overlayId, index, opacity);
+  }
+
+  public getHeadOverlayOpacity(overlayId: number): number {
+    return GetPedHeadOverlayData(this.handle, overlayId)[5];
+  }
+
+  public setHeadOverlayOpacity(overlayId: number, opacity: number): void {
+    this.setHeadOverlay(overlayId, this.getHeadOverlayValue(overlayId), opacity);
+  }
+
+  public setHeadOverlayColor(overlayId: number, color: number): void {
+    let colorId = 0;
+    if (overlayId === 1 || overlayId === 2 || overlayId === 10) {
+      colorId = 1;
+    } else if (overlayId === 5 || overlayId === 8) {
+      colorId = 2;
+    }
+    SetPedHeadOverlayColor(this.handle, overlayId, colorId, color, color);
+  }
+
+  public setHeadBlend(
+    shapeFirstID: number,
+    shapeSecondID: number,
+    shapeThirdID: number,
+    skinFirstID: number,
+    skinSecondID: number,
+    skinThirdID: number,
+    shapeMix: number,
+    skinMix: number,
+    thirdMix: number,
+    isParent = false,
+  ): void {
+    SetPedHeadBlendData(
+      this.handle,
+      shapeFirstID,
+      shapeSecondID,
+      shapeThirdID,
+      skinFirstID,
+      skinSecondID,
+      skinThirdID,
+      shapeMix,
+      skinMix,
+      thirdMix,
+      isParent,
+    );
+  }
+
+  public getHeadBlend():
+    | [number, number, number, number, number, number, number, number, number, boolean]
+    | void {
+    const buffer = new ArrayBuffer(80);
+
+    if (
+      !(Citizen.invokeNative(
+        '0x2746BD9D88C5C5D0',
+        this.handle,
+        new Float32Array(buffer),
+      ) as unknown)
+    ) {
+      return undefined;
+    }
+
+    const {
+      0: shapeFirstId,
+      2: shapeSecondId,
+      4: shapeThirdId,
+      6: skinFirstId,
+      8: skinSecondId,
+      10: skinThirdId,
+      18: isParent,
+    } = new Uint32Array(buffer);
+
+    const { 0: shapeMix, 2: skinMix, 4: thirdMix } = new Float32Array(buffer, 48);
+
+    return [
+      shapeFirstId,
+      shapeSecondId,
+      shapeThirdId,
+      skinFirstId,
+      skinSecondId,
+      skinThirdId,
+      shapeMix,
+      skinMix,
+      thirdMix,
+      !!isParent,
+    ];
+  }
+
+  public finalizeHeadBlend(): void {
+    FinalizeHeadBlend(this.handle);
+  }
+
+  public hasHeadBlendFinished(): boolean {
+    return HasPedHeadBlendFinished(this.handle);
+  }
 }
