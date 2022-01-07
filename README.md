@@ -13,23 +13,18 @@
   <a href="https://www.npmjs.com/package/@nativewrappers/client">
     <img src="https://img.shields.io/npm/dm/@nativewrappers/client?style=flat">
   </a>
-  <a href="https://circleci.com/gh/AvarianKnight/@nativewrappers/client">
-    <img src="https://img.shields.io/circleci/build/github/AvarianKnight/native-wrappers-client" alt="Build Status">
+  <a href="https://github.com/AvarianKnight/native-wrappers-client/actions/workflows/config.yml">
+    <img src="https://github.com/AvarianKnight/native-wrappers-client/actions/workflows/config.yml/badge.svg" alt="Workflow Status">
   </a>
   <a href="https://github.com/AvarianKnight/native-wrappers-client/commits/master">
     <img src="https://img.shields.io/github/last-commit/AvarianKnight/native-wrappers-client.svg?style=flat" alt="Last commit">
   </a>
-  <!-- <a href="https://discord.d0p3t.nl">
-    <img src="https://img.shields.io/discord/330910293934997504?label=Discord" alt="Discord">
-  </a> -->
 </p>
 
 <p align="center">
   <a href="https://fivemjs.avarian.dev/">Documentation</a>
   -
   <a href="https://forum.fivem.net/t/fivem-js-v1-3-2-javascript-typescript-wrapper-now-with-menu-class-nativeui/268640">Forum</a>
-  <!-- - -->
-  <!-- <a href="https://discord.d0p3t.nl">Discord</a> -->
 </p>
 
 This is a continuation of [fivem-js](https://github.com/d0p3t/fivem-js), who's maintainer has sadly passed away.
@@ -40,7 +35,7 @@ Functionality of this wrapper is **based on the FiveM C# wrapper** - [link](http
 
 ## Features
 
-- One dependency [@citizenfx/client](https://www.npmjs.com/package/@citizenfx/client)
+- No runtime dependencies
 - Abstracts common used FiveM practices
 - Entity management through class objects (i.e. `Vehicle` and `Ped` entities)
 - UI elements such as `scaleforms` and loading `prompts`
@@ -54,7 +49,7 @@ In other words, whatever the FiveM C# wrapper can do, this package can as well a
 
 or
 
-`npm i @nativewrappers/client"`
+`npm i @nativewrappers/client`
 
 https://www.npmjs.com/package/@nativewrappers/client
 
@@ -65,7 +60,7 @@ See [here](https://github.com/AvarianKnight/native-wrappers-client/tree/master/e
 
 ### Typescript
 
-```typescript
+```ts
 import * as Cfx from '@nativewrappers/client';
 
 RegisterCommand(
@@ -109,10 +104,6 @@ RegisterCommand(
   false,
 );
 ```
-
-## Community Chat
-
-You can join our public help Discord [here](https://discord.d0p3t.nl)
 
 ## Contributing
 
