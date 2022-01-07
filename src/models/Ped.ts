@@ -806,4 +806,48 @@ export class Ped extends Entity {
   public getHairHighlightColor(): number {
     return GetPedHairHighlightColor(this.handle);
   }
+
+  public getHeadOverlayNum(overlayId: number): number {
+    return GetPedHeadOverlayNum(overlayId);
+  }
+
+  public getHeadOverlayValue(overlayId: number): number {
+    return GetPedHeadOverlayValue(this.handle, overlayId);
+  }
+
+  public setHeadOverlayValue(overlayId: number, value: number): void {
+    const opacity = GetPedHeadOverlayData(this.handle, overlayId)[5];
+    this.setHeadOverlay(overlayId, value, opacity);
+  }
+
+  public getHeadOverlay(overlayId: number): [number, number, number, number, number] | void {
+    const [ret, overlayValue, colourType, firstColour, secondColour, overlayOpacity] =
+      GetPedHeadOverlayData(this.handle, overlayId);
+    if (!ret) {
+      return undefined;
+    }
+    return [overlayValue, colourType, firstColour, secondColour, overlayOpacity];
+  }
+
+  public setHeadOverlay(overlayId: number, index: number, opacity: number): void {
+    SetPedHeadOverlay(this.handle, overlayId, index, opacity);
+  }
+
+  public getHeadOverlayOpacity(overlayId: number): number {
+    return GetPedHeadOverlayData(this.handle, overlayId)[5];
+  }
+
+  public setHeadOverlayOpacity(overlayId: number, opacity: number): void {
+    this.setHeadOverlay(overlayId, this.getHeadOverlayValue(overlayId), opacity);
+  }
+
+  public setHeadOverlayColor(overlayId: number, color: number): void {
+    let colorId = 0;
+    if (overlayId === 1 || overlayId === 2 || overlayId === 10) {
+      colorId = 1;
+    } else if (overlayId === 5 || overlayId === 8) {
+      colorId = 2;
+    }
+    SetPedHeadOverlayColor(this.handle, overlayId, colorId, color, color);
+  }
 }
