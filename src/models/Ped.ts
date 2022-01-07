@@ -695,4 +695,87 @@ export class Ped extends Entity {
 
     return ped?.exists() ?? false;
   }
+
+  public setComponentVariation(
+    componentId: number,
+    drawableId: number,
+    textureId: number,
+    paletteId = 0,
+  ): void {
+    SetPedComponentVariation(this.handle, componentId, drawableId, textureId, paletteId);
+  }
+
+  public setRandomComponentVariation(): void {
+    SetPedRandomComponentVariation(this.handle, 0);
+  }
+
+  public setDefaultComponentVariation(): void {
+    SetPedDefaultComponentVariation(this.handle);
+  }
+
+  public getDrawableVariation(componentId: number): number {
+    return GetPedDrawableVariation(this.handle, componentId);
+  }
+
+  public getNumberOfDrawableVariations(componentId: number): number {
+    return GetNumberOfPedDrawableVariations(this.handle, componentId);
+  }
+
+  public getTextureVariation(componentId: number): number {
+    return GetPedTextureVariation(this.handle, componentId);
+  }
+
+  public getNumberTextureVariations(
+    componentId: number,
+    drawableId = this.getDrawableVariation(componentId),
+  ): number {
+    return GetNumberOfPedTextureVariations(this.handle, componentId, drawableId);
+  }
+
+  public setRandomProps(): void {
+    SetPedRandomProps(this.handle);
+  }
+
+  public setPropIndex(propId: number, drawableId: number, textureId: number, attach = true): void {
+    SetPedPropIndex(this.handle, propId, drawableId, textureId, attach);
+  }
+
+  public clearProp(propId: number): void {
+    ClearPedProp(this.handle, propId);
+  }
+
+  public clearAllProps(): void {
+    ClearAllPedProps(this.handle);
+  }
+
+  public knockPropOff(p1: boolean, p2: boolean, p3: boolean, p4: boolean): void {
+    KnockOffPedProp(this.handle, p1, p2, p3, p4);
+  }
+
+  public isPropValid(propId: number, drawableId: number, textureId: number): boolean {
+    return !!IsPedPropValid(this.handle, propId, drawableId, textureId);
+  }
+
+  public getPropIndex(propId: number): number {
+    return GetPedPropIndex(this.handle, propId);
+  }
+
+  public getNumberOfPropDrawableVariations(propId: number): number {
+    return GetNumberOfPedPropDrawableVariations(this.handle, propId);
+  }
+
+  public getNumberOfPropTextureVariations(
+    propId: number,
+    drawableId = this.getPropIndex(propId),
+  ): number {
+    return GetNumberOfPedPropTextureVariations(this.handle, propId, drawableId);
+  }
+
+  public getPropTextureIndex(propId: number): number {
+    return GetPedPropTextureIndex(this.handle, propId);
+  }
+
+  public setHelmetPropIndex(propIndex: number): void {
+    SetPedHelmetPropIndex(this.handle, propIndex);
+  }
 }
