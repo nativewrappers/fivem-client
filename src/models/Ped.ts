@@ -778,4 +778,32 @@ export class Ped extends Entity {
   public setHelmetPropIndex(propIndex: number): void {
     SetPedHelmetPropIndex(this.handle, propIndex);
   }
+
+  public setEyeColor(color: number): void {
+    SetPedEyeColor(this.handle, color);
+  }
+
+  public getEyeColor(): number {
+    return GetPedEyeColor(this.handle);
+  }
+
+  public setHairColors(primary: number, highlight: number): void {
+    SetPedHairColor(this.handle, primary, highlight);
+  }
+
+  public setHairColor(color: number): void {
+    this.setHairColors(color, this.getHairHighlightColor());
+  }
+
+  public getHairColor(): number {
+    return GetPedHairColor(this.handle);
+  }
+
+  public setHairHighlightColor(color: number): void {
+    this.setHairColors(this.getHairColor(), color);
+  }
+
+  public getHairHighlightColor(): number {
+    return GetPedHairHighlightColor(this.handle);
+  }
 }
