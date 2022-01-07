@@ -72,7 +72,7 @@ export abstract class World {
    */
   public static set CurrentDate(date: Date) {
     SetClockDate(date.getDate(), date.getMonth(), date.getFullYear());
-    SetClockTime(date.getHours(), date.getMinutes(), date.getSeconds());
+    NetworkOverrideClockTime(date.getHours(), date.getMinutes(), date.getSeconds());
   }
 
   /**
