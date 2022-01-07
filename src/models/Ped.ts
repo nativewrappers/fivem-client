@@ -850,4 +850,80 @@ export class Ped extends Entity {
     }
     SetPedHeadOverlayColor(this.handle, overlayId, colorId, color, color);
   }
+
+  public setHeadBlend(
+    shapeFirstID: number,
+    shapeSecondID: number,
+    shapeThirdID: number,
+    skinFirstID: number,
+    skinSecondID: number,
+    skinThirdID: number,
+    shapeMix: number,
+    skinMix: number,
+    thirdMix: number,
+    isParent = false,
+  ): void {
+    SetPedHeadBlendData(
+      this.handle,
+      shapeFirstID,
+      shapeSecondID,
+      shapeThirdID,
+      skinFirstID,
+      skinSecondID,
+      skinThirdID,
+      shapeMix,
+      skinMix,
+      thirdMix,
+      isParent,
+    );
+  }
+
+  public getHeadBlend():
+    | [number, number, number, number, number, number, number, number, number, boolean]
+    | void {
+    const buffer = new ArrayBuffer(80);
+
+    if (
+      !(Citizen.invokeNative(
+        '0x2746BD9D88C5C5D0',
+        this.handle,
+        new Float32Array(buffer),
+      ) as unknown)
+    ) {
+      return undefined;
+    }
+
+    const {
+      0: shapeFirstId,
+      2: shapeSecondId,
+      4: shapeThirdId,
+      6: skinFirstId,
+      8: skinSecondId,
+      10: skinThirdId,
+      18: isParent,
+    } = new Uint32Array(buffer);
+
+    const { 0: shapeMix, 2: skinMix, 4: thirdMix } = new Float32Array(buffer, 48);
+
+    return [
+      shapeFirstId,
+      shapeSecondId,
+      shapeThirdId,
+      skinFirstId,
+      skinSecondId,
+      skinThirdId,
+      shapeMix,
+      skinMix,
+      thirdMix,
+      !!isParent,
+    ];
+  }
+
+  public finalizeHeadBlend(): void {
+    FinalizeHeadBlend(this.handle);
+  }
+
+  public hasHeadBlendFinished(): boolean {
+    return !!HasPedHeadBlendFinished(this.handle);
+  }
 }
