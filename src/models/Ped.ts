@@ -753,7 +753,7 @@ export class Ped extends Entity {
   }
 
   public isPropValid(propId: number, drawableId: number, textureId: number): boolean {
-    return !!IsPedPropValid(this.handle, propId, drawableId, textureId);
+    return SetPedPreloadPropData(this.handle, propId, drawableId, textureId);
   }
 
   public getPropIndex(propId: number): number {
@@ -924,6 +924,6 @@ export class Ped extends Entity {
   }
 
   public hasHeadBlendFinished(): boolean {
-    return !!HasPedHeadBlendFinished(this.handle);
+    return HasPedHeadBlendFinished(this.handle);
   }
 }
