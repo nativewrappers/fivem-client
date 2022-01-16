@@ -57,7 +57,7 @@ export class Weapon {
   }
 
   /**
-   * Check ped owns weapon
+   * Check if the ped has the current weapon.
    *
    * @constructor
    */
