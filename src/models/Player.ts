@@ -1,4 +1,5 @@
 import { Prop, Vehicle, Entity, Model, Color } from '..';
+import cfx, { StateBagChangeHandler } from '../cfx';
 import { Ped } from './';
 
 export class Player {
@@ -47,6 +48,14 @@ export class Player {
 
   public get ServerId(): number {
     return GetPlayerServerId(this.handle);
+  }
+
+  public get State(): StateBagInterface {
+    return cfx.Player(this.ServerId).state;
+  }
+
+  public AddStateBagChangeHandler(keyFilter: string, handler: StateBagChangeHandler): number {
+    return AddStateBagChangeHandler(keyFilter, `player:${this.ServerId}`, handler);
   }
 
   public get Name(): string {
