@@ -6,6 +6,7 @@ import { Model } from '../Model';
 import { Quaternion, Vector3 } from '../utils';
 import { EntityBoneCollection, Ped, Prop, Vehicle } from './';
 import { EntityBone } from './EntityBone';
+import cfx, { StateBagChangeHandler } from '../cfx';
 
 export class Entity {
   public static fromHandle(handle: number): Ped | Vehicle | Prop | null {
@@ -38,6 +39,17 @@ export class Entity {
 
   public get NetworkId(): number {
     return NetworkGetNetworkIdFromEntity(this.handle);
+  }
+
+  public get State(): StateBagInterface {
+    return cfx.Entity(this.handle).state;
+  }
+
+  public AddStateBagChangeHandler(keyFilter: string, handler: StateBagChangeHandler): number {
+    const stateBagName = NetworkGetEntityIsNetworked(this.handle)
+      ? `entity:${this.NetworkId}`
+      : `localEntity:${this.handle}`;
+    return AddStateBagChangeHandler(keyFilter, stateBagName, handler);
   }
 
   public get Health(): number {
