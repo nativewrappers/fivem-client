@@ -46,10 +46,9 @@ export class Entity {
   }
 
   public AddStateBagChangeHandler(keyFilter: string, handler: StateBagChangeHandler): number {
-    let stateBagName = NetworkGetEntityIsNetworked(this.handle) ? 
-      `entity:${this.NetworkId}` : 
-      `localEntity:${this.handle}`;
-
+    const stateBagName = NetworkGetEntityIsNetworked(this.handle)
+      ? `entity:${this.NetworkId}`
+      : `localEntity:${this.handle}`;
     return AddStateBagChangeHandler(keyFilter, stateBagName, handler);
   }
 
