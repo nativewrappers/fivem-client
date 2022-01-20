@@ -28,6 +28,7 @@ export class Entity {
 
   protected handle: number;
   protected bones: EntityBoneCollection | undefined;
+  protected stateBagCookies: number[] = [];
 
   constructor(handle: number) {
     this.handle = handle;
@@ -45,11 +46,36 @@ export class Entity {
     return cfx.Entity(this.handle).state;
   }
 
-  public AddStateBagChangeHandler(keyFilter: string, handler: StateBagChangeHandler): number {
+  public AddStateBagChangeHandler(
+    keyFilter: string | null,
+    handler: StateBagChangeHandler,
+  ): number {
     const stateBagName = NetworkGetEntityIsNetworked(this.handle)
       ? `entity:${this.NetworkId}`
       : `localEntity:${this.handle}`;
-    return AddStateBagChangeHandler(keyFilter, stateBagName, handler);
+    // keyFilter is casted to any because it can take a null value.
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const cookie = AddStateBagChangeHandler(keyFilter as any, stateBagName, handler);
+    this.stateBagCookies.push(cookie);
+    return cookie;
+  }
+
+  /**
+   * A short hand function for AddStateBagChangeHandler, this gets automatically cleaned up on entity deletion.
+   * @param keyFilter the key to filter for or null
+   * @param handler the function to handle the change
+   * @returns a cookie to be used in RemoveStateBagChangeHandler
+   */
+  public listenForStateChange(keyFilter: string | null, handler: StateBagChangeHandler): number {
+    return this.AddStateBagChangeHandler(keyFilter, handler);
+  }
+
+  public removeStateListener(tgtCookie: number): void {
+    this.stateBagCookies = this.stateBagCookies.filter(cookie => {
+      const isCookie = cookie == tgtCookie;
+      if (isCookie) RemoveStateBagChangeHandler(cookie);
+      return isCookie;
+    });
   }
 
   public get Health(): number {
@@ -530,6 +556,9 @@ export class Entity {
     if (this.handle !== Game.PlayerPed.Handle) {
       SetEntityAsMissionEntity(this.handle, false, true);
       DeleteEntity(this.handle);
+      for (const cookie of this.stateBagCookies) {
+        RemoveStateBagChangeHandler(cookie);
+      }
     }
   }
 

@@ -6,6 +6,7 @@ export class Player {
   private handle: number;
   private ped: Ped | undefined;
   private pvp = false;
+  private stateBagCookies: number[] = [];
 
   public static fromPedHandle(handle: number): Player {
     return new Player(NetworkGetPlayerIndexFromPed(handle));
@@ -54,8 +55,39 @@ export class Player {
     return cfx.Player(this.ServerId).state;
   }
 
-  public AddStateBagChangeHandler(keyFilter: string, handler: StateBagChangeHandler): number {
-    return AddStateBagChangeHandler(keyFilter, `player:${this.ServerId}`, handler);
+  public AddStateBagChangeHandler(
+    keyFilter: string | null,
+    handler: StateBagChangeHandler,
+  ): number {
+    // keyFilter is casted to any because it can take a null value.
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const cookie = AddStateBagChangeHandler(keyFilter as any, `player:${this.ServerId}`, handler);
+    this.stateBagCookies.push(cookie);
+    return cookie;
+  }
+
+  /**
+   * A short hand function for AddStateBagChangeHandler, this gets automatically cleaned up on entity deletion.
+   * @param keyFilter the key to filter for or null
+   * @param handler the function to handle the change
+   * @returns a cookie to be used in RemoveStateBagChangeHandler
+   */
+  public listenForStateChange(keyFilter: string | null, handler: StateBagChangeHandler): number {
+    return this.AddStateBagChangeHandler(keyFilter, handler);
+  }
+
+  public removeStateListener(tgtCookie: number): void {
+    this.stateBagCookies = this.stateBagCookies.filter(cookie => {
+      const isCookie = cookie == tgtCookie;
+      if (isCookie) RemoveStateBagChangeHandler(cookie);
+      return isCookie;
+    });
+  }
+
+  public removeAllStateListeners(): void {
+    for (const cookie of this.stateBagCookies) {
+      RemoveStateBagChangeHandler(cookie);
+    }
   }
 
   public get Name(): string {
