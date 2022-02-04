@@ -3,9 +3,9 @@ import { IButton } from './interfaces/IButton';
 
 /**
  * Draw native instructional buttons in the bottom left of the screen using scaleform
- * 
+ *
  * Example:
- * 
+ *
  * ```typescript
  * import { InstructionalButtons, Control } from '@nativewrappers/client';
  *
