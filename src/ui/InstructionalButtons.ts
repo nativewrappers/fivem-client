@@ -3,7 +3,9 @@ import { IButton } from './interfaces/IButton';
 
 /**
  * Draw native instructional buttons in the bottom left of the screen using scaleform
+ * 
  * Example:
+ * 
  * ```typescript
  * import { InstructionalButtons, Control } from '@nativewrappers/client';
  *
@@ -52,6 +54,9 @@ export class InstructionalButtons {
     EndScaleformMovieMethod();
   }
 
+  /**
+   * Renders the instructional button scaleform
+   */
   public async draw(): Promise<void> {
     await this.scaleform.render2D();
   }
