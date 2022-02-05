@@ -4,6 +4,7 @@ export { Container } from './Container';
 export { Effects } from './Effects';
 export { Fading } from './Fading';
 export { Hud } from './Hud';
+export { InstructionalButtons } from './InstructionalButtons';
 export { LoadingPrompt } from './LoadingPrompt';
 export { Notification } from './Notification';
 export { Scaleform } from './Scaleform';
