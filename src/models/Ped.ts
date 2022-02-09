@@ -579,8 +579,8 @@ export class Ped extends Entity {
     }
   }
 
-  public applyDamage(damageAmount: number): void {
-    ApplyDamageToPed(this.handle, damageAmount, true);
+  public applyDamage(damageAmount: number, armorFirst = true): void {
+    ApplyDamageToPed(this.handle, damageAmount, armorFirst);
   }
 
   public hasBeenDamagedByWeapon(weapon: WeaponHash): boolean {

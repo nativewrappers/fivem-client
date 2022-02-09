@@ -1,3 +1,5 @@
+export * from './utils';
+
 export { Game } from './Game';
 export { World } from './World';
 export { Model } from './Model';
@@ -16,7 +18,6 @@ export { TaskSequence } from './TaskSequence';
 
 // Lets export all from folders
 export * from './models';
-export * from './utils';
 export * from './enums';
 export * from './hashes';
 export * from './ui';
