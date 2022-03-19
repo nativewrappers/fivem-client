@@ -13,11 +13,11 @@
   <a href="https://www.npmjs.com/package/@nativewrappers/client">
     <img src="https://img.shields.io/npm/dm/@nativewrappers/client?style=flat">
   </a>
-  <a href="https://github.com/AvarianKnight/native-wrappers-client/actions/workflows/config.yml">
-    <img src="https://github.com/AvarianKnight/native-wrappers-client/actions/workflows/config.yml/badge.svg" alt="Workflow Status">
+  <a href="https://github.com/nativewrappers/fivem-client/actions/workflows/config.yml">
+    <img src="https://github.com/nativewrappers/fivem-client/actions/workflows/config.yml/badge.svg" alt="Workflow Status">
   </a>
   <a href="https://github.com/AvarianKnight/native-wrappers-client/commits/master">
-    <img src="https://img.shields.io/github/last-commit/AvarianKnight/native-wrappers-client.svg?style=flat" alt="Last commit">
+    <img src="https://img.shields.io/github/last-commit/nativewrappers/fivem-client.svg?style=flat" alt="Last commit">
   </a>
 </p>
 
