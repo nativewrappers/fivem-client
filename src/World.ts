@@ -610,8 +610,8 @@ export abstract class World {
       faceCamera,
       2,
       rotateY,
-      textureDict,
-      textureName,
+      textureDict as string,
+      textureName as string,
       drawOnEntity,
     );
   }
