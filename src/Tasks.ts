@@ -20,6 +20,10 @@ export class Tasks {
     TaskAchieveHeading(this.ped.Handle, heading, timeout);
   }
 
+  public blockTemporaryEvents(block = true): void {
+    TaskSetBlockingOfNonTemporaryEvents(this.ped.Handle, block);
+  }
+
   public aimAt(target: Entity | Vector3, duration: number): void {
     if (target instanceof Entity)
       TaskAimGunAtEntity(this.ped.Handle, target.Handle, duration, false);
@@ -327,6 +331,8 @@ export class Tasks {
       false,
       false,
     );
+
+    RemoveAnimDict(animDict);
   }
 
   public reactAndFlee(ped: Ped): void {
