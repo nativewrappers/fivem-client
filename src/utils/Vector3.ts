@@ -5,7 +5,7 @@ export interface Vec3 {
   z: number;
 }
 
-export type Vector = Vector3 | Vec3
+export type Vector = Vector3 | Vec3;
 
 export class Vector3 implements Vec3 {
   public static create(v1: number | Vec3): Vector3 {
