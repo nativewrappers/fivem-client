@@ -1,4 +1,4 @@
 export enum RopeType {
-  ThickRope = 4,
-  ThinMetalWire = 5,
+	ThickRope = 4,
+	ThinMetalWire = 5,
 }

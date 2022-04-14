@@ -1,13 +1,13 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: false,
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2021,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'import'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -17,5 +17,6 @@ module.exports = {
   ],
   rules: {
     'no-async-promise-executor': 'off',
+    'import/no-cycle': 0
   },
 };
