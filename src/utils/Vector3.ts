@@ -120,7 +120,7 @@ export class Vector3 implements Vec3 {
     return Vector3.dotProduct(this, v);
   }
 
-  public add(v: number | Vector): Vec3 {
+  public add(v: number | Vector): Vector3 {
     return Vector3.add(this, v);
   }
 
@@ -132,7 +132,7 @@ export class Vector3 implements Vec3 {
     return Vector3.multiply(this, v);
   }
 
-  public divide(v: number | Vector): Vec3 {
+  public divide(v: number | Vector): Vector3 {
     return Vector3.divide(this, v);
   }
 
