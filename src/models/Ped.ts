@@ -517,7 +517,7 @@ export class Ped extends Entity {
   }
 
   public getKiller(): Entity | null {
-    return Entity.fromHandle(GetPedSourceOfDeath(this.handle));
+    return Ped.fromHandle(GetPedSourceOfDeath(this.handle));
   }
 
   public kill(): void {
