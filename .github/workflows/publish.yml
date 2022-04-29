@@ -1,3 +1,4 @@
+name: "Publish Package"
 on:
   workflow_run:
     workflows: ["Bump package version"]
@@ -6,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    needs: bump-package-version
     steps:
       - uses: actions/setup-node@v2
         with:
