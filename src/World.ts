@@ -2,6 +2,7 @@ import { Entity, Model, Prop } from './';
 import { Blip } from './Blip';
 import { Camera } from './Camera';
 import { CloudHat, IntersectOptions, MarkerType, Weather } from './enums';
+import { CameraTypes } from './enums/CameraTypes';
 import { PickupType } from './enums/PickupType';
 import { VehicleHash } from './hashes';
 import { Ped, Vehicle } from './models';
@@ -291,11 +292,25 @@ export abstract class World {
   }
 
   /**
+   * Creates a cam that defaults to {@link CameraTypes.Scripted}
+   *
+   * ```ts
+   * const cam = World.createCamera(CameraTypes.Spline, true);
+   * ```
+   * @param camerType the camera type to create
+   * @param active unknown
+   * @returns
+   */
+  public static createCamera(cameraType = CameraTypes.Scripted, active = true): Camera {
+    return new Camera(CreateCam(cameraType, active));
+  }
+
+  /**
    * Creates a camera using 'DEFAULT_SCRIPTED_CAMERA'.
    *
    * ```typescript
    * const position = new Vector3(-802.311, 175.056, 72.8446);
-   * const myCamera = World.createCamera(position, new Vector3(0,0,0), 180);
+   * const myCamera = World.createCameraWithParams(position, new Vector3(0,0,0), 180);
    * ```
    *
    * @param position World coordinate where the camera should render.
@@ -303,10 +318,15 @@ export abstract class World {
    * @param fieldOfView Field of view angle of camera.
    * @returns Camera object.
    */
-  public static createCamera(position: Vector3, rotation: Vector3, fieldOfView: number): Camera {
+  public static createCameraWithParams(
+    cameraType = CameraTypes.Scripted,
+    position: Vector3,
+    rotation: Vector3,
+    fieldOfView: number,
+  ): Camera {
     return new Camera(
       CreateCamWithParams(
-        'DEFAULT_SCRIPTED_CAMERA',
+        cameraType,
         position.x,
         position.y,
         position.z,
