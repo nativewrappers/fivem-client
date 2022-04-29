@@ -15,3 +15,4 @@ export const Wait = (milliseconds: number): Promise<void> =>
 export { enumValues } from './enumValues';
 export { getStringFromUInt8Array } from './getStringFromUInt8Array';
 export { getUInt32FromUint8Array } from './getUInt32FromUint8Array';
+export * from './Animations';
