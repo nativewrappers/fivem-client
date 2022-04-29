@@ -1,4 +1,4 @@
-name: Bumps package version
+name: Bump Package Version
 on:
   push:
     tags:
