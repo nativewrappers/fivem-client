@@ -10,6 +10,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "watch": "tsc --watch",
     "ci": "pnpm run lint && pnpm run build",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint --fix . --ext .ts",

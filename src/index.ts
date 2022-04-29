@@ -15,6 +15,7 @@ export { RaycastResult } from './Raycast';
 export { RelationshipGroup } from './RelationshipGroup';
 export { Tasks } from './Tasks';
 export { TaskSequence } from './TaskSequence';
+export { NetworkedScene } from './NetworkedScene';
 
 // Lets export all from folders
 export * from './models';
