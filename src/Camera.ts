@@ -1,6 +1,7 @@
 import { CameraShake } from './enums';
 import { Entity, PedBone } from './models';
 import { Vector3 } from './utils';
+import { LoadAnimDict } from './utils/Animations';
 
 export class Camera {
   private readonly shakeNames: string[] = [
@@ -157,6 +158,29 @@ export class Camera {
 
   public set ShakeAmplitude(amplitude: number) {
     SetCamShakeAmplitude(this.handle, amplitude);
+  }
+
+  public async playAnim(
+    animName: string,
+    animDict: string,
+    position: Vector3,
+    rotation: Vector3,
+  ): Promise<void> {
+    await LoadAnimDict(animDict);
+    PlayCamAnim(
+      this.handle,
+      animName,
+      animDict,
+      position.x,
+      position.y,
+      position.z,
+      rotation.x,
+      rotation.y,
+      rotation.z,
+      false,
+      2,
+    );
+    RemoveAnimDict(animDict);
   }
 
   public pointAt(target: Entity | PedBone | Vector3, offset: Vector3 = new Vector3(0, 0, 0)): void {

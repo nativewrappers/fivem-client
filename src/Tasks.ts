@@ -7,7 +7,8 @@ import {
 } from './enums';
 import { Entity, Ped, Vehicle } from './models';
 import { TaskSequence } from './TaskSequence';
-import { Vector3, Wait } from './utils';
+import { Vector3 } from './utils';
+import { LoadAnimDict } from './utils/Animations';
 
 export class Tasks {
   private ped: Ped;
@@ -308,15 +309,7 @@ export class Tasks {
     playbackRate: number,
     flags: AnimationFlags,
   ): Promise<void> {
-    if (!HasAnimDictLoaded(animDict)) {
-      RequestAnimDict(animDict);
-    }
-
-    const start = GetGameTimer();
-    while (!HasAnimDictLoaded(animDict)) {
-      if (GetGameTimer() - start >= 1000) return;
-      await Wait(10);
-    }
+    await LoadAnimDict(animDict);
 
     TaskPlayAnim(
       this.ped.Handle,
