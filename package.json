@@ -10,7 +10,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "ci": "yarn run lint && yarn run build",
+    "ci": "pnpm run lint && pnpm run build",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint --fix . --ext .ts",
     "typedoc": "typedoc",
