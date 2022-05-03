@@ -8,10 +8,8 @@ export interface Vec3 {
 export type Vector = Vector3 | Vec3;
 
 export class Vector3 implements Vec3 {
-  public static create(v1: number | Vec3): Vector3 {
-    if (typeof v1 === 'number') {
-      return new Vector3(v1, v1, v1);
-    }
+  public static create(v1: Vec3 | number): Vector3 {
+    if (typeof v1 === 'number') return new Vector3(v1, v1, v1);
     return new Vector3(v1.x, v1.y, v1.z);
   }
 
@@ -41,28 +39,23 @@ export class Vector3 implements Vec3 {
     return Vector3.create(v1);
   }
 
-  public static add(v1: Vector, v2: number | Vector): Vector3 {
-    if (typeof v2 === 'number') {
-      return new Vector3(v1.x + v2, v1.y + v2, v1.z + v2);
-    }
+  public static add(v1: Vector, v2: Vector | number): Vector3 {
+    if (typeof v2 === 'number') return new Vector3(v1.x + v2, v1.y + v2, v1.z + v2);
     return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
   }
 
-  public static subtract(v1: Vector, v2: Vector): Vector3 {
+  public static subtract(v1: Vector, v2: Vector | number): Vector3 {
+    if (typeof v2 === 'number') return new Vector3(v1.x - v2, v1.y - v2, v1.z - v2);
     return new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
   }
 
   public static multiply(v1: Vector, v2: Vector | number): Vector3 {
-    if (typeof v2 === 'number') {
-      return new Vector3(v1.x * v2, v1.y * v2, v1.z * v2);
-    }
+    if (typeof v2 === 'number') return new Vector3(v1.x * v2, v1.y * v2, v1.z * v2);
     return new Vector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
   }
 
   public static divide(v1: Vector, v2: Vector | number): Vector3 {
-    if (typeof v2 === 'number') {
-      return new Vector3(v1.x / v2, v1.y / v2, v1.z / v2);
-    }
+    if (typeof v2 === 'number') return new Vector3(v1.x / v2, v1.y / v2, v1.z / v2);
     return new Vector3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
   }
 
@@ -120,7 +113,7 @@ export class Vector3 implements Vec3 {
     return Vector3.dotProduct(this, v);
   }
 
-  public add(v: number | Vector): Vector3 {
+  public add(v: Vector | number): Vector3 {
     return Vector3.add(this, v);
   }
 
@@ -128,11 +121,11 @@ export class Vector3 implements Vec3 {
     return Vector3.subtract(this, v);
   }
 
-  public multiply(v: number | Vector): Vector3 {
+  public multiply(v: Vector | number): Vector3 {
     return Vector3.multiply(this, v);
   }
 
-  public divide(v: number | Vector): Vector3 {
+  public divide(v: Vector | number): Vector3 {
     return Vector3.divide(this, v);
   }
 
