@@ -460,470 +460,470 @@ export class Ped extends Entity {
 		SetPedMotionBlur(this.handle, value);
 	}
 
-	public get Task(): Tasks | undefined {
-		if (!this.tasks) {
-			this.tasks = new Tasks(this);
-		}
-
-		return this.tasks;
-	}
-
-	public get TaskSequenceProgress(): number {
-		return GetSequenceProgress(this.handle);
-	}
-
-	public set BlockPermanentEvents(block: boolean) {
-		SetBlockingOfNonTemporaryEvents(this.handle, block);
-	}
-
-	public isInAnyVehicle(): boolean {
-		return IsPedInAnyVehicle(this.handle, false);
-	}
-
-	public isInVehicle(vehicle: Vehicle): boolean {
-		return IsPedInVehicle(this.handle, vehicle.Handle, false);
-	}
-
-	public isSittingInAnyVehicle(): boolean {
-		return IsPedSittingInAnyVehicle(this.handle);
-	}
-
-	public isSittingInVehicle(vehicle: Vehicle): boolean {
-		return IsPedSittingInVehicle(this.handle, vehicle.Handle);
-	}
-
-	public setIntoVehicle(vehicle: Vehicle, seat: VehicleSeat): void {
-		SetPedIntoVehicle(this.handle, vehicle.Handle, Number(seat));
-	}
-
-	public isHeadtracking(entity: Entity): boolean {
-		return IsPedHeadtrackingEntity(this.handle, entity.Handle);
-	}
-
-	public isInCombatAgainst(target: Ped): boolean {
-		return IsPedInCombat(this.handle, target.Handle);
-	}
-
-	public getJacker(): Ped {
-		return new Ped(GetPedsJacker(this.handle));
-	}
-
-	public getJackTarget(): Ped {
-		return new Ped(GetJackTarget(this.handle));
-	}
-
-	public getMeleeTarget(): Ped {
-		return new Ped(GetMeleeTargetForPed(this.handle));
-	}
-
-	public getKiller(): Entity | null {
-		return Entity.fromHandle(GetPedSourceOfDeath(this.Handle));
-	}
-
-	public kill(): void {
-		this.Health = -1;
-	}
-
-	public resurrect(): void {
-		const maxHealth: number = this.Health;
-		const isCollisionEnabled: boolean = super.IsCollisionEnabled;
-
-		ResurrectPed(this.handle);
-		this.MaxHealth = maxHealth;
-		this.Health = maxHealth;
-		super.IsCollisionEnabled = isCollisionEnabled;
-		ClearPedTasksImmediately(this.handle);
-	}
-
-	public resetVisibleDamage(): void {
-		ResetPedVisibleDamage(this.handle);
-	}
-
-	public clearBloodDamage(): void {
-		ClearPedBloodDamage(this.handle);
-	}
-
-	// TODO: Add RelationshipGroup
-
-	public get IsInGroup(): boolean {
-		return IsPedInGroup(this.handle);
-	}
-
-	public set NeverLeavesGroup(value: boolean) {
-		SetPedNeverLeavesGroup(this.handle, value);
-	}
-
-	public leaveGroup(): void {
-		RemovePedFromGroup(this.handle);
-	}
-
-	public playAmbientSpeed(
-		speechName: string,
-		voiceName = "",
-		modifier: SpeechModifier = SpeechModifier.Standard,
-	): void {
-		if (Number(modifier) >= 0 && Number(modifier) < this.speechModifierNames.length) {
-			if (voiceName === "") {
-				PlayAmbientSpeech1(this.handle, speechName, this.speechModifierNames[Number(modifier)]);
-			} else {
-				PlayAmbientSpeechWithVoice(
-					this.handle,
-					speechName,
-					voiceName,
-					this.speechModifierNames[Number(modifier)],
-					false,
-				);
-			}
-		} else {
-			throw new RangeError("modifier");
-		}
-	}
-
-	public applyDamage(damageAmount: number, armorFirst = true): void {
-		ApplyDamageToPed(this.handle, damageAmount, armorFirst);
-	}
-
-	public hasBeenDamagedByWeapon(weapon: WeaponHash): boolean {
-		return HasPedBeenDamagedByWeapon(this.handle, Number(weapon), 0);
-	}
-
-	public hasBeenDamagedByAnyWeapon(): boolean {
-		return HasPedBeenDamagedByWeapon(this.handle, 0, 2);
-	}
-
-	public hasBeenDamagedByAnyMeleeWeapon(): boolean {
-		return HasPedBeenDamagedByWeapon(this.handle, 0, 1);
-	}
-
-	public clearLastWeaponDamage(): void {
-		ClearPedLastWeaponDamage(this.handle);
-	}
-
-	public get Bones(): PedBoneCollection {
-		if (!this.pedBones) {
-			this.pedBones = new PedBoneCollection(this);
-		}
-
-		return this.pedBones;
-	}
-
-	/**
-	 * Ped Weapons
-	 *
-	 * @constructor
-	 */
-	public get Weapons(): WeaponCollection {
-		if (!this.weapons) {
-			this.weapons = new WeaponCollection(this);
-		}
-
-		return this.weapons;
-	}
-
-	public giveWeapon(weapon: WeaponHash, ammoCount = 999, isHidden = false, equipNow = true): void {
-		GiveWeaponToPed(this.handle, weapon, ammoCount, isHidden, equipNow);
-	}
-
-	public removeWeapon(weapon: WeaponHash): void {
-		RemoveWeaponFromPed(this.handle, weapon);
-	}
-
-	public removeAllWeapons(): void {
-		RemoveAllPedWeapons(this.handle, true);
-	}
-
-	public getLastWeaponImpactPosition(): Vector3 {
-		const position = GetPedLastWeaponImpactCoord(this.handle)[1];
-
-		return new Vector3(position[0], position[1], position[2]); // Does this work?
-	}
-
-	public get CanRagdoll(): boolean {
-		return CanPedRagdoll(this.handle);
-	}
-
-	public set CanRagdoll(value: boolean) {
-		SetPedCanRagdoll(this.handle, value);
-	}
-
-	public ragdoll(duration = -1, ragdollType: RagdollType = RagdollType.Normal): void {
-		this.CanRagdoll = true;
-		SetPedToRagdoll(this.handle, duration, duration, Number(ragdollType), false, false, false);
-	}
-
-	public cancelRagdoll(): void {
-		SetPedToRagdoll(this.handle, 1, 1, 1, false, false, false);
-	}
-
-	public giveHelmet(
-		canBeRemovedByPed: boolean,
-		helmetType: HelmetType,
-		textureIndex: number,
-	): void {
-		GivePedHelmet(this.handle, !canBeRemovedByPed, Number(helmetType), textureIndex);
-	}
-
-	public removeHelmet(instantly: boolean): void {
-		RemovePedHelmet(this.handle, instantly);
-	}
-
-	public openParachute(): void {
-		ForcePedToOpenParachute(this.handle);
-	}
-
-	public getConfigFlag(flagId: number): boolean {
-		return GetPedConfigFlag(this.handle, flagId, true);
-	}
-
-	public setConfigFlag(flagId: number, value: boolean): void {
-		SetPedConfigFlag(this.handle, flagId, value);
-	}
-
-	public resetConfigFlag(flagId: number): void {
-		SetPedResetFlag(this.handle, flagId, true);
-	}
-
-	// TODO: Proper extension for this
-	public clone(): Ped {
-		return new Ped(ClonePed(this.handle, false, false, false));
-	}
-
-	public exists(ped?: Ped): boolean {
-		if (!ped) {
-			return super.exists() && GetEntityType(this.handle) === 1;
-		}
-
-		return ped?.exists() ?? false;
-	}
-
-	public setComponentVariation(
-		componentId: number,
-		drawableId: number,
-		textureId: number,
-		paletteId = 0,
-	): void {
-		SetPedComponentVariation(this.handle, componentId, drawableId, textureId, paletteId);
-	}
-
-	public setRandomComponentVariation(): void {
-		SetPedRandomComponentVariation(this.handle, 0);
-	}
-
-	public setDefaultComponentVariation(): void {
-		SetPedDefaultComponentVariation(this.handle);
-	}
-
-	public getDrawableVariation(componentId: number): number {
-		return GetPedDrawableVariation(this.handle, componentId);
-	}
-
-	public getNumberOfDrawableVariations(componentId: number): number {
-		return GetNumberOfPedDrawableVariations(this.handle, componentId);
-	}
-
-	public getTextureVariation(componentId: number): number {
-		return GetPedTextureVariation(this.handle, componentId);
-	}
-
-	public getNumberTextureVariations(
-		componentId: number,
-		drawableId = this.getDrawableVariation(componentId),
-	): number {
-		return GetNumberOfPedTextureVariations(this.handle, componentId, drawableId);
-	}
-
-	public setRandomProps(): void {
-		SetPedRandomProps(this.handle);
-	}
-
-	public setPropIndex(propId: number, drawableId: number, textureId: number, attach = true): void {
-		SetPedPropIndex(this.handle, propId, drawableId, textureId, attach);
-	}
-
-	public clearProp(propId: number): void {
-		ClearPedProp(this.handle, propId);
-	}
-
-	public clearAllProps(): void {
-		ClearAllPedProps(this.handle);
-	}
-
-	public knockPropOff(p1: boolean, p2: boolean, p3: boolean, p4: boolean): void {
-		KnockOffPedProp(this.handle, p1, p2, p3, p4);
-	}
-
-	public isPropValid(propId: number, drawableId: number, textureId: number): boolean {
-		return SetPedPreloadPropData(this.handle, propId, drawableId, textureId);
-	}
-
-	public getPropIndex(propId: number): number {
-		return GetPedPropIndex(this.handle, propId);
-	}
-
-	public getNumberOfPropDrawableVariations(propId: number): number {
-		return GetNumberOfPedPropDrawableVariations(this.handle, propId);
-	}
-
-	public getNumberOfPropTextureVariations(
-		propId: number,
-		drawableId = this.getPropIndex(propId),
-	): number {
-		return GetNumberOfPedPropTextureVariations(this.handle, propId, drawableId);
-	}
-
-	public getPropTextureIndex(propId: number): number {
-		return GetPedPropTextureIndex(this.handle, propId);
-	}
-
-	public setHelmetPropIndex(propIndex: number): void {
-		SetPedHelmetPropIndex(this.handle, propIndex);
-	}
-
-	public setEyeColor(color: number): void {
-		SetPedEyeColor(this.handle, color);
-	}
-
-	public getEyeColor(): number {
-		return GetPedEyeColor(this.handle);
-	}
-
-	public setHairColors(primary: number, highlight: number): void {
-		SetPedHairColor(this.handle, primary, highlight);
-	}
-
-	public setHairColor(color: number): void {
-		this.setHairColors(color, this.getHairHighlightColor());
-	}
-
-	public getHairColor(): number {
-		return GetPedHairColor(this.handle);
-	}
-
-	public setHairHighlightColor(color: number): void {
-		this.setHairColors(this.getHairColor(), color);
-	}
-
-	public getHairHighlightColor(): number {
-		return GetPedHairHighlightColor(this.handle);
-	}
-
-	public getHeadOverlayNum(overlayId: number): number {
-		return GetPedHeadOverlayNum(overlayId);
-	}
-
-	public getHeadOverlayValue(overlayId: number): number {
-		return GetPedHeadOverlayValue(this.handle, overlayId);
-	}
-
-	public setHeadOverlayValue(overlayId: number, value: number): void {
-		const opacity = GetPedHeadOverlayData(this.handle, overlayId)[5];
-		this.setHeadOverlay(overlayId, value, opacity);
-	}
-
-	public getHeadOverlay(overlayId: number): [number, number, number, number, number] | void {
-		const [ret, overlayValue, colourType, firstColour, secondColour, overlayOpacity] =
-			GetPedHeadOverlayData(this.handle, overlayId);
-		if (!ret) {
-			return undefined;
-		}
-		return [overlayValue, colourType, firstColour, secondColour, overlayOpacity];
-	}
-
-	public setHeadOverlay(overlayId: number, index: number, opacity: number): void {
-		SetPedHeadOverlay(this.handle, overlayId, index, opacity);
-	}
-
-	public getHeadOverlayOpacity(overlayId: number): number {
-		return GetPedHeadOverlayData(this.handle, overlayId)[5];
-	}
-
-	public setHeadOverlayOpacity(overlayId: number, opacity: number): void {
-		this.setHeadOverlay(overlayId, this.getHeadOverlayValue(overlayId), opacity);
-	}
-
-	public setHeadOverlayColor(overlayId: number, color: number): void {
-		let colorId = 0;
-		if (overlayId === 1 || overlayId === 2 || overlayId === 10) {
-			colorId = 1;
-		} else if (overlayId === 5 || overlayId === 8) {
-			colorId = 2;
-		}
-		SetPedHeadOverlayColor(this.handle, overlayId, colorId, color, color);
-	}
-
-	public setHeadBlend(
-		shapeFirstID: number,
-		shapeSecondID: number,
-		shapeThirdID: number,
-		skinFirstID: number,
-		skinSecondID: number,
-		skinThirdID: number,
-		shapeMix: number,
-		skinMix: number,
-		thirdMix: number,
-		isParent = false,
-	): void {
-		SetPedHeadBlendData(
-			this.handle,
-			shapeFirstID,
-			shapeSecondID,
-			shapeThirdID,
-			skinFirstID,
-			skinSecondID,
-			skinThirdID,
-			shapeMix,
-			skinMix,
-			thirdMix,
-			isParent,
-		);
-	}
-
-	public getHeadBlend():
-		| [number, number, number, number, number, number, number, number, number, boolean]
-		| void {
-		const buffer = new ArrayBuffer(80);
-
-		if (
-			!(Citizen.invokeNative(
-				"0x2746BD9D88C5C5D0",
-				this.handle,
-				new Float32Array(buffer),
-			) as unknown)
-		) {
-			return undefined;
-		}
-
-		const {
-			0: shapeFirstId,
-			2: shapeSecondId,
-			4: shapeThirdId,
-			6: skinFirstId,
-			8: skinSecondId,
-			10: skinThirdId,
-			18: isParent,
-		} = new Uint32Array(buffer);
-
-		const { 0: shapeMix, 2: skinMix, 4: thirdMix } = new Float32Array(buffer, 48);
-
-		return [
-			shapeFirstId,
-			shapeSecondId,
-			shapeThirdId,
-			skinFirstId,
-			skinSecondId,
-			skinThirdId,
-			shapeMix,
-			skinMix,
-			thirdMix,
-			!!isParent,
-		];
-	}
-
-	public finalizeHeadBlend(): void {
-		FinalizeHeadBlend(this.handle);
-	}
-
-	public hasHeadBlendFinished(): boolean {
-		return HasPedHeadBlendFinished(this.handle);
-	}
+  public get Task(): Tasks | undefined {
+    if (!this.tasks) {
+      this.tasks = new Tasks(this);
+    }
+
+    return this.tasks;
+  }
+
+  public get TaskSequenceProgress(): number {
+    return GetSequenceProgress(this.handle);
+  }
+
+  public set BlockPermanentEvents(block: boolean) {
+    SetBlockingOfNonTemporaryEvents(this.handle, block);
+  }
+
+  public isInAnyVehicle(): boolean {
+    return IsPedInAnyVehicle(this.handle, false);
+  }
+
+  public isInVehicle(vehicle: Vehicle): boolean {
+    return IsPedInVehicle(this.handle, vehicle.Handle, false);
+  }
+
+  public isSittingInAnyVehicle(): boolean {
+    return IsPedSittingInAnyVehicle(this.handle);
+  }
+
+  public isSittingInVehicle(vehicle: Vehicle): boolean {
+    return IsPedSittingInVehicle(this.handle, vehicle.Handle);
+  }
+
+  public setIntoVehicle(vehicle: Vehicle, seat: VehicleSeat): void {
+    SetPedIntoVehicle(this.handle, vehicle.Handle, Number(seat));
+  }
+
+  public isHeadtracking(entity: Entity): boolean {
+    return IsPedHeadtrackingEntity(this.handle, entity.Handle);
+  }
+
+  public isInCombatAgainst(target: Ped): boolean {
+    return IsPedInCombat(this.handle, target.Handle);
+  }
+
+  public getJacker(): Ped {
+    return new Ped(GetPedsJacker(this.handle));
+  }
+
+  public getJackTarget(): Ped {
+    return new Ped(GetJackTarget(this.handle));
+  }
+
+  public getMeleeTarget(): Ped {
+    return new Ped(GetMeleeTargetForPed(this.handle));
+  }
+
+  public getKiller(): Entity | null {
+    return Ped.fromHandle(GetPedSourceOfDeath(this.handle));
+  }
+
+  public kill(): void {
+    this.Health = -1;
+  }
+
+  public resurrect(): void {
+    const maxHealth: number = this.Health;
+    const isCollisionEnabled: boolean = super.IsCollisionEnabled;
+
+    ResurrectPed(this.handle);
+    this.MaxHealth = maxHealth;
+    this.Health = maxHealth;
+    super.IsCollisionEnabled = isCollisionEnabled;
+    ClearPedTasksImmediately(this.handle);
+  }
+
+  public resetVisibleDamage(): void {
+    ResetPedVisibleDamage(this.handle);
+  }
+
+  public clearBloodDamage(): void {
+    ClearPedBloodDamage(this.handle);
+  }
+
+  // TODO: Add RelationshipGroup
+
+  public get IsInGroup(): boolean {
+    return IsPedInGroup(this.handle);
+  }
+
+  public set NeverLeavesGroup(value: boolean) {
+    SetPedNeverLeavesGroup(this.handle, value);
+  }
+
+  public leaveGroup(): void {
+    RemovePedFromGroup(this.handle);
+  }
+
+  public playAmbientSpeed(
+    speechName: string,
+    voiceName = '',
+    modifier: SpeechModifier = SpeechModifier.Standard,
+  ): void {
+    if (Number(modifier) >= 0 && Number(modifier) < this.speechModifierNames.length) {
+      if (voiceName === '') {
+        PlayAmbientSpeech1(this.handle, speechName, this.speechModifierNames[Number(modifier)]);
+      } else {
+        PlayAmbientSpeechWithVoice(
+          this.handle,
+          speechName,
+          voiceName,
+          this.speechModifierNames[Number(modifier)],
+          false,
+        );
+      }
+    } else {
+      throw new RangeError('modifier');
+    }
+  }
+
+  public applyDamage(damageAmount: number, armorFirst = true): void {
+    ApplyDamageToPed(this.handle, damageAmount, armorFirst);
+  }
+
+  public hasBeenDamagedByWeapon(weapon: WeaponHash): boolean {
+    return HasPedBeenDamagedByWeapon(this.handle, Number(weapon), 0);
+  }
+
+  public hasBeenDamagedByAnyWeapon(): boolean {
+    return HasPedBeenDamagedByWeapon(this.handle, 0, 2);
+  }
+
+  public hasBeenDamagedByAnyMeleeWeapon(): boolean {
+    return HasPedBeenDamagedByWeapon(this.handle, 0, 1);
+  }
+
+  public clearLastWeaponDamage(): void {
+    ClearPedLastWeaponDamage(this.handle);
+  }
+
+  public get Bones(): PedBoneCollection {
+    if (!this.pedBones) {
+      this.pedBones = new PedBoneCollection(this);
+    }
+
+    return this.pedBones;
+  }
+
+  /**
+   * Ped Weapons
+   *
+   * @constructor
+   */
+  public get Weapons(): WeaponCollection {
+    if (!this.weapons) {
+      this.weapons = new WeaponCollection(this);
+    }
+
+    return this.weapons;
+  }
+
+  public giveWeapon(weapon: WeaponHash, ammoCount = 999, isHidden = false, equipNow = true): void {
+    GiveWeaponToPed(this.handle, weapon, ammoCount, isHidden, equipNow);
+  }
+
+  public removeWeapon(weapon: WeaponHash): void {
+    RemoveWeaponFromPed(this.handle, weapon);
+  }
+
+  public removeAllWeapons(): void {
+    RemoveAllPedWeapons(this.handle, true);
+  }
+
+  public getLastWeaponImpactPosition(): Vector3 {
+    const position = GetPedLastWeaponImpactCoord(this.handle)[1];
+
+    return new Vector3(position[0], position[1], position[2]); // Does this work?
+  }
+
+  public get CanRagdoll(): boolean {
+    return CanPedRagdoll(this.handle);
+  }
+
+  public set CanRagdoll(value: boolean) {
+    SetPedCanRagdoll(this.handle, value);
+  }
+
+  public ragdoll(duration = -1, ragdollType: RagdollType = RagdollType.Normal): void {
+    this.CanRagdoll = true;
+    SetPedToRagdoll(this.handle, duration, duration, Number(ragdollType), false, false, false);
+  }
+
+  public cancelRagdoll(): void {
+    SetPedToRagdoll(this.handle, 1, 1, 1, false, false, false);
+  }
+
+  public giveHelmet(
+    canBeRemovedByPed: boolean,
+    helmetType: HelmetType,
+    textureIndex: number,
+  ): void {
+    GivePedHelmet(this.handle, !canBeRemovedByPed, Number(helmetType), textureIndex);
+  }
+
+  public removeHelmet(instantly: boolean): void {
+    RemovePedHelmet(this.handle, instantly);
+  }
+
+  public openParachute(): void {
+    ForcePedToOpenParachute(this.handle);
+  }
+
+  public getConfigFlag(flagId: number): boolean {
+    return GetPedConfigFlag(this.handle, flagId, true);
+  }
+
+  public setConfigFlag(flagId: number, value: boolean): void {
+    SetPedConfigFlag(this.handle, flagId, value);
+  }
+
+  public resetConfigFlag(flagId: number): void {
+    SetPedResetFlag(this.handle, flagId, true);
+  }
+
+  // TODO: Proper extension for this
+  public clone(): Ped {
+    return new Ped(ClonePed(this.handle, false, false, false));
+  }
+
+  public exists(ped?: Ped): boolean {
+    if (!ped) {
+      return super.exists() && GetEntityType(this.handle) === 1;
+    }
+
+    return ped?.exists() ?? false;
+  }
+
+  public setComponentVariation(
+    componentId: number,
+    drawableId: number,
+    textureId: number,
+    paletteId = 0,
+  ): void {
+    SetPedComponentVariation(this.handle, componentId, drawableId, textureId, paletteId);
+  }
+
+  public setRandomComponentVariation(): void {
+    SetPedRandomComponentVariation(this.handle, 0);
+  }
+
+  public setDefaultComponentVariation(): void {
+    SetPedDefaultComponentVariation(this.handle);
+  }
+
+  public getDrawableVariation(componentId: number): number {
+    return GetPedDrawableVariation(this.handle, componentId);
+  }
+
+  public getNumberOfDrawableVariations(componentId: number): number {
+    return GetNumberOfPedDrawableVariations(this.handle, componentId);
+  }
+
+  public getTextureVariation(componentId: number): number {
+    return GetPedTextureVariation(this.handle, componentId);
+  }
+
+  public getNumberTextureVariations(
+    componentId: number,
+    drawableId = this.getDrawableVariation(componentId),
+  ): number {
+    return GetNumberOfPedTextureVariations(this.handle, componentId, drawableId);
+  }
+
+  public setRandomProps(): void {
+    SetPedRandomProps(this.handle);
+  }
+
+  public setPropIndex(propId: number, drawableId: number, textureId: number, attach = true): void {
+    SetPedPropIndex(this.handle, propId, drawableId, textureId, attach);
+  }
+
+  public clearProp(propId: number): void {
+    ClearPedProp(this.handle, propId);
+  }
+
+  public clearAllProps(): void {
+    ClearAllPedProps(this.handle);
+  }
+
+  public knockPropOff(p1: boolean, p2: boolean, p3: boolean, p4: boolean): void {
+    KnockOffPedProp(this.handle, p1, p2, p3, p4);
+  }
+
+  public isPropValid(propId: number, drawableId: number, textureId: number): boolean {
+    return SetPedPreloadPropData(this.handle, propId, drawableId, textureId);
+  }
+
+  public getPropIndex(propId: number): number {
+    return GetPedPropIndex(this.handle, propId);
+  }
+
+  public getNumberOfPropDrawableVariations(propId: number): number {
+    return GetNumberOfPedPropDrawableVariations(this.handle, propId);
+  }
+
+  public getNumberOfPropTextureVariations(
+    propId: number,
+    drawableId = this.getPropIndex(propId),
+  ): number {
+    return GetNumberOfPedPropTextureVariations(this.handle, propId, drawableId);
+  }
+
+  public getPropTextureIndex(propId: number): number {
+    return GetPedPropTextureIndex(this.handle, propId);
+  }
+
+  public setHelmetPropIndex(propIndex: number): void {
+    SetPedHelmetPropIndex(this.handle, propIndex);
+  }
+
+  public setEyeColor(color: number): void {
+    SetPedEyeColor(this.handle, color);
+  }
+
+  public getEyeColor(): number {
+    return GetPedEyeColor(this.handle);
+  }
+
+  public setHairColors(primary: number, highlight: number): void {
+    SetPedHairColor(this.handle, primary, highlight);
+  }
+
+  public setHairColor(color: number): void {
+    this.setHairColors(color, this.getHairHighlightColor());
+  }
+
+  public getHairColor(): number {
+    return GetPedHairColor(this.handle);
+  }
+
+  public setHairHighlightColor(color: number): void {
+    this.setHairColors(this.getHairColor(), color);
+  }
+
+  public getHairHighlightColor(): number {
+    return GetPedHairHighlightColor(this.handle);
+  }
+
+  public getHeadOverlayNum(overlayId: number): number {
+    return GetPedHeadOverlayNum(overlayId);
+  }
+
+  public getHeadOverlayValue(overlayId: number): number {
+    return GetPedHeadOverlayValue(this.handle, overlayId);
+  }
+
+  public setHeadOverlayValue(overlayId: number, value: number): void {
+    const opacity = GetPedHeadOverlayData(this.handle, overlayId)[5];
+    this.setHeadOverlay(overlayId, value, opacity);
+  }
+
+  public getHeadOverlay(overlayId: number): [number, number, number, number, number] | void {
+    const [ret, overlayValue, colourType, firstColour, secondColour, overlayOpacity] =
+      GetPedHeadOverlayData(this.handle, overlayId);
+    if (!ret) {
+      return undefined;
+    }
+    return [overlayValue, colourType, firstColour, secondColour, overlayOpacity];
+  }
+
+  public setHeadOverlay(overlayId: number, index: number, opacity: number): void {
+    SetPedHeadOverlay(this.handle, overlayId, index, opacity);
+  }
+
+  public getHeadOverlayOpacity(overlayId: number): number {
+    return GetPedHeadOverlayData(this.handle, overlayId)[5];
+  }
+
+  public setHeadOverlayOpacity(overlayId: number, opacity: number): void {
+    this.setHeadOverlay(overlayId, this.getHeadOverlayValue(overlayId), opacity);
+  }
+
+  public setHeadOverlayColor(overlayId: number, color: number): void {
+    let colorId = 0;
+    if (overlayId === 1 || overlayId === 2 || overlayId === 10) {
+      colorId = 1;
+    } else if (overlayId === 5 || overlayId === 8) {
+      colorId = 2;
+    }
+    SetPedHeadOverlayColor(this.handle, overlayId, colorId, color, color);
+  }
+
+  public setHeadBlend(
+    shapeFirstID: number,
+    shapeSecondID: number,
+    shapeThirdID: number,
+    skinFirstID: number,
+    skinSecondID: number,
+    skinThirdID: number,
+    shapeMix: number,
+    skinMix: number,
+    thirdMix: number,
+    isParent = false,
+  ): void {
+    SetPedHeadBlendData(
+      this.handle,
+      shapeFirstID,
+      shapeSecondID,
+      shapeThirdID,
+      skinFirstID,
+      skinSecondID,
+      skinThirdID,
+      shapeMix,
+      skinMix,
+      thirdMix,
+      isParent,
+    );
+  }
+
+  public getHeadBlend():
+    | [number, number, number, number, number, number, number, number, number, boolean]
+    | void {
+    const buffer = new ArrayBuffer(80);
+
+    if (
+      !(Citizen.invokeNative(
+        '0x2746BD9D88C5C5D0',
+        this.handle,
+        new Float32Array(buffer),
+      ) as unknown)
+    ) {
+      return undefined;
+    }
+
+    const {
+      0: shapeFirstId,
+      2: shapeSecondId,
+      4: shapeThirdId,
+      6: skinFirstId,
+      8: skinSecondId,
+      10: skinThirdId,
+      18: isParent,
+    } = new Uint32Array(buffer);
+
+    const { 0: shapeMix, 2: skinMix, 4: thirdMix } = new Float32Array(buffer, 48);
+
+    return [
+      shapeFirstId,
+      shapeSecondId,
+      shapeThirdId,
+      skinFirstId,
+      skinSecondId,
+      skinThirdId,
+      shapeMix,
+      skinMix,
+      thirdMix,
+      !!isParent,
+    ];
+  }
+
+  public finalizeHeadBlend(): void {
+    FinalizeHeadBlend(this.handle);
+  }
+
+  public hasHeadBlendFinished(): boolean {
+    return HasPedHeadBlendFinished(this.handle);
+  }
 }

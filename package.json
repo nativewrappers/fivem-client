@@ -1,13 +1,17 @@
 {
   "name": "@nativewrappers/client",
-  "version": "1.7.4-rc",
+  "version": "1.7.12",
   "description": "Javascript/Typescript wrapper for the FiveM natives",
+  "sideEffects": [
+    "./src/models/**"
+  ],
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "ci": "yarn run lint && yarn run build",
+    "watch": "tsc --watch",
+    "ci": "pnpm run lint && pnpm run build",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint --fix . --ext .ts",
     "typedoc": "typedoc",
@@ -44,7 +48,7 @@
     "prettier": "^2.5.1",
     "typedoc": "^0.22.10",
     "typedoc-fivemjs-theme": "^0.2.7",
-    "typescript": "^4.5.4"
+    "typescript": "^4.6.4"
   },
   "directories": {
     "doc": "docs",
