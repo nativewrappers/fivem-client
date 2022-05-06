@@ -7,7 +7,7 @@ export interface Vec4 {
   w: number;
 }
 
-export type Vector = Vector4 | Vec4;
+export type Vector4Type = Vector4 | Vec4;
 
 export class Vector4 implements Vec4 {
   public static create(v1: Vec4 | number): Vector4 {
@@ -37,35 +37,35 @@ export class Vector4 implements Vec4 {
     return Vector4.create(v1);
   }
 
-  public static add(v1: Vector, v2: Vector | number): Vector4 {
+  public static add(v1: Vector4Type, v2: Vector4Type | number): Vector4 {
     if (typeof v2 === 'number') return new Vector4(v1.x + v2, v1.y + v2, v1.z + v2, v1.w + v2);
     return new Vector4(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
   }
 
-  public static subtract(v1: Vector, v2: Vector | number): Vector4 {
+  public static subtract(v1: Vector4Type, v2: Vector4Type | number): Vector4 {
     if (typeof v2 === 'number') return new Vector4(v1.x - v2, v1.y - v2, v1.z - v2, v1.w - v2);
     return new Vector4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
   }
 
-  public static multiply(v1: Vector, v2: Vector | number): Vector4 {
+  public static multiply(v1: Vector4Type, v2: Vector4Type | number): Vector4 {
     if (typeof v2 === 'number') return new Vector4(v1.x * v2, v1.y * v2, v1.z * v2, v1.w * v2);
     return new Vector4(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w);
   }
 
-  public static divide(v1: Vector, v2: Vector | number): Vector4 {
+  public static divide(v1: Vector4Type, v2: Vector4Type | number): Vector4 {
     if (typeof v2 === 'number') return new Vector4(v1.x / v2, v1.y / v2, v1.z / v2, v1.w / v2);
     return new Vector4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w);
   }
 
-  public static dotProduct(v1: Vector, v2: Vector): number {
+  public static dotProduct(v1: Vector4Type, v2: Vector4Type): number {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
   }
 
-  public static crossProduct(v1: Vector, v2: Vector): Vector4 {
+  public static crossProduct(v1: Vector4Type, v2: Vector4Type): Vector4 {
     const x = v1.y * v2.z - v1.z * v2.y;
-    const y = v1.z * v2.x - v1.z * v2.z;
-    const z = v1.x * v2.y - v1.z * v2.x;
-    return new Vector4(x, y, z, v1.w); // This needs to be adjusted to be accurate instead of just sending the w of v1
+    const y = v1.z * v2.x - v1.x * v2.z;
+    const z = v1.x * v2.y - v1.y * v2.x;
+    return new Vector4(x, y, z, v1.w);
   }
 
   public static normalize(v: Vector4): Vector4 {
@@ -84,7 +84,7 @@ export class Vector4 implements Vec4 {
    * @param v Vector4 to find Euclidean magnitude between.
    * @returns Euclidean magnitude with another vector.
    */
-  public distanceSquared(v: Vector): number {
+  public distanceSquared(v: Vector4Type): number {
     const w: Vector4 = this.subtract(v);
     return Vector4.dotProduct(w, w);
   }
@@ -95,7 +95,7 @@ export class Vector4 implements Vec4 {
    * @param v Vector4 to find distance between.
    * @returns Distance between this and another vector.
    */
-  public distance(v: Vector): number {
+  public distance(v: Vector4Type): number {
     return Math.sqrt(this.distanceSquared(v));
   }
 
@@ -103,27 +103,27 @@ export class Vector4 implements Vec4 {
     return Vector4.normalize(this);
   }
 
-  public crossProduct(v: Vector): Vector4 {
+  public crossProduct(v: Vector4Type): Vector4 {
     return Vector4.crossProduct(this, v);
   }
 
-  public dotProduct(v: Vector): number {
+  public dotProduct(v: Vector4Type): number {
     return Vector4.dotProduct(this, v);
   }
 
-  public add(v: Vector | number): Vector4 {
+  public add(v: Vector4Type | number): Vector4 {
     return Vector4.add(this, v);
   }
 
-  public subtract(v: Vector): Vector4 {
+  public subtract(v: Vector4Type): Vector4 {
     return Vector4.subtract(this, v);
   }
 
-  public multiply(v: Vector | number): Vector4 {
+  public multiply(v: Vector4Type | number): Vector4 {
     return Vector4.multiply(this, v);
   }
 
-  public divide(v: Vector | number): Vector4 {
+  public divide(v: Vector4Type | number): Vector4 {
     return Vector4.divide(this, v);
   }
 
@@ -131,7 +131,7 @@ export class Vector4 implements Vec4 {
     return [this.x, this.y, this.z, this.w];
   }
 
-  public replace(v: Vector): void {
+  public replace(v: Vector4Type): void {
     this.x = v.x;
     this.y = v.y;
     this.z = v.z;

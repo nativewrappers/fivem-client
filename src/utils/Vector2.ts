@@ -5,7 +5,7 @@ export interface Vec2 {
   y: number;
 }
 
-export type Vector = Vector2 | Vec2;
+export type Vector2Type = Vector2 | Vec2;
 
 export class Vector2 implements Vec2 {
   public static create(v1: Vec2 | number): Vector2 {
@@ -35,34 +35,28 @@ export class Vector2 implements Vec2 {
     return Vector2.create(v1);
   }
 
-  public static add(v1: Vector, v2: Vector | number): Vector2 {
+  public static add(v1: Vector2Type, v2: Vector2Type | number): Vector2 {
     if (typeof v2 === 'number') return new Vector2(v1.x + v2, v1.y + v2);
     return new Vector2(v1.x + v2.x, v1.y + v2.y);
   }
 
-  public static subtract(v1: Vector, v2: Vector | number): Vector2 {
+  public static subtract(v1: Vector2Type, v2: Vector2Type | number): Vector2 {
     if (typeof v2 === 'number') return new Vector2(v1.x - v2, v1.y - v2);
     return new Vector2(v1.x - v2.x, v1.y - v2.y);
   }
 
-  public static multiply(v1: Vector, v2: Vector | number): Vector2 {
+  public static multiply(v1: Vector2Type, v2: Vector2Type | number): Vector2 {
     if (typeof v2 === 'number') return new Vector2(v1.x * v2, v1.y * v2);
     return new Vector2(v1.x * v2.x, v1.y * v2.y);
   }
 
-  public static divide(v1: Vector, v2: Vector | number): Vector2 {
+  public static divide(v1: Vector2Type, v2: Vector2Type | number): Vector2 {
     if (typeof v2 === 'number') return new Vector2(v1.x / v2, v1.y / v2);
     return new Vector2(v1.x / v2.x, v1.y / v2.y);
   }
 
-  public static dotProduct(v1: Vector, v2: Vector): number {
+  public static dotProduct(v1: Vector2Type, v2: Vector2Type): number {
     return v1.x * v2.x + v1.y * v2.y;
-  }
-
-  public static crossProduct(v1: Vector, v2: Vector): Vector2 {
-    const x = v1.y * v2.x - v1.x * v2.y;
-    const y = v1.y * v2.x - v1.y * v2.y;
-    return new Vector2(x, y);
   }
 
   public static normalize(v: Vector2): Vector2 {
@@ -81,7 +75,7 @@ export class Vector2 implements Vec2 {
    * @param v Vector2 to find Euclidean magnitude between.
    * @returns Euclidean magnitude with another vector.
    */
-  public distanceSquared(v: Vector): number {
+  public distanceSquared(v: Vector2Type): number {
     const w: Vector2 = this.subtract(v);
     return Vector2.dotProduct(w, w);
   }
@@ -92,7 +86,7 @@ export class Vector2 implements Vec2 {
    * @param v Vector2 to find distance between.
    * @returns Distance between this and another vector.
    */
-  public distance(v: Vector): number {
+  public distance(v: Vector2Type): number {
     return Math.sqrt(this.distanceSquared(v));
   }
 
@@ -100,27 +94,23 @@ export class Vector2 implements Vec2 {
     return Vector2.normalize(this);
   }
 
-  public crossProduct(v: Vector): Vector2 {
-    return Vector2.crossProduct(this, v);
-  }
-
-  public dotProduct(v: Vector): number {
+  public dotProduct(v: Vector2Type): number {
     return Vector2.dotProduct(this, v);
   }
 
-  public add(v: Vector | number): Vector2 {
+  public add(v: Vector2Type | number): Vector2 {
     return Vector2.add(this, v);
   }
 
-  public subtract(v: Vector): Vector2 {
+  public subtract(v: Vector2Type): Vector2 {
     return Vector2.subtract(this, v);
   }
 
-  public multiply(v: Vector | number): Vector2 {
+  public multiply(v: Vector2Type | number): Vector2 {
     return Vector2.multiply(this, v);
   }
 
-  public divide(v: Vector | number): Vector2 {
+  public divide(v: Vector2Type | number): Vector2 {
     return Vector2.divide(this, v);
   }
 
@@ -128,7 +118,7 @@ export class Vector2 implements Vec2 {
     return [this.x, this.y];
   }
 
-  public replace(v: Vector): void {
+  public replace(v: Vector2Type): void {
     this.x = v.x;
     this.y = v.y;
   }
