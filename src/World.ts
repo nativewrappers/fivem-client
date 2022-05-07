@@ -8,6 +8,7 @@ import { VehicleHash } from './hashes';
 import { Ped, Vehicle } from './models';
 import { Pickup } from './Pickup';
 import { RaycastResult } from './Raycast';
+import { Rope } from './Rope';
 import { Color, Maths, Vector3 } from './utils';
 
 /**
@@ -834,8 +835,6 @@ export abstract class World {
   /**
    * Get all [[`Prop`]] entities in your own scope.
    *
-   * We recommend using [[getAllPropsInGamePool]] instead.
-   *
    * @returns Array of Props.
    */
   public static getAllProps(): Prop[] {
@@ -848,18 +847,21 @@ export abstract class World {
   }
 
   /**
-   * Get all [[`Prop`]] entities using the GetGamePool.
-   * @deprecated Use [[getAllProps]] instead.
-   * @returns Array of Props.
+   * Get all [[`Rope`]] entities in your own scope.
+   *
+   * @returns Array of Ropes.
    */
-  public static getAllPropsInGamePool(): Prop[] {
-    return this.getAllProps();
+  public static getAllRopes(): Rope[] {
+    const handles: number[] = GetAllRopes();
+    const props: Rope[] = [];
+
+    handles.forEach(handle => props.push(new Rope(handle)));
+
+    return props;
   }
 
   /**
    * Get all [[`Ped`]] entities in your own scope.
-   *
-   * We recommend using [[getAllPedsInGamePool]] instead.
    *
    * @returns Array of Peds.
    */
@@ -873,18 +875,7 @@ export abstract class World {
   }
 
   /**
-   * Get all [[`Ped`]] entities using the GetGamePool.
-   * @deprecated Use [[getAllPeds]] instead
-   * @returns Array of Peds.
-   */
-  public static getAllPedsInGamePool(): Ped[] {
-    return this.getAllPeds();
-  }
-
-  /**
    * Get all [[`Vehicle`]] entities in your own scope.
-   *
-   * We recommend using [[getAllVehiclesInGamePool]] instead.
    *
    * @returns Array of Vehicles.
    */
@@ -895,15 +886,6 @@ export abstract class World {
     handles.forEach(handle => vehicles.push(new Vehicle(handle)));
 
     return vehicles;
-  }
-
-  /**
-   * Get all [[`Vehicle`]] entities using the GetGamePool.
-   * @deprecated Use [[getAllVehicles]] instead
-   * @returns Array of Vehicles.
-   */
-  public static getAllVehiclesInGamePool(): Vehicle[] {
-    return this.getAllVehicles();
   }
 
   /**
@@ -931,44 +913,10 @@ export abstract class World {
   }
 
   /**
-   * Get all [[`Pickup`]] entities in your own scope.
-   *
-   * We recommend using [[getAllPickupsInGamePool]] instead.
-   *
-   * @returns Array of Pickups.
-   */
-  public static getAllPickups(): Pickup[] {
-    const pickups: Pickup[] = [];
-
-    const [handle, entityHandle] = FindFirstPickup(0) as unknown as [number, number];
-    let pickup: Pickup = new Pickup(entityHandle);
-
-    if (pickup !== undefined && pickup !== null && pickup.exists()) {
-      pickups.push(pickup);
-    }
-
-    let findResult: [number | boolean, number] = [false, 0];
-
-    do {
-      findResult = FindNextPickup(handle, 0) as unknown as [number | boolean, number];
-      if (findResult[0]) {
-        pickup = new Pickup(findResult[1]);
-        if (pickup !== undefined && pickup !== null && pickup.exists()) {
-          pickups.push(pickup);
-        }
-      }
-    } while (findResult[0]);
-
-    EndFindPickup(handle);
-
-    return pickups;
-  }
-
-  /**
    * Get all [[`Pickup`]] entities using the GetGamePool.
    * @returns Array of Pickups.
    */
-  public static getAllPickupsInGamePool(): Pickup[] {
+  public static getAllPickups(): Pickup[] {
     const handles: number[] = GetGamePool('CPickup');
     const pickups: Pickup[] = [];
 
