@@ -1,4 +1,6 @@
+export { Vector2 } from './Vector2';
 export { Vector3 } from './Vector3';
+export { Vector4 } from './Vector4';
 export { String } from './String';
 export { LiteEvent } from './LiteEvent';
 export { PointF } from './PointF';
