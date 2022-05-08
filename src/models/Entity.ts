@@ -17,9 +17,9 @@ export class Entity {
         return new Vehicle(handle);
       case 3:
         return new Prop(handle);
+      default:
+        return null
     }
-
-    return null;
   }
 
   public static fromNetworkId(networkId: number): Ped | Vehicle | Prop | null {
@@ -38,6 +38,21 @@ export class Entity {
     return this.handle;
   }
 
+  /**
+   * @returns if the entity is a networked entity or local entity
+   */
+  public get IsNetworked(): boolean {
+    return NetworkGetEntityIsNetworked(this.handle);
+  }
+
+  public set IsNetworked(networked: boolean) {
+    if (networked) {
+      NetworkRegisterEntityAsNetworked(this.handle);
+    } else {
+      NetworkUnregisterNetworkedEntity(this.handle);
+    }
+  }
+
   public get NetworkId(): number {
     return NetworkGetNetworkIdFromEntity(this.handle);
   }
@@ -50,7 +65,7 @@ export class Entity {
     keyFilter: string | null,
     handler: StateBagChangeHandler,
   ): number {
-    const stateBagName = NetworkGetEntityIsNetworked(this.handle)
+    const stateBagName = this.IsNetworked
       ? `entity:${this.NetworkId}`
       : `localEntity:${this.handle}`;
     // keyFilter is casted to any because it can take a null value.
@@ -94,16 +109,56 @@ export class Entity {
     SetEntityMaxHealth(this.handle, amount);
   }
 
+  public set IsDead(value: boolean) {
+    if (value) {
+      SetEntityHealth(this.handle, 0);
+    } else {
+      SetEntityHealth(this.handle, 200);
+    }
+  }
+
+  public get IsDead(): boolean {
+    return IsEntityDead(this.handle);
+  }
+
+  public get IsAlive(): boolean {
+    return !IsEntityDead(this.handle);
+  }
+
+  /**
+   * @deprecated use [[IsDead]] instead
+   */
   public isDead(): boolean {
     return IsEntityDead(this.handle);
   }
 
+  /**
+   * @deprecated use [[IsAlive]] instead
+   */
   public isAlive(): boolean {
     return !this.isDead();
   }
 
   public get Model(): Model {
     return new Model(GetEntityModel(this.handle));
+  }
+
+  /**
+   * Returns if the entity is set as a mission entity and will not be cleaned up by the engine
+   */
+  public get IsMissionEntity(): boolean {
+    return IsEntityAMissionEntity(this.handle);
+  }
+
+  /**
+   * Sets if the entity is a mission entity and will not be cleaned up by the engine
+   */
+  public set IsMissionEntity(value: boolean) {
+    if (value) {
+      SetEntityAsMissionEntity(this.handle, false, false);
+    } else {
+      SetEntityAsNoLongerNeeded(this.handle);
+    }
   }
 
   public get Position(): Vector3 {
@@ -143,6 +198,10 @@ export class Entity {
 
   public set Heading(heading: number) {
     SetEntityHeading(this.handle, heading);
+  }
+
+  public get IsPositionFrozen(): boolean {
+    return IsEntityPositionFrozen(this.handle);
   }
 
   public set IsPositionFrozen(value: boolean) {
@@ -219,15 +278,21 @@ export class Entity {
     return IsEntityInWater(this.handle);
   }
 
+  /**
+   * @deprecated use [[IsMissionEntity]] instead as its more obvious as what it does
+   */
   public get IsPersistent(): boolean {
     return IsEntityAMissionEntity(this.handle);
   }
 
+  /**
+   * @deprecated use [[IsMissionEntity]] instead as its more obvious as what it does
+   */
   public set IsPersistent(value: boolean) {
     if (value) {
       SetEntityAsMissionEntity(this.handle, true, false);
     } else {
-      this.markAsNoLongerNeeded();
+      SetEntityAsNoLongerNeeded(this.handle);
     }
   }
 
@@ -247,6 +312,9 @@ export class Entity {
     return GetEntityAlpha(this.handle);
   }
 
+  /**
+   * Sets how transparent an entity is, if you want to reset the alpha level use [[resetOpacity]] instead;
+   */
   public set Opacity(value: number) {
     SetEntityAlpha(this.handle, value, false);
   }
@@ -544,8 +612,15 @@ export class Entity {
     );
   }
 
-  public removeAllParticleEffects(): void {
+  /**
+   * Removes all particle effects from the entity
+   */
+  public removePtfxEffects(): void {
     RemoveParticleFxFromEntity(this.handle);
+  }
+
+  public removeAllParticleEffects(): void {
+    this.removePtfxEffects();
   }
 
   public exists(): boolean {
@@ -554,7 +629,7 @@ export class Entity {
 
   public delete(): void {
     if (this.handle !== Game.PlayerPed.Handle) {
-      SetEntityAsMissionEntity(this.handle, false, true);
+      this.IsMissionEntity = true;
       DeleteEntity(this.handle);
       for (const cookie of this.stateBagCookies) {
         RemoveStateBagChangeHandler(cookie);
@@ -562,8 +637,10 @@ export class Entity {
     }
   }
 
+  /**
+   * @deprecated use [[IsMissionEntity]] setter as false instead.
+   */
   public markAsNoLongerNeeded(): void {
-    SetEntityAsMissionEntity(this.Handle, false, true);
     SetEntityAsNoLongerNeeded(this.Handle);
   }
 }
