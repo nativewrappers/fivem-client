@@ -18,7 +18,7 @@ export class Entity {
       case 3:
         return new Prop(handle);
       default:
-        return null
+        return null;
     }
   }
 
