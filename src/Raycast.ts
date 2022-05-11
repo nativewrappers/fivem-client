@@ -56,7 +56,6 @@ export class RaycastResult {
     return this.result;
   }
 
-
   private handle: number;
   private hitPositionArg: Vector3;
   private hitSomethingArg: boolean;
@@ -80,7 +79,8 @@ export class RaycastResult {
     this.surfaceNormalArg = new Vector3(0, 0, 0);
     this.materialArg = 0;
 
-    const [result, hit, endCoords, surfaceNormal, materialHash, entityHit] = GetShapeTestResultIncludingMaterial(this.handle);
+    const [result, hit, endCoords, surfaceNormal, materialHash, entityHit] =
+      GetShapeTestResultIncludingMaterial(this.handle);
     this.hitSomethingArg = hit;
     this.hitPositionArg = Vector3.fromArray(endCoords);
     this.surfaceNormalArg = Vector3.fromArray(surfaceNormal);

@@ -451,16 +451,15 @@ export class Entity {
   }
 
   public getOffsetPosition(offset: Vector3): Vector3 {
-    return Vector3.fromArray(GetOffsetFromEntityInWorldCoords(this.handle, offset.x, offset.y, offset.z));
+    return Vector3.fromArray(
+      GetOffsetFromEntityInWorldCoords(this.handle, offset.x, offset.y, offset.z),
+    );
   }
 
   public getPositionOffset(worldCoords: Vector3): Vector3 {
-    return Vector3.fromArray(GetOffsetFromEntityGivenWorldCoords(
-      this.handle,
-      worldCoords.x,
-      worldCoords.y,
-      worldCoords.z,
-    ));
+    return Vector3.fromArray(
+      GetOffsetFromEntityGivenWorldCoords(this.handle, worldCoords.x, worldCoords.y, worldCoords.z),
+    );
   }
 
   public attachTo(

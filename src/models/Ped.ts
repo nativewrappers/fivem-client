@@ -635,7 +635,7 @@ export class Ped extends Entity {
   public getLastWeaponImpactPosition(): Vector3 {
     const [valid, coords] = GetPedLastWeaponImpactCoord(this.handle);
 
-    return valid ? Vector3.fromArray(coords) : new Vector3(0, 0, 0); 
+    return valid ? Vector3.fromArray(coords) : new Vector3(0, 0, 0);
   }
 
   public get CanRagdoll(): boolean {
