@@ -1,5 +1,6 @@
 import { Game } from './Game';
 import { VehicleHash } from './hashes';
+import { Dimensions } from './interfaces/Dimensions';
 import { Vector3 } from './utils';
 
 /**
@@ -185,13 +186,13 @@ export class Model {
   /**
    * Gets the model dimensions.
    *
-   * @returns This model dimensions.
+   * @returns This model min & max dimensions.
    */
-  public get Dimensions(): Vector3 {
-    const [min, max] = GetModelDimensions(this.hash);
-    const right = new Vector3(min[0], min[1], min[2]);
-    const left = new Vector3(max[0], max[1], max[2]);
-    return Vector3.subtract(left, right);
+  public get Dimensions(): Dimensions {
+    const [minArray, maxArray] = GetModelDimensions(this.hash);
+    const min = Vector3.fromArray(minArray);
+    const max = Vector3.fromArray(maxArray);
+    return { min, max };
   }
 
   /**
