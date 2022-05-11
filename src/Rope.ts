@@ -141,8 +141,7 @@ export class Rope {
    * @returns The vector location of the vertex.
    */
   public getVertexCoord(vertex: number): Vector3 {
-    const coords = GetRopeVertexCoord(this.handle, vertex);
-    return new Vector3(coords[0], coords[1], coords[2]);
+    return Vector3.fromArray(GetRopeVertexCoord(this.handle, vertex));
   }
 
   /**

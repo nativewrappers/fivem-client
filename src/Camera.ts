@@ -33,8 +33,7 @@ export class Camera {
   }
 
   public get Position(): Vector3 {
-    const pos = GetCamCoord(this.handle);
-    return new Vector3(pos[0], pos[1], pos[2]);
+    return Vector3.fromArray(GetCamCoord(this.handle));
   }
 
   public set Position(position: Vector3) {
@@ -42,8 +41,7 @@ export class Camera {
   }
 
   public get Rotation(): Vector3 {
-    const rot = GetCamRot(this.handle, 2);
-    return new Vector3(rot[0], rot[1], rot[2]);
+    return Vector3.fromArray(GetCamRot(this.handle, 2));
   }
 
   public set Rotation(rotation: Vector3) {

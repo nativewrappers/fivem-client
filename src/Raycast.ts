@@ -56,6 +56,7 @@ export class RaycastResult {
     return this.result;
   }
 
+
   private handle: number;
   private hitPositionArg: Vector3;
   private hitSomethingArg: boolean;
@@ -63,6 +64,8 @@ export class RaycastResult {
   private surfaceNormalArg: Vector3;
   private materialArg: MaterialHash;
   private result: number;
+
+  // FIXME: This only works with StartExpensiveSynchronousShapeTestLosProbe, this should have some getter you have to await afterwards for all of the data
 
   /**
    * Create a RaycastResult object that gets the results from a StartShapeTestRay()
@@ -77,13 +80,13 @@ export class RaycastResult {
     this.surfaceNormalArg = new Vector3(0, 0, 0);
     this.materialArg = 0;
 
-    const results = GetShapeTestResultEx(this.handle);
-    this.hitSomethingArg = results[1];
-    this.hitPositionArg = new Vector3(results[2][0], results[2][1], results[2][2]);
-    this.surfaceNormalArg = new Vector3(results[3][0], results[3][1], results[3][2]);
-    this.materialArg = results[4];
-    this.entityHandleArg = Game.entityFromHandle(results[5]);
+    const [result, hit, endCoords, surfaceNormal, materialHash, entityHit] = GetShapeTestResultIncludingMaterial(this.handle);
+    this.hitSomethingArg = hit;
+    this.hitPositionArg = Vector3.fromArray(endCoords);
+    this.surfaceNormalArg = Vector3.fromArray(surfaceNormal);
+    this.materialArg = materialHash;
+    this.entityHandleArg = Game.entityFromHandle(entityHit);
 
-    this.result = results[0];
+    this.result = result;
   }
 }

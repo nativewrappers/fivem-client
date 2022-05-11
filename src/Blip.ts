@@ -14,8 +14,7 @@ export class Blip {
   }
 
   public get Position(): Vector3 {
-    const coords = GetBlipInfoIdCoord(this.handle);
-    return new Vector3(coords[0], coords[1], coords[2]);
+    return Vector3.fromArray(GetBlipInfoIdCoord(this.handle));
   }
 
   public set Position(location: Vector3) {

@@ -792,7 +792,7 @@ export abstract class World {
     const target = Vector3.add(source, Vector3.multiply(direction, maxDistance));
 
     return new RaycastResult(
-      StartShapeTestRay(
+      StartExpensiveSynchronousShapeTestLosProbe(
         source.x,
         source.y,
         source.z,

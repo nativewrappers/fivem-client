@@ -162,8 +162,7 @@ export class Entity {
   }
 
   public get Position(): Vector3 {
-    const coords = GetEntityCoords(this.handle, false);
-    return new Vector3(coords[0], coords[1], coords[2]);
+    return Vector3.fromArray(GetEntityCoords(this.handle, false));
   }
 
   public set Position(position: Vector3) {
@@ -175,8 +174,7 @@ export class Entity {
   }
 
   public get Rotation(): Vector3 {
-    const rotation = GetEntityRotation(this.handle, 2);
-    return new Vector3(rotation[0], rotation[1], rotation[2]);
+    return Vector3.fromArray(GetEntityRotation(this.handle, 2));
   }
 
   public set Rotation(rotation: Vector3) {
@@ -209,8 +207,7 @@ export class Entity {
   }
 
   public get Velocity(): Vector3 {
-    const velocity = GetEntityVelocity(this.handle);
-    return new Vector3(velocity[0], velocity[1], velocity[2]);
+    return Vector3.fromArray(GetEntityVelocity(this.handle));
   }
 
   public set Velocity(velocity: Vector3) {
@@ -218,8 +215,7 @@ export class Entity {
   }
 
   public get RotationVelocity(): Vector3 {
-    const velocity = GetEntityRotationVelocity(this.handle);
-    return new Vector3(velocity[0], velocity[1], velocity[2]);
+    return Vector3.fromArray(GetEntityRotationVelocity(this.handle));
   }
 
   public set MaxSpeed(value: number) {
@@ -455,20 +451,16 @@ export class Entity {
   }
 
   public getOffsetPosition(offset: Vector3): Vector3 {
-    const o = GetOffsetFromEntityInWorldCoords(this.handle, offset.x, offset.y, offset.z);
-
-    return new Vector3(o[0], o[1], o[2]);
+    return Vector3.fromArray(GetOffsetFromEntityInWorldCoords(this.handle, offset.x, offset.y, offset.z));
   }
 
   public getPositionOffset(worldCoords: Vector3): Vector3 {
-    const o = GetOffsetFromEntityGivenWorldCoords(
+    return Vector3.fromArray(GetOffsetFromEntityGivenWorldCoords(
       this.handle,
       worldCoords.x,
       worldCoords.y,
       worldCoords.z,
-    );
-
-    return new Vector3(o[0], o[1], o[2]);
+    ));
   }
 
   public attachTo(

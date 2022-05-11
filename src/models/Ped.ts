@@ -633,9 +633,9 @@ export class Ped extends Entity {
   }
 
   public getLastWeaponImpactPosition(): Vector3 {
-    const position = GetPedLastWeaponImpactCoord(this.handle)[1];
+    const [valid, coords] = GetPedLastWeaponImpactCoord(this.handle);
 
-    return new Vector3(position[0], position[1], position[2]); // Does this work?
+    return valid ? Vector3.fromArray(coords) : new Vector3(0, 0, 0); 
   }
 
   public get CanRagdoll(): boolean {

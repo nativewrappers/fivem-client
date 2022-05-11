@@ -11,8 +11,7 @@ export class EntityBone {
   }
 
   public get Position(): Vector3 {
-    const coords = GetWorldPositionOfEntityBone(this.owner.Handle, this.index);
-    return new Vector3(coords[0], coords[1], coords[2]);
+    return Vector3.fromArray(GetWorldPositionOfEntityBone(this.owner.Handle, this.index));
   }
 
   public get IsValid(): boolean {

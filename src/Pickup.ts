@@ -8,8 +8,7 @@ export class Pickup {
   }
 
   public get Position(): Vector3 {
-    const coords = GetPickupCoords(this.handle);
-    return new Vector3(coords[0], coords[1], coords[2]);
+    return Vector3.fromArray(GetPickupCoords(this.handle));
   }
 
   public get IsCollected(): boolean {

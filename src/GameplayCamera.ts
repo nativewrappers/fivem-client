@@ -8,16 +8,14 @@ export abstract class GameplayCamera {
    * Get the world position of gameplay camera.
    */
   public static get Position(): Vector3 {
-    const coords = GetGameplayCamCoords();
-    return new Vector3(coords[0], coords[1], coords[2]);
+    return Vector3.fromArray(GetGameplayCamCoords());
   }
 
   /**
    * Get the rotation of gameplay camera.
    */
   public static get Rotation(): Vector3 {
-    const rot = GetGameplayCamRot(2);
-    return new Vector3(rot[0], rot[1], rot[2]);
+    return Vector3.fromArray(GetGameplayCamRot(2));
   }
 
   /**
@@ -25,14 +23,13 @@ export abstract class GameplayCamera {
    */
   public static get ForwardVector(): Vector3 {
     const rotation = Vector3.multiply(this.Rotation, Math.PI / 180);
-    const normalized = Vector3.normalize(
+    return Vector3.normalize(
       new Vector3(
         -Math.sin(rotation.z) * Math.abs(Math.cos(rotation.x)),
         Math.cos(rotation.z) * Math.abs(Math.cos(rotation.x)),
         Math.sin(rotation.x),
       ),
     );
-    return new Vector3(normalized.x, normalized.y, normalized.z);
   }
 
   /**
