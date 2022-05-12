@@ -1,7 +1,7 @@
 import { Entity, Model, Prop } from './';
 import { Blip } from './Blip';
 import { Camera } from './Camera';
-import { CloudHat, IntersectOptions, MarkerType, Weather } from './enums';
+import { CloudHat, IntersectOptions, MarkerType, RopeType, Weather } from './enums';
 import { CameraTypes } from './enums/CameraTypes';
 import { PickupType } from './enums/PickupType';
 import { VehicleHash } from './hashes';
@@ -9,7 +9,7 @@ import { Ped, Vehicle } from './models';
 import { Pickup } from './Pickup';
 import { RaycastResult } from './Raycast';
 import { Rope } from './Rope';
-import { Color, Maths, Vector3 } from './utils';
+import { Wait, Color, Maths, Vector3 } from './utils';
 
 /**
  * Class with common world manipulations.
@@ -51,6 +51,14 @@ export abstract class World {
       value.IsActive = true;
       RenderScriptCams(true, false, 3000, true, false);
     }
+  }
+
+  /**
+   * Whether to create a network world state for Ropes
+   * This currently does nothing
+   */
+  public static set RopesCreateNetworkWorldState(value: boolean) {
+    SetRopesCreateNetworkWorldState(value);
   }
 
   /**
@@ -298,7 +306,7 @@ export abstract class World {
    * ```ts
    * const cam = World.createCamera(CameraTypes.Spline, true);
    * ```
-   * @param camerType the camera type to create
+   * @param cameraType the camera type to create
    * @param active unknown
    * @returns
    */
@@ -444,6 +452,65 @@ export abstract class World {
     return new Vehicle(
       CreateVehicle(model.Hash, position.x, position.y, position.z, heading, isNetwork, false),
     );
+  }
+
+  /*
+   * Creates a rope at the specified location.
+   *
+   * ```typescript
+   * const position = new Vector3(-802.311, 175.056, 72.8446)
+   * const rotation = new Vector3(0,0,0)
+   * const rope = await World.createRope(position, rotation, 15.0, RopeType.ThickRope, 3.0, 0.5);
+   * ```
+   *
+   * You should manually call `RopeUnloadTextures()` after you finish using **all** ropes, unlike models requesting rope models is instantaneous
+   * If called with collisionOn you will have to LoadRopeData after
+   */
+  public static async createRope(
+    position: Vector3,
+    rotation: Vector3,
+    maxLength: number,
+    ropeType: RopeType,
+    initLength: number,
+    minLength: number,
+    lengthChangeRate = 1.0,
+    onlyPPU = false,
+    collisionOn = false,
+    lockFromFront = false,
+    timeMultiplier = 1.0,
+    breakable = false,
+    shouldLoadTextures = true,
+  ): Promise<Rope> {
+    if (shouldLoadTextures) {
+      if (!RopeAreTexturesLoaded()) {
+        RopeLoadTextures();
+      }
+
+      while (!RopeAreTexturesLoaded()) {
+        await Wait(0);
+      }
+    }
+
+    const [ropeHandle] = AddRope(
+      position.x,
+      position.y,
+      position.z,
+      rotation.x,
+      rotation.y,
+      rotation.z,
+      maxLength,
+      ropeType,
+      initLength,
+      minLength,
+      lengthChangeRate,
+      onlyPPU,
+      collisionOn,
+      lockFromFront,
+      timeMultiplier,
+      breakable,
+    );
+
+    return new Rope(ropeHandle);
   }
 
   /**

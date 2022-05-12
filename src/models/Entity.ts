@@ -450,6 +450,10 @@ export class Entity {
     return IsEntityTouchingModel(this.handle, model.Hash);
   }
 
+  /**
+   * @param offset: the amount to offset from the entity
+   * @returns the offset position from the entity in world coords
+   */
   public getOffsetPosition(offset: Vector3): Vector3 {
     return Vector3.fromArray(
       GetOffsetFromEntityInWorldCoords(this.handle, offset.x, offset.y, offset.z),
@@ -610,12 +614,15 @@ export class Entity {
     RemoveParticleFxFromEntity(this.handle);
   }
 
+  /**
+   * @deprecated use [[removePtfxEffects]]
+   */
   public removeAllParticleEffects(): void {
     this.removePtfxEffects();
   }
 
   public exists(): boolean {
-    return DoesEntityExist(this.handle) ? true : false;
+    return DoesEntityExist(this.handle);
   }
 
   public delete(): void {
