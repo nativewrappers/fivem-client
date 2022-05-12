@@ -19,6 +19,9 @@ export class Rope {
     this.handle = handle;
   }
 
+  public get Handle(): number {
+    return this.handle;
+  }
   /**
    * Get the length of the rope.
    *
