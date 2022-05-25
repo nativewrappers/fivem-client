@@ -19,7 +19,7 @@ export class Player {
   /**
    * @param handle the player handle, or if on the server, their source.
    */
-  constructor(handle: number) {
+  constructor(handle: number = -1) {
     this.handle = handle;
     if (!IsDuplicityVersion()) {
       this.PvPEnabled = true;

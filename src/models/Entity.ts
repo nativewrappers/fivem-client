@@ -7,6 +7,7 @@ import { Quaternion, Vector3 } from '../utils';
 import { EntityBoneCollection, Ped, Prop, Vehicle } from './';
 import { EntityBone } from './EntityBone';
 import cfx, { StateBagChangeHandler } from '../cfx';
+import { Player } from '..';
 
 export class Entity {
   public static fromHandle(handle: number): Ped | Vehicle | Prop | null {
@@ -91,6 +92,18 @@ export class Entity {
       if (isCookie) RemoveStateBagChangeHandler(cookie);
       return isCookie;
     });
+  }
+
+  public get Owner(): number {
+    return NetworkGetEntityOwner(this.handle);
+  }
+
+  public isPlayerOwner(player: Player): boolean {
+    return this.Owner === player.Handle;
+  }
+
+  public get Speed(): number {
+    return GetEntitySpeed(this.handle);
   }
 
   public get Health(): number {

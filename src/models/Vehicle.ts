@@ -151,10 +151,6 @@ export class Vehicle extends Entity {
     SetVehRadioStation(this.handle, value);
   }
 
-  public get Speed(): number {
-    return GetEntitySpeed(this.handle);
-  }
-
   public set Speed(value: number) {
     if (this.Model.IsTrain) {
       SetTrainSpeed(this.handle, value);
