@@ -107,11 +107,11 @@ export class Entity {
   }
 
   public getSpeedVector(isRelative = false): Vector3 {
-    return Vector3.fromArray(GetEntitySpeedVector(this.handle, isRelative))
+    return Vector3.fromArray(GetEntitySpeedVector(this.handle, isRelative));
   }
 
   public get Matrix(): Vector3[] {
-      return Vector3.fromArrays(GetEntityMatrix(this.handle));
+    return Vector3.fromArrays(GetEntityMatrix(this.handle));
   }
 
   public set Matrix(vectors: Vector3[]) {
@@ -119,13 +119,21 @@ export class Entity {
     const [forward, right, up, pos] = vectors;
     SetEntityMatrix(
       this.handle,
-      forward.x, forward.y, forward.z,
-      right.x, right.y, right.z,
-      up.x, up.y, up.z,
-      pos.x, pos.y, pos.z
-    )
+      forward.x,
+      forward.y,
+      forward.z,
+      right.x,
+      right.y,
+      right.z,
+      up.x,
+      up.y,
+      up.z,
+      pos.x,
+      pos.y,
+      pos.z,
+    );
   }
- 
+
   public get Health(): number {
     return GetEntityHealth(this.handle);
   }
