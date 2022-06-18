@@ -236,8 +236,15 @@ export class Vehicle extends Entity {
     SetVehicleSiren(this.handle, value);
   }
 
+  public set HasMutedSirens(value: boolean) {
+    SetVehicleHasMutedSirens(this.handle, value);
+  }
+
+  /**
+   * @deprecated use {@HasMutedSirens} instead.
+   */
   public set IsSirenSilent(value: boolean) {
-    DisableVehicleImpactExplosionActivation(this.handle, value);
+    SetVehicleHasMutedSirens(this.handle, value);
   }
 
   public soundHorn(duration: number): void {
