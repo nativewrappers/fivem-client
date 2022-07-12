@@ -1,15 +1,21 @@
 import { Entity, Model, Prop } from './';
 import { Blip } from './Blip';
 import { Camera } from './Camera';
-import { CloudHat, IntersectOptions, MarkerType, RopeType, Weather } from './enums';
-import { CameraTypes } from './enums/CameraTypes';
-import { PickupType } from './enums/PickupType';
+import {
+  CameraTypes,
+  CloudHat,
+  IntersectOptions,
+  MarkerType,
+  PickupType,
+  RopeType,
+  Weather,
+} from './enums';
 import { VehicleHash } from './hashes';
 import { Ped, Vehicle } from './models';
 import { Pickup } from './Pickup';
 import { RaycastResult } from './Raycast';
 import { Rope } from './Rope';
-import { Wait, Color, Maths, Vector3 } from './utils';
+import { Color, Maths, Vector3, Wait } from './utils';
 
 /**
  * Class with common world manipulations.

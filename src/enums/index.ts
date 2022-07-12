@@ -35,22 +35,8 @@ export { Relationship } from './Relationship';
 export { RopeType } from './RopeType';
 export { ScreenEffect } from './ScreenEffect';
 export { SpeechModifier } from './SpeechModifier';
-export {
-  VehicleClass,
-  VehicleColor,
-  VehicleLandingGearState,
-  VehicleLockStatus,
-  VehicleNeonLight,
-  VehicleRoofState,
-  VehicleSeat,
-  VehicleWindowTint,
-  VehicleWindowIndex,
-  VehicleModType,
-  VehicleToggleModType,
-  VehiclePaintType,
-  VehicleDoorIndex,
-  VehicleWheelType,
-  VehicleWheelIndex,
-} from './Vehicle';
+export * from './Vehicle';
 export { Weather } from './Weather';
 export { ZoneID } from './ZoneID';
+export { PickupType } from './PickupType';
+export { CameraTypes } from './CameraTypes';
