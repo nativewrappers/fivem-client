@@ -7,10 +7,11 @@ import {
   VehicleToggleModType,
   VehicleWheelType,
   VehicleWindowTint,
+  LicensePlateStyle,
+  LicensePlateType,
 } from '../enums';
 import { VehicleMod } from './VehicleMod';
 import { Color } from '../utils';
-import { LicensePlateStyle, LicensePlateType } from '../enums/Vehicle';
 import { VehicleToggleMod } from './VehicleToggleMod';
 
 export class VehicleModCollection {
