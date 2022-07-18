@@ -58,6 +58,14 @@ export class Entity {
     return NetworkGetNetworkIdFromEntity(this.handle);
   }
 
+  public get IsNetworkConcealed(): boolean {
+    return NetworkIsEntityConcealed(this.handle);
+  }
+
+  public set IsNetworkConcealed(concealed: boolean) {
+    NetworkConcealEntity(this.handle, concealed);
+  }
+
   public get State(): StateBagInterface {
     return cfx.Entity(this.handle).state;
   }
