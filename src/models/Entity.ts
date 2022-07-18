@@ -118,6 +118,10 @@ export class Entity {
     return Vector3.fromArray(GetEntitySpeedVector(this.handle, isRelative));
   }
 
+  public get ForwardVector(): Vector3 {
+    return Vector3.fromArray(GetEntityForwardVector(this.handle));
+  }
+
   public get Matrix(): Vector3[] {
     return Vector3.fromArrays(GetEntityMatrix(this.handle));
   }
