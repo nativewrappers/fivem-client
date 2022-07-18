@@ -1,4 +1,4 @@
-import { Vector3 } from '.';
+import { Blip, Vector3 } from '.';
 import { Audio } from './Audio';
 import { Control, InputMode, Language, RadioStation } from './enums';
 import { Ped, Player, Prop, Vehicle } from './models';
@@ -472,6 +472,46 @@ export abstract class Game {
 
   public get LastVehicle(): Vehicle | null {
     return new Vehicle(GetPlayersLastVehicle());
+  }
+
+  public static getWaypointBlip(): Blip | null {
+    if (!Game.IsWaypointActive) return null;
+
+    for (
+      let handle = GetBlipInfoIdIterator(), blip = GetFirstBlipInfoId(handle);
+      DoesBlipExist(handle);
+      blip = GetNextBlipInfoId(handle)
+    ) {
+      if (GetBlipInfoIdType(blip) === 4) return new Blip(blip);
+    }
+
+    return null;
+  }
+
+  public static removeWaypoint(): void {
+    SetWaypointOff();
+  }
+
+  public static get WaypointPosition(): Vector3 {
+    const waypointBlip = this.getWaypointBlip();
+
+    if (waypointBlip == null) {
+      return Vector3.Zero;
+    }
+
+    const position = waypointBlip.Position;
+    position.z = this.getGroundHeight(position);
+
+    return position;
+  }
+
+  public static set WaypointPosition(position: Vector3) {
+    SetNewWaypoint(position.x, position.y);
+  }
+
+  public static getGroundHeight(position: Vector3): number {
+    RequestCollisionAtCoord(position.x, position.z, 1000.0);
+    return GetGroundZFor_3dCoord(position.x, position.y, 1000.0, false)[1];
   }
 
   protected static cachedPlayer: Player;
