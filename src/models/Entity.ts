@@ -58,6 +58,14 @@ export class Entity {
     return NetworkGetNetworkIdFromEntity(this.handle);
   }
 
+  public get IsNetworkConcealed(): boolean {
+    return NetworkIsEntityConcealed(this.handle);
+  }
+
+  public set IsNetworkConcealed(concealed: boolean) {
+    NetworkConcealEntity(this.handle, concealed);
+  }
+
   public get State(): StateBagInterface {
     return cfx.Entity(this.handle).state;
   }
@@ -108,6 +116,10 @@ export class Entity {
 
   public getSpeedVector(isRelative = false): Vector3 {
     return Vector3.fromArray(GetEntitySpeedVector(this.handle, isRelative));
+  }
+
+  public get ForwardVector(): Vector3 {
+    return Vector3.fromArray(GetEntityForwardVector(this.handle));
   }
 
   public get Matrix(): Vector3[] {
