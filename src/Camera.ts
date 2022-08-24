@@ -4,7 +4,7 @@ import { Vector3 } from './utils';
 import { LoadAnimDict } from './utils/Animations';
 
 export class Camera {
-  private readonly shakeNames: string[] = [
+  public static readonly shakeNames: string[] = [
     'HAND_SHAKE',
     'SMALL_EXPLOSION_SHAKE',
     'MEDIUM_EXPLOSION_SHAKE',
@@ -22,6 +22,10 @@ export class Camera {
 
   constructor(handle: number) {
     this.handle = handle;
+  }
+
+  public get Handle(): number {
+    return this.handle;
   }
 
   public get IsActive(): boolean {
@@ -143,7 +147,7 @@ export class Camera {
   }
 
   public shake(shakeType: CameraShake, amplitude: number): void {
-    ShakeCam(this.handle, this.shakeNames[Number(shakeType)], amplitude);
+    ShakeCam(this.handle, Camera.shakeNames[Number(shakeType)], amplitude);
   }
 
   public stopShaking(): void {
