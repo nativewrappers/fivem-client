@@ -468,6 +468,9 @@ export class Ped extends Entity {
     return this.tasks;
   }
 
+  public get DeathCause(): number {
+    return GetPedCauseOfDeath(this.handle);
+  }
   public get TaskSequenceProgress(): number {
     return GetSequenceProgress(this.handle);
   }

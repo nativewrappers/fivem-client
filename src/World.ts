@@ -10,6 +10,7 @@ import {
   RopeType,
   Weather,
 } from './enums';
+import { GameplayCamera } from './GameplayCamera';
 import { VehicleHash } from './hashes';
 import { Ped, Vehicle } from './models';
 import { Pickup } from './Pickup';
@@ -874,6 +875,33 @@ export abstract class World {
         target.z,
         Number(options),
         ignoreEntity.Handle,
+        7,
+      ),
+    );
+  }
+
+  /**
+   * Cast a ray from the local players camera until it hits an entity
+   *
+   * @param maxDistance Max distance to cast the ray.
+   * @param options Possible entity types to detect.
+   * @returns RaycastResult object.
+   */
+  public static raycastPlayerCamera(maxDistance: number, options: IntersectOptions): RaycastResult {
+    const camera = GameplayCamera.Position;
+    const direction = GameplayCamera.ForwardVector;
+
+    const destination = direction.multiply(maxDistance).add(camera);
+    return new RaycastResult(
+      StartExpensiveSynchronousShapeTestLosProbe(
+        camera.x,
+        camera.y,
+        camera.z,
+        destination.x,
+        destination.y,
+        destination.z,
+        Number(options),
+        PlayerPedId(),
         7,
       ),
     );

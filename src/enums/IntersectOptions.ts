@@ -3,13 +3,13 @@
  */
 export enum IntersectOptions {
   Everything = -1,
-  Map = 1,
-  MissionEntities,
-  Peds1 = 12,
+  None = 0,
+  World = 1,
+  Vehicles = 2,
+  PedsSimpleCollision = 4,
+  Peds = 8,
   Objects = 16,
-  Unk1 = 32,
-  Unk2 = 64,
+  Water = 32,
   Unk3 = 128,
-  Vegetation = 256,
-  Unk4 = 512,
+  Foliage = 256,
 }
