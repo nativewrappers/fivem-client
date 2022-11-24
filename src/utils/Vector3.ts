@@ -46,6 +46,18 @@ export class Vector3 implements Vec3 {
     return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
   }
 
+  public static addX(vec: Vector, x: number): Vector3 {
+    return new Vector3(vec.x + x, vec.y, vec.z);
+  }
+
+  public static addY(vec: Vector, y: number): Vector3 {
+    return new Vector3(vec.x, vec.y + y, vec.z);
+  }
+
+  public static addZ(vec: Vector, z: number): Vector3 {
+    return new Vector3(vec.x, vec.y, vec.z + z);
+  }
+
   public static subtract(v1: Vector, v2: Vector | number): Vector3 {
     if (typeof v2 === 'number') return new Vector3(v1.x - v2, v1.y - v2, v1.z - v2);
     return new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
@@ -117,6 +129,16 @@ export class Vector3 implements Vec3 {
 
   public add(v: Vector | number): Vector3 {
     return Vector3.add(this, v);
+  }
+
+  public addX(x: number): Vector3 {
+    return Vector3.addX(this, x);
+  }
+  public addY(y: number): Vector3 {
+    return Vector3.addY(this, y);
+  }
+  public addZ(z: number): Vector3 {
+    return Vector3.addZ(this, z);
   }
 
   public subtract(v: Vector): Vector3 {
