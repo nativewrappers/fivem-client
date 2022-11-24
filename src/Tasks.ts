@@ -450,6 +450,10 @@ export class Tasks {
     TaskLeaveVehicle(this.ped.Handle, vehicle.Handle, flags);
   }
 
+  public isPlayingAnim(dict: string, anim: string, taskFlag = 3): boolean {
+    return IsEntityPlayingAnim(this.ped.Handle, dict, anim, taskFlag);
+  }
+
   public clearAll(): void {
     ClearPedTasks(this.ped.Handle);
   }
