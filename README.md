@@ -1,3 +1,6 @@
+## Notice for breaking changes
+This library is going to be undergoing a rewrite over the next few months, backwards compatibility will not be guaranteed, if you want version thats guaranteed stable please look use 1.7.*
+
 <h1 align="center">native-wrappers-client</h1>
 
 <p align="center">
