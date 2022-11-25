@@ -1,4 +1,7 @@
 // Source: https://raw.githubusercontent.com/you21979/typescript-vector/master/vector3.ts
+
+import { Vector3 } from './Vector3';
+
 // This is an adjusted version of the Source
 export interface Vec4 {
   x: number;
@@ -129,6 +132,10 @@ export class Vector4 implements Vec4 {
 
   public toArray(): [number, number, number, number] {
     return [this.x, this.y, this.z, this.w];
+  }
+
+  public toVec3(): Vector3 {
+    return new Vector3(this.x, this.y, this.z);
   }
 
   public replace(v: Vector4Type): void {
