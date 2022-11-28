@@ -700,7 +700,7 @@ export class Ped extends Entity {
 	}
 
 	public isFacingPed(ped: Ped, angle = 25.0): boolean {
-		return IsPedFacingPed(this.handle, ped.Handle, angle)
+		return IsPedFacingPed(this.handle, ped.Handle, angle);
 	}
 
 	public setComponentVariation(
