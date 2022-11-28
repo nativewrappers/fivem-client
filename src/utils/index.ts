@@ -12,7 +12,7 @@ export { Size } from './Size';
 export { Quaternion } from './Quaternion';
 
 export const Wait = (milliseconds: number): Promise<void> =>
-  new Promise(resolve => setTimeout(resolve, milliseconds));
+	new Promise(resolve => setTimeout(resolve, milliseconds));
 
 export { enumValues } from './enumValues';
 export { getStringFromUInt8Array } from './getStringFromUInt8Array';
