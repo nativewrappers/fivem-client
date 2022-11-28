@@ -699,6 +699,10 @@ export class Ped extends Entity {
 		return ped?.exists() ?? false;
 	}
 
+	public isFacingPed(ped: Ped, angle = 25.0): boolean {
+		return IsPedFacingPed(this.handle, ped.Handle, angle)
+	}
+
 	public setComponentVariation(
 		componentId: number,
 		drawableId: number,
