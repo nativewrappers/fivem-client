@@ -1,5 +1,6 @@
 import { Prop, Vehicle, Entity, Model, Color } from '..';
 import cfx, { StateBagChangeHandler } from '../cfx';
+import { ClassTypes } from '../enums/ClassTypes';
 import { Ped } from './';
 
 export class Player {
@@ -8,7 +9,7 @@ export class Player {
 	private pvp = false;
 	private stateBagCookies: number[] = [];
 	private source: number;
-	private type = 'player';
+	private type = ClassTypes.Player;
 
 	public static fromPedHandle(handle: number): Player {
 		return new Player(NetworkGetPlayerIndexFromPed(handle));
