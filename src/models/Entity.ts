@@ -8,8 +8,12 @@ import { EntityBoneCollection, Ped, Prop, Vehicle } from './';
 import { EntityBone } from './EntityBone';
 import cfx, { StateBagChangeHandler } from '../cfx';
 import { Player } from '..';
+import { ClassTypes } from '../enums/ClassTypes';
 
 export class Entity {
+	/**
+	 * @deprecated you should use class specific fromHandle instead of this wrapper
+	 */
 	public static fromHandle(handle: number): Ped | Vehicle | Prop | null {
 		switch (GetEntityType(handle)) {
 			case 1:
@@ -30,9 +34,14 @@ export class Entity {
 	protected handle: number;
 	protected bones: EntityBoneCollection | undefined;
 	protected stateBagCookies: number[] = [];
+	protected netId: number | null = null;
+	protected type = ClassTypes.Entity;
 
 	constructor(handle: number) {
 		this.handle = handle;
+		if (this.IsNetworked) {
+			this.netId = this.NetworkId;
+		}
 	}
 
 	public get Handle(): number {
@@ -55,6 +64,9 @@ export class Entity {
 	}
 
 	public get NetworkId(): number {
+		if (this.netId) {
+			return this.netId;
+		}
 		return NetworkGetNetworkIdFromEntity(this.handle);
 	}
 

@@ -7,6 +7,8 @@ export class Player {
 	private ped: Ped | undefined;
 	private pvp = false;
 	private stateBagCookies: number[] = [];
+	private source: number;
+	private type = 'player';
 
 	public static fromPedHandle(handle: number): Player {
 		return new Player(NetworkGetPlayerIndexFromPed(handle));
@@ -21,6 +23,7 @@ export class Player {
 	 */
 	constructor(handle = -1) {
 		this.handle = handle;
+		this.source = this.ServerId;
 		if (!IsDuplicityVersion()) {
 			this.PvPEnabled = true;
 		}
@@ -48,6 +51,9 @@ export class Player {
 	}
 
 	public get ServerId(): number {
+		if (this.source) {
+			return this.source;
+		}
 		return GetPlayerServerId(this.handle);
 	}
 

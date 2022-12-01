@@ -12,12 +12,26 @@ import { WeaponHash } from '../hashes';
 import { Tasks } from '../Tasks';
 import { Entity, PedBoneCollection, Vehicle } from './';
 import { WeaponCollection } from '../weapon/WeaponCollection';
+import { ClassTypes } from '../enums/ClassTypes';
 
 export class Ped extends Entity {
 	public static exists(ped: Ped): boolean {
 		return typeof ped !== 'undefined' && ped.exists();
 	}
 
+	public static fromHandle(handle: number): Ped | null {
+		return new Ped(handle);
+	}
+
+	public static fromNetworkId(networkId: number, errorOnInvalid = false): Ped | null {
+		if (errorOnInvalid && NetworkDoesEntityExistWithNetworkId(networkId)) {
+			throw new Error(`Entity with ${networkId} doesn't exist`);
+		}
+
+		return new Ped(NetworkGetEntityFromNetworkId(networkId));
+	}
+
+	protected type = ClassTypes.Ped;
 	private pedBones: PedBoneCollection | undefined;
 	private weapons: WeaponCollection | undefined;
 

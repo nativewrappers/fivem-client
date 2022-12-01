@@ -17,6 +17,7 @@ import {
 import { Model } from '../Model';
 import { Game } from '../Game';
 import { Vector3 } from '../utils';
+import { ClassTypes } from '../enums/ClassTypes';
 
 export class Vehicle extends Entity {
 	public static getModelDisplayName(vehicleModel: Model): string {
@@ -35,10 +36,22 @@ export class Vehicle extends Entity {
 		return typeof vehicle !== 'undefined' && vehicle.exists();
 	}
 
+	public static fromHandle(handle: number): Vehicle | null {
+		return new Vehicle(handle);
+	}
+
+	public static fromNetworkId(networkId: number, errorOnInvalid = false): Vehicle | null {
+		if (errorOnInvalid && NetworkDoesEntityExistWithNetworkId(networkId)) {
+			throw new Error(`Entity with ${networkId} doesn't exist`);
+		}
+		return new Vehicle(NetworkGetEntityFromNetworkId(networkId));
+	}
+
 	private _doors: VehicleDoorCollection | undefined;
 	private _mods: VehicleModCollection | undefined;
 	private _wheels: VehicleWheelCollection | undefined;
 	private _windows: VehicleWindowCollection | undefined;
+	protected type = ClassTypes.Vehicle;
 
 	constructor(handle: number) {
 		super(handle);
